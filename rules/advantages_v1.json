@@ -1,0 +1,754 @@
+[
+    {
+      "id": "adv_accurate_attack",
+      "name": "Accurate Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Trade combat accuracy for effect. You can take a penalty of up to –5 on the effect modifier of an attack and add the same number (up to +5) to your attack bonus. The penalty and bonus cannot exceed your Fighting (for close attacks) or Dexterity (for ranged attacks) rank. Changes are declared before you make the attack check and last until your next turn.",
+      "page_ref": "DHH p.108"
+    },
+    {
+      "id": "adv_agile_feint",
+      "name": "Agile Feint",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Use Acrobatics or movement speed rank in place of Deception to feint in combat. Opponent opposes with Acrobatics or Insight (whichever is better).",
+      "page_ref": "DHH p.108"
+    },
+    {
+      "id": "adv_all_out_attack",
+      "name": "All-out Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Trade active defenses for combat accuracy. Take a penalty of up to –5 on your active defense checks (Dodge and Parry) and add the same number (up to +5) to your attack bonus. Your defense bonuses cannot be reduced below +0 and your attack bonus cannot more than double. Changes are declared before making an attack and last until your next turn.",
+      "page_ref": "DHH p.108"
+    },
+    {
+      "id": "adv_animal_empathy",
+      "name": "Animal Empathy",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Use interaction skills with animals as if they were people, with a +5 circumstance bonus. You can use the Daze and Fascinate advantages on animals.",
+      "page_ref": "DHH p.108"
+    },
+    {
+      "id": "adv_artificer",
+      "name": "Artificer",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Primary Expertise skill for Artificing (e.g., Expertise: Magic, Expertise: Alchemy)",
+      "parameter_type": "select_skill_expertise_type",
+      "description": "Use an Expertise skill (typically Magic) to create temporary magical devices. Requires 1 hour per 1 character point worth of effects. Device lasts for (Artificer’s Expertise skill rank) hours or until its effects are used once (for instant effects).",
+      "page_ref": "DHH p.108"
+    },
+    {
+      "id": "adv_assessment",
+      "name": "Assessment",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "As a standard action, make an Insight check (DC 10 + target’s Deception or Power Level, whichever is higher). Success gives you an idea of target’s combat capabilities: for each degree of success, learn one of the following: PL, highest attack bonus, highest damage rank, highest defense, highest save bonus, or one specific power, advantage, or skill.",
+      "page_ref": "DHH p.109"
+    },
+    {
+      "id": "adv_attractive",
+      "name": "Attractive",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 2,
+      "description": "Gain +2 circumstance bonus to Deception and Persuasion checks against those attracted to your looks per rank (max +4 for 2 ranks).",
+      "page_ref": "DHH p.109"
+    },
+    {
+      "id": "adv_benefit",
+      "name": "Benefit",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited",
+      "parameter_needed": true,
+      "parameter_prompt": "Specify the Benefit (e.g., Wealth 1, Status: Police Lieutenant, Ambidexterity, Cipher, Diplomatic Immunity, Security Clearance Lvl 3)",
+      "parameter_type": "text_long",
+      "description": "Gain a significant prerequisite, fringe benefit, status, or resource, approved by the GM. Each rank provides a distinct benefit or enhances an existing one. Examples: Ambidexterity, Cipher, Diplomatic Immunity, Security Clearance, Status, Wealth.",
+      "page_ref": "DHH p.109"
+    },
+    {
+      "id": "adv_chokehold",
+      "name": "Chokehold",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "If you score a critical hit on a grab attack, your target automatically begins to suffocate as long as you maintain the hold (see Suffocation).",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_close_attack",
+      "name": "Close Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited",
+      "description": "Gain +1 bonus to close attack checks per rank.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_connected",
+      "name": "Connected",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Know people who can help (advice, info, legal, resources). Make a Persuasion check (DC 10-25+ set by GM) to call in a favor. Requires time and means to contact.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_contacts",
+      "name": "Contacts",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Primary Skill for Contacts (e.g., Expertise: Streetwise, Investigation)",
+      "parameter_type": "select_skill_expertise_type",
+      "description": "Use an Expertise or Investigation skill to find someone who might have information. Make one check; success means contact found in 1d6 hours. With Well-Informed, make this check in one minute.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_daze",
+      "name": "Daze",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 2,
+      "parameter_needed": true,
+      "parameter_prompt": "Choose skill for Daze (Deception or Intimidation)",
+      "parameter_type": "select_skill_interaction",
+      "description": "Use Deception or Intimidation (choose one per rank of Daze) as a standard action to daze an opponent. Opposed check vs. target's skill, Insight, or Will. Success dazes target until end of your next turn.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_defensive_attack",
+      "name": "Defensive Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Trade combat accuracy for defense. Take a penalty of up to –5 on your attack bonus and add the same number (up to +5) to your Dodge and Parry defenses. Penalty and bonus cannot exceed your attack skill bonus with that attack. Changes declared before attack, last until your next turn.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_defensive_roll",
+      "name": "Defensive Roll",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "AGL",
+      "grants_conditional_trait": {"trait": "Toughness", "condition": "Not Vulnerable/Defenseless"},
+      "description": "Adds rank to Toughness defense. This bonus is considered an active defense and is lost if flat-footed, vulnerable or defenseless. Max rank equals Agility.",
+      "page_ref": "DHH p.110"
+    },
+    {
+      "id": "adv_diehard",
+      "name": "Diehard",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Automatically stabilize (condition becomes incapacitated) when dying without a check.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_eidetic_memory",
+      "name": "Eidetic Memory",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Total recall. +5 circumstance bonus on checks to remember information. Can memorize long sequences or texts with an Intellect check (DC 10-25).",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_equipment",
+      "name": "Equipment",
+      "type": "General",
+      "costPerRank": 1,
+      "epPerRank": 5,
+      "ranked": true,
+      "maxRanks": "unlimited",
+      "description": "Gain 5 Equipment Points (EP) per rank to acquire mundane items, gear, weapons, vehicles, and headquarters.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_evasion",
+      "name": "Evasion",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 2,
+      "description": "If exposed to an area effect that allows a Dodge check for half damage, one rank means a successful check results in no damage. Two ranks means you take half damage on a failed check, and no damage on a success.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_extraordinary_effort",
+      "name": "Extraordinary Effort",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Gain two benefits instead of one when using extra effort (see Extra Effort, DHH p.20).",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_fascinate",
+      "name": "Fascinate",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 3, // Deception, Intimidation, Persuasion
+      "parameter_needed": true,
+      "parameter_prompt": "Choose skill for Fascinate (Deception, Intimidation, or Persuasion)",
+      "parameter_type": "select_skill_interaction",
+      "description": "Use chosen interaction skill to cause one or more targets within 30 feet who can see and hear you to become entranced. Standard action, opposed check vs. target's Insight or Will. Entranced targets take no actions but to pay attention to you. Lasts as long as you continue to take a standard action each round; any threat breaks the effect.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_fast_grab",
+      "name": "Fast Grab",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "After a successful close attack, make an immediate grab check against the target as a free action. Your attack modifier for this check is limited to your Fighting rank.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_favored_environment",
+      "name": "Favored Environment",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Per environment type
+      "parameter_needed": true,
+      "parameter_prompt": "Specify Environment (e.g., Aquatic, Aerial, Urban, Zero-G, specific terrain)",
+      "parameter_type": "text",
+      "description": "Gain +2 circumstance bonus to attack checks OR active defenses (Dodge & Parry) in a chosen environment. You can take this advantage multiple times for different environments.",
+      "page_ref": "DHH p.111"
+    },
+    {
+      "id": "adv_favored_opponent",
+      "name": "Favored Opponent",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Per opponent type
+      "parameter_needed": true,
+      "parameter_prompt": "Specify Opponent Type (e.g., Robots, Undead, Magic Users, specific organization)",
+      "parameter_type": "text",
+      "description": "Gain +2 circumstance bonus to Deception, Intimidation, Perception, and attack checks against a chosen type of opponent. You can take this multiple times for different opponent types.",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_fearless",
+      "name": "Fearless",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Immune to fear effects (effects with the fear descriptor or based on Intimidation skill).",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_grab_finesse",
+      "name": "Grab Finesse",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Use Dexterity modifier instead of Strength for grab checks.",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_great_endurance",
+      "name": "Great Endurance",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "+5 circumstance bonus on checks involving endurance and stamina (resisting fatigue, suffocation, environmental effects, etc.).",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_hide_in_plain_sight",
+      "name": "Hide in Plain Sight",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Primary Skill for Hiding (Stealth or Deception if using Disguise)",
+      "parameter_type": "select_skill",
+      "description": "Use Stealth to hide while observed, without needing a diversion or cover/concealment, by making a Stealth check as a move action.",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_improved_aim",
+      "name": "Improved Aim",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Double the normal +2 circumstance bonus for aiming to +4 (or +2 to +5 for long range aiming).",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_improved_critical",
+      "name": "Improved Critical",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 4,
+      "parameter_needed": true,
+      "parameter_prompt": "Specify Attack this applies to (e.g., Unarmed Strike, Energy Blast, Sword)",
+      "parameter_type": "select_attack_target_text",
+      "description": "Increases the critical threat range of a specific attack by 1 per rank (e.g., Rank 1: 19-20, Rank 2: 18-20, up to Rank 4: 16-20).",
+      "page_ref": "DHH p.112"
+    },
+    {
+      "id": "adv_improved_defense",
+      "name": "Improved Defense",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "When you take the Defend action, you gain a +2 circumstance bonus to your active defenses (in addition to the usual benefits of Defend).",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_disarm",
+      "name": "Improved Disarm",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Suffer no penalty on your attack check for making a disarm attempt. You also gain a +2 circumstance bonus on the opposed check to disarm.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_grab",
+      "name": "Improved Grab",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Make grab attacks with one arm free. Not vulnerable while grabbing. Use Strength or Dexterity (if you have Grab Finesse) for grab checks.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_hold",
+      "name": "Improved Hold",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Targets suffer a –5 circumstance penalty to escape your grabs.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_initiative",
+      "name": "Improved Initiative",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited",
+      "description": "Gain +4 bonus to initiative checks per rank.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_smash",
+      "name": "Improved Smash",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Suffer no penalty on your attack check for making a smash attempt against an object.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improved_trip",
+      "name": "Improved Trip",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Suffer no penalty on your attack check for making a trip attempt. You also gain a +2 circumstance bonus on the opposed check to trip.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improvised_tools",
+      "name": "Improvised Tools",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Suffer no penalty for using skills requiring tools without the proper tools.",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_improvised_weapon",
+      "name": "Improvised Weapon",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true, // DHH says "per rank" at end
+      "maxRanks": 5, // Max +5 damage typically
+      "description": "Use your Unarmed Combat skill bonus with improvised weapons. Each rank adds +1 damage bonus with improvised weapons (max +5).",
+      "page_ref": "DHH p.113"
+    },
+    {
+      "id": "adv_inspire",
+      "name": "Inspire",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 5, // Example max, based on common circumstance bonus limits
+      "description": "As a standard action, spend a Hero Point to grant allies within sight and earshot who can understand you a +1 circumstance bonus per rank of Inspire on certain checks (attack, damage, saves, skills) for one round.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_instant_up",
+      "name": "Instant Up",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Stand up from prone as a free action instead of a move action.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_interpose",
+      "name": "Interpose",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Once per round, when an ally within your move speed range is hit by an attack, you can choose to become the target of the attack instead. You must declare before the attack roll is made against your ally. You move into the path of the attack and suffer its effects.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_inventor",
+      "name": "Inventor",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Primary Skill for Inventing (Technology or relevant Expertise)",
+      "parameter_type": "select_skill_technology_inventor",
+      "description": "Use Technology (or relevant Expertise) to create temporary devices. Requires 1 hour per 1 character point worth of effects. Device lasts for (Inventor’s skill rank) hours or until its effects are used once (for instant effects).",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_jack_of_all_trades",
+      "name": "Jack-of-all-trades",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Can use any skill untrained, even those normally requiring training (like Expertise skills).",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_languages",
+      "name": "Languages",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 5, // Or more, GM discretion for how many languages are reasonable
+      "languages_per_rank": 1,
+      "parameter_needed": true,
+      "parameter_prompt": "List languages known",
+      "parameter_type": "list_text_small",
+      "description": "Speak, read, and write one additional language per rank. Choose languages when this advantage is taken.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_leadership",
+      "name": "Leadership",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "As a standard action, spend a Hero Point to remove a dazed, fatigued, or stunned condition from an ally within sight and earshot who can understand you.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_luck",
+      "name": "Luck",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "PL", // Max ranks equal to PL is a common house rule/guideline, DHH implies unlimited.
+      "description": "Re-roll any die roll you make and take the better of the two rolls. You can use Luck a number of times per game session equal to your Luck rank.",
+      "page_ref": "DHH p.114"
+    },
+    {
+      "id": "adv_minions",
+      "name": "Minions",
+      "type": "General",
+      "costPerRank": 1,
+      "points_per_rank_for_ally": 15,
+      "ranked": true,
+      "maxRanks": "unlimited", // Typically limited by PL and GM
+      "parameter_needed": true, // Handled by Allies section to define count and types
+      "parameter_prompt": "Define Minion groups and their PP allocation in the Companions section.",
+      "parameter_type": "minion_sidekick_config",
+      "description": "Gain followers built on 15 Power Points per rank of this advantage. Minions are subject to special rules (easier to defeat, etc.). You can have multiple minions if their total PP cost fits within the pool provided by your ranks.",
+      "page_ref": "DHH p.115"
+    },
+    {
+      "id": "adv_move_by_action",
+      "name": "Move-by Action",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Move both before and after your standard action in a round, provided your total movement doesn't exceed your speed.",
+      "page_ref": "DHH p.115"
+    },
+    {
+      "id": "adv_power_attack",
+      "name": "Power Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Trade combat accuracy for damage. Take a penalty of up to –5 on your attack bonus and add the same number (up to +5) to the damage effect of your attack. Penalty/bonus cannot exceed your base attack bonus. Changes declared before attack, last until your next turn.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_precise_attack",
+      "name": "Precise Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 4, // Close/Cover, Close/Concealment, Ranged/Cover, Ranged/Concealment
+      "parameter_needed": true,
+      "parameter_prompt": "Choose scope (e.g., Close/Cover, Ranged/Concealment)",
+      "parameter_type": "select",
+      "parameter_options": [
+          "Close, Cover", 
+          "Close, Concealment", 
+          "Ranged, Cover", 
+          "Ranged, Concealment"
+      ],
+      "description": "Ignore attack check penalties for cover or concealment. Each rank applies to one combination of close/ranged and cover/concealment.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_prone_fighting",
+      "name": "Prone Fighting",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Suffer no attack or active defense penalty while prone. Opponents do not gain their normal bonus to attack you while prone.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_quick_draw",
+      "name": "Quick Draw",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Draw or sheathe a weapon, or ready or stow a small object, as a free action instead of a move action.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_ranged_attack",
+      "name": "Ranged Attack",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited",
+      "description": "Gain +1 bonus to ranged attack checks per rank.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_redirect",
+      "name": "Redirect",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "If an opponent misses you with a close attack, you can make an immediate Deception or Intimidation check opposed by their Insight or Will. If you succeed, the opponent cannot attack you again until their next turn unless they first succeed on a Will check (DC 10 + your skill bonus).",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_ritualist",
+      "name": "Ritualist",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Primary Skill for Rituals (e.g., Expertise: Magic)",
+      "parameter_type": "select_skill_expertise_ritualist",
+      "description": "Perform magical rituals using an Expertise skill (typically Magic) to create temporary magical effects. Requires 10 minutes per 1 character point worth of effects. Effects last for a scene or (Ritualist’s Expertise skill rank) hours.",
+      "page_ref": "DHH p.116"
+    },
+    {
+      "id": "adv_second_chance",
+      "name": "Second Chance",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Per specific hazard
+      "parameter_needed": true,
+      "parameter_prompt": "Specify Hazard or Circumstance (e.g., Resisting Mind Control, Dodge vs. Area Effects, Specific Skill Check)",
+      "parameter_type": "text_long",
+      "description": "Gain a re-roll on a failed check against a specific hazard or circumstance once per encounter/scene. You can take this multiple times for different hazards.",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_seize_initiative",
+      "name": "Seize Initiative",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Spend a Hero Point before initiative is rolled to automatically get the highest initiative result for the encounter.",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_setup",
+      "name": "Setup",
+      "type": "Combat", // Also Skill
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Affects bonus given
+      "description": "When you successfully use an interaction skill to aid another or create an advantage in combat, your ally gains a +2 circumstance bonus per rank of Setup you have (max +5).",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_sidekick",
+      "name": "Sidekick",
+      "type": "General",
+      "costPerRank": 1,
+      "points_per_rank_for_ally": 5,
+      "ranked": true,
+      "maxRanks": "unlimited", // Typically limited by PL and GM
+      "parameter_needed": true, // Handled by Allies section
+      "parameter_prompt": "Define Sidekick details and PP allocation in the Companions section.",
+      "parameter_type": "minion_sidekick_config",
+      "description": "Gain a loyal companion built on 5 Power Points per rank of this advantage. Sidekicks are more durable than minions and earn Hero Points normally (hero can spend for them).",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_skill_mastery",
+      "name": "Skill Mastery",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Per skill
+      "parameter_needed": true,
+      "parameter_prompt": "Choose Skill for Mastery",
+      "parameter_type": "select_skill",
+      "description": "Can always take 10 on checks with the chosen skill, even when normally unable to (like under stress or in combat). Each rank applies to one skill.",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_startle",
+      "name": "Startle",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Use Intimidation to feint in combat instead of Deception or Acrobatics (if Agile Feint).",
+      "page_ref": "DHH p.117"
+    },
+    {
+      "id": "adv_sweeping_attack", // Custom name, likely refers to Takedown's multi-target aspect or Multiattack
+      "name": "Sweeping Attack (Takedown variant)", // Not an official DHH advantage name, Takedown covers this.
+      "type": "Combat", // Example custom interpretation for if user types it
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "See Takedown advantage. Allows attacking multiple minions.",
+      "page_ref": "DHH p.118 (Takedown)"
+    },
+    {
+      "id": "adv_takedown",
+      "name": "Takedown",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 2,
+      "description": "If you incapacitate a minion with an attack, you get an immediate extra attack as a free action against another minion within range and line of sight. Rank 1: one extra attack. Rank 2: two extra attacks.",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_taunt",
+      "name": "Taunt",
+      "type": "Skill",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Use Deception to demoralize an opponent in combat instead of Intimidation (see Demoralize action).",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_teamwork",
+      "name": "Teamwork",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Gain a +5 circumstance bonus when making an aid another check (see Aid action, DHH p.195).",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_throwing_mastery",
+      "name": "Throwing Mastery",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": 5, // Typically capped at PL for damage bonus
+      "description": "Add rank as a damage bonus to thrown weapons. This damage is ranged.",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_trance",
+      "name": "Trance",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "Enter a deathlike trance as a standard action. You appear dead to normal senses and casual observation (Perception or Expertise: Medicine DC 20 to detect otherwise). You are helpless but aware. You can remain in trance indefinitely but require half normal food/water and recover from fatigue/damage as if resting. Return to normal as a standard action.",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_ultimate_effort",
+      "name": "Ultimate Effort",
+      "type": "Fortune",
+      "costPerRank": 1,
+      "ranked": true,
+      "maxRanks": "unlimited", // Per type of check
+      "parameter_needed": true,
+      "parameter_prompt": "Choose Effort Type (e.g., Toughness Save, Attack Check with chosen attack, specific Skill Check)",
+      "parameter_type": "text",
+      "description": "Once per game session, you can choose to automatically roll a natural 20 on a check related to your chosen effort type (e.g., Ultimate Toughness Save, Ultimate Aim, Ultimate Skill Check).",
+      "page_ref": "DHH p.118"
+    },
+    {
+      "id": "adv_uncanny_dodge",
+      "name": "Uncanny Dodge",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": true, // Per sense type
+      "maxRanks": "unlimited", // Per sense type
+      "parameter_needed": true,
+      "parameter_prompt": "Choose Sense Type for Uncanny Dodge (e.g., Visual, Auditory, Mental, Danger Sense)",
+      "parameter_type": "select_sense_type",
+      "description": "You are not vulnerable when surprised or attacked by opponents you cannot perceive with a chosen sense type. You can take this multiple times for different sense types.",
+      "page_ref": "DHH p.119"
+    },
+    {
+      "id": "adv_weapon_bind",
+      "name": "Weapon Bind",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "If you take the Defend action and an opponent misses you with a close attack, you can make an immediate disarm attempt against that opponent as a reaction (see Disarm).",
+      "page_ref": "DHH p.119"
+    },
+    {
+      "id": "adv_weapon_break",
+      "name": "Weapon Break",
+      "type": "Combat",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "If you take the Defend action and an opponent misses you with a close attack, you can make an immediate smash attempt against their weapon as a reaction (see Smash).",
+      "page_ref": "DHH p.119"
+    },
+    {
+      "id": "adv_well_informed",
+      "name": "Well-informed",
+      "type": "General",
+      "costPerRank": 1,
+      "ranked": false,
+      "description": "When you encounter an important person, place, or object, the GM makes an Investigation or Persuasion check for you (DC 15-25+). Success means you know some useful information about it. With Contacts, you can make this check in one minute.",
+      "page_ref": "DHH p.119"
+    }
+  ]

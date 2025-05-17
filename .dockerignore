@@ -1,0 +1,114 @@
+# .dockerignore for HeroForge M&M (Streamlit Version)
+
+# --- Version Control ---
+.git/
+.gitignore
+.gitattributes
+
+# --- Python Virtual Environments ---
+# Common names for virtual environment folders
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+*.Python
+
+# --- Python Bytecode and Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+# Pip cache
+.cache/
+
+# --- IDE and Editor Specific ---
+# Visual Studio Code
+.vscode/
+# JetBrains (PyCharm, IntelliJ)
+.idea/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+# Eclipse
+.project
+.pydevproject
+# NetBeans
+nbproject/
+# Atom
+.atom/
+
+# --- Operating System Specific ---
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# Linux
+*~
+.*.swp
+
+# --- Test Files and Coverage Reports ---
+# Exclude these for a smaller production image if tests are run in CI/dev stages.
+# If you need tests inside the image for some reason, comment these out.
+tests/
+.pytest_cache/
+pytestdebug.log
+coverage.xml
+.coverage
+htmlcov/
+nosetests.xml
+
+# --- Local Development Instance Data ---
+# Exclude if `saved_characters/` is only for local testing by the developer
+# and not meant to be seed data within the image.
+saved_characters/
+
+# --- Docker Files ---
+# The Dockerfile and .dockerignore are part of the build context
+# but are not typically copied into the application directory by `COPY . .`
+# in a way that causes issues. Explicitly ignoring them is fine too.
+Dockerfile
+Dockerfile.*
+docker-compose.yml
+docker-compose.*.yml
+.dockerignore
+
+# --- Secrets and Local Environment Configurations ---
+# Files containing secrets or local-only configurations should not be in the image.
+# If using python-dotenv for local development:
+.env
+*.env
+# Streamlit local secrets file (if used and not intended for image)
+.streamlit/secrets.toml
+
+# --- Build Artifacts from Other Tools (if any were used in the past) ---
+# e.g., if this project previously had Node.js build steps
+# node_modules/
+# yarn-error.log
+# npm-debug.log*
+# package-lock.json # If not using yarn.lock and it's dev-specific
+# yarn.lock # If it's dev-specific and prod deps are strictly in requirements.txt
+
+# --- Log Files & Temporary Files ---
+*.log
+logs/
+*.tmp
+*.temp
+
+# --- Documentation build outputs (if generating docs locally) ---
+# Example for Sphinx
+# docs/_build/
+
+# --- Other common project-specific ignores ---
+# Add any other files or directories specific to your local setup
+# that should not be included in the Docker image.
+# my_local_scratchpad.txt
+# temp_data/

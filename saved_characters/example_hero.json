@@ -1,0 +1,216 @@
+{
+    "saveFileVersion": "1.0_all_features",
+    "name": "Chronomos",
+    "playerName": "Dev User",
+    "powerLevel": 10,
+    "totalPowerPoints": 150,
+    "spentPowerPoints": 0, 
+    "concept": "An academic historian who gained control over localized temporal fields after an accident with an ancient artifact.",
+    "description": "Dr. Aris Thorne appears to be in his late 30s, often seen in tweed jackets, but as Chronomos, he wears a sleek, dark suit with glowing blue chronometric circuits. His eyes sometimes shimmer with temporal energy.",
+    "identity": "Secret",
+    "gender": "Male",
+    "age": "38 (appears)",
+    "height": "5'11\"",
+    "weight": "170 lbs",
+    "eyes": "Blue (glow faintly when using powers)",
+    "hair": "Dark Brown, flecked with grey",
+    "groupAffiliation": "Unaffiliated",
+    "baseOfOperationsName": "University Clock Tower (Hidden Lab)",
+    "abilities": {
+      "STR": 0,
+      "STA": 2,
+      "AGL": 2,
+      "DEX": 2,
+      "FGT": 2,
+      "INT": 8,
+      "AWE": 6,
+      "PRE": 0
+    },
+    "defenses": {
+      "Dodge": 6,
+      "Parry": 4,
+      "Toughness": 0,
+      "Fortitude": 4,
+      "Will": 6
+    },
+    "skills": {
+      "skill_expertise": [ // Expertise requires specialization, so store as list of objects if needed
+        {"id": "skill_expertise_history", "name_specialization": "History", "rank": 8},
+        {"id": "skill_expertise_temporal_physics", "name_specialization": "Temporal Physics", "rank": 10}
+      ],
+      "skill_investigation": 6,
+      "skill_perception": 6,
+      "skill_technology": 4,
+      "skill_insight": 4,
+      "skill_treatment": 2 
+    },
+    "advantages": [
+      {
+        "id": "adv_eidetic_memory",
+        "rank": 1,
+        "params": {}
+      },
+      {
+        "id": "adv_inventor",
+        "rank": 1,
+        "params": {
+          "skill_id": "skill_technology" 
+        }
+      },
+      {
+        "id": "adv_skill_mastery",
+        "rank": 1,
+        "params": {
+          "skill_id": "skill_expertise_temporal_physics" 
+        }
+      },
+      {
+        "id": "adv_benefit",
+        "rank": 2,
+        "params": {
+          "detail": "Benefit 1: Tenure at University; Benefit 2: Access to Rare Historical Archives"
+        }
+      },
+      {
+        "id": "adv_luck",
+        "rank": 2,
+        "params": {}
+      },
+      {
+        "id": "adv_equipment",
+        "rank": 2, // 10 EP
+        "params": {}
+      }
+    ],
+    "powers": [
+      {
+        "id": "pwr_chrono_shield",
+        "name": "Chronal Shield",
+        "baseEffectId": "eff_protection",
+        "rank": 8,
+        "modifiersConfig": [
+          {"id": "mod_duration_sustained"},
+          {"id": "mod_extra_impervious", "rank": 8}
+        ],
+        "linkedCombatSkill": null,
+        "arrayId": null,
+        "isAlternateEffectOf": null,
+        "isArrayBase": false
+      },
+      {
+        "id": "pwr_temporal_stutter_arraybase",
+        "name": "Temporal Manipulation Array",
+        "baseEffectId": "eff_affliction", // This will be the most expensive to set array cost
+        "rank": 10,
+        "modifiersConfig": [
+          {"id": "mod_increased_range_ranged"},
+          {"id": "mod_extra_cumulative_affliction"}, // Assuming ID from rules/power_modifiers.json
+          {"id": "mod_attack_extra"} // Making it an attack if Affliction isn't by default
+        ],
+        "affliction_degrees": "Dazed, Stunned, Paralyzed", // Custom field for Affliction details
+        "affliction_resistance": "Will",
+        "linkedCombatSkill": "skill_ranged_combat_temporal_effects", // Assumes this skill exists
+        "isArrayBase": true,
+        "arrayId": "temporal_effects_array"
+      },
+      {
+        "id": "pwr_time_skip",
+        "name": "Time Skip",
+        "baseEffectId": "eff_teleport",
+        "rank": 6, // Approx 0.5 mile
+        "modifiersConfig": [
+          {"id": "mod_teleport_accurate"},
+          {"id": "mod_teleport_turnabout"}
+        ],
+        "isAlternateEffectOf": "pwr_temporal_stutter_arraybase", // Links to ID of base power
+        "arrayId": "temporal_effects_array"
+      },
+      {
+        "id": "pwr_accelerate_self",
+        "name": "Accelerate Self",
+        "baseEffectId": "eff_speed",
+        "rank": 4, // 120 ft / 30 MPH
+        "isAlternateEffectOf": "pwr_temporal_stutter_arraybase",
+        "arrayId": "temporal_effects_array"
+      },
+      {
+        "id": "pwr_chrono_senses",
+        "name": "Chronal Senses",
+        "baseEffectId": "eff_senses",
+        "rank": 0, // Nominal for Senses container
+        "sensesConfig": [
+          "sense_postcognition", // Assumes ID from power_senses_config.json (cost 2 or 4)
+          "sense_precognition",  // Assumes ID (cost 4 or 8)
+          "sense_danger_sense_temporal", // Custom danger sense
+          "sense_time_sense"
+        ],
+        "modifiersConfig": []
+      },
+      {
+        "id": "pwr_borrowed_time",
+        "name": "Borrowed Time",
+        "baseEffectId": "eff_variable",
+        "rank": 4, // 4 * 5 = 20 PP pool
+        "variableDescriptors": "Temporary Skills, Advantages, or minor Temporal Powers",
+        "modifiersConfig": [
+          {"id": "mod_flaw_action_standard"} // If Variable defaults to Free, or to make it Standard
+        ],
+        "variableConfigurations": [
+          {
+            "configName": "Combat Precognition",
+            "configTraitsDescription": "Enhanced Dodge +4 (4pp), Enhanced Parry +4 (4pp), Danger Sense (Temporal) (1pp if not already covered)",
+            "assertedConfigCost": 9, // User asserts this, engine will validate against pool
+            "configTraits": [ // This is where a "fully built out" engine would parse
+              {"type": "EnhancedDefense", "traitId": "Dodge", "enhancementAmount": 4, "name": "Enhanced Dodge (Variable)", "pp_cost_in_variable": 4},
+              {"type": "EnhancedDefense", "traitId": "Parry", "enhancementAmount": 4, "name": "Enhanced Parry (Variable)", "pp_cost_in_variable": 4},
+              {"type": "Power", "name": "Var: Danger Sense", "baseEffectId":"eff_senses", "sensesConfig":["sense_danger_sense_temporal"], "pp_cost_in_variable": 1}
+            ]
+          },
+          {
+            "configName": "Hyper-Focus",
+            "configTraitsDescription": "Enhanced Intellect +2 (4pp), Enhanced Investigation +4 ranks (2pp), Quickness 4 (Limited to Mental tasks -1/r) (2pp)",
+            "assertedConfigCost": 8,
+            "configTraits": [
+              {"type": "EnhancedAbility", "traitId": "INT", "enhancementAmount": 2, "name": "Enhanced INT (Variable)", "pp_cost_in_variable": 4},
+              {"type": "EnhancedSkill", "traitId": "skill_investigation", "enhancementAmount": 4, "name": "Enhanced Investigation (Variable)", "pp_cost_in_variable": 2},
+              {"type": "Power", "name":"Var: Mental Quickness", "baseEffectId":"eff_quickness", "rank":4, "modifiersConfig":[{"id":"mod_flaw_limited", "userInput":"Mental tasks only"}], "pp_cost_in_variable": 2}
+            ]
+          }
+        ]
+      }
+    ],
+    "equipment": [
+      {
+        "id": "eq_commlink",
+        "name": "Smartphone (Commlink, GPS)",
+        "custom_ep_cost": null 
+      },
+      {
+        "id": "eq_toolkit_basic",
+        "name": "Toolkit (Antiquarian/Research)",
+        "params": {"detail": "Antiquarian/Research"},
+        "custom_ep_cost": null
+      },
+      { 
+        "id": "custom_eq_temporal_stabilizer_belt",
+        "name": "Temporal Stabilizer Belt (Custom)",
+        "description": "Subtle device that helps mitigate minor temporal distortions around him. Feature 1 (Resist small temporal flux).",
+        "custom_ep_cost": 1
+      }
+    ],
+    "headquarters": [],
+    "vehicles": [],
+    "allies": [], 
+    "complications": [
+      {
+        "description": "Power Loss: If unable to make precise gestures or speak (for complex temporal effects)."
+      },
+      {
+        "description": "Enemy: Chronal Raiders - a group that seeks to misuse temporal anomalies he tries to correct."
+      },
+      {
+        "description": "Responsibility: Feels responsible for correcting temporal paradoxes he might encounter or inadvertently cause."
+      }
+    ],
+    "validationErrors": [] 
+  }

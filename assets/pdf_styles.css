@@ -1,0 +1,357 @@
+/* assets/pdf_styles.css */
+/* HeroForge M&M - Professional PDF Character Sheet Styles */
+
+/* --- Page Setup & Basic Typography --- */
+@page {
+    size: letter; /* Common options: letter, a4 */
+    margin: 0.6in 0.5in 0.6in 0.5in; /* top, right, bottom, left */
+
+    @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Consistent font */
+        font-size: 7pt;
+        color: #555555;
+        padding-top: 0.25in;
+        vertical-align: top; /* Ensure it doesn't overlap content if bottom margin is small */
+    }
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Clean, readable sans-serif */
+    font-size: 8.5pt; /* Base size for print - adjust as needed for density */
+    line-height: 1.35;
+    color: #222222; /* Dark gray for text instead of pure black for softer look */
+    background-color: #ffffff; /* Ensure white background for print */
+    -weasy-hyphens: auto; /* Enable hyphenation for better text flow if WeasyPrint supports/needs it */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'League Spartan', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Example header font - ensure it's available or use web safe */
+    margin-top: 0.6em;
+    margin-bottom: 0.3em;
+    color: #1a1a1a;
+    font-weight: 700;
+    page-break-after: avoid; /* Try to keep headings with their content */
+}
+
+h1.char-name-pdf { /* Specific class for character name if needed, or use header .char-name */
+    font-size: 24pt;
+    text-align: center;
+    margin-bottom: 0.3in;
+    padding-bottom: 0.1in;
+    border-bottom: 3px double #333333;
+    letter-spacing: 1px;
+}
+
+h3.section-title { /* For main section titles like Abilities, Powers, etc. */
+    font-size: 13pt;
+    color: #333333;
+    border-bottom: 1.5px solid #666666;
+    padding-bottom: 3px;
+    margin-top: 0.25in; /* Space above sections */
+    margin-bottom: 0.15in;
+    page-break-before: auto; /* Allow breaking before new major sections if needed, but not forcing unless section is huge */
+    page-break-after: avoid;
+}
+h3.section-title:first-child {
+    margin-top: 0; /* No top margin for the very first section */
+}
+
+
+h4.subsection-title { /* For sub-headers like Power Names, HQ Names */
+    font-size: 11pt;
+    font-weight: 600;
+    color: #111111;
+    margin-top: 0.2in;
+    margin-bottom: 0.1in;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 2px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0.3em;
+}
+
+ul, ol {
+    padding-left: 1.2em; /* Standard indent for lists */
+    margin-top: 0.1em;
+    margin-bottom: 0.3em;
+}
+
+li {
+    margin-bottom: 0.1em;
+    line-height: 1.3;
+}
+
+strong {
+    font-weight: 600; /* Slightly bolder than normal if base font is light */
+}
+
+em {
+    font-style: italic;
+    color: #444444;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.1in;
+    margin-bottom: 0.2in;
+    font-size: 8pt;
+    page-break-inside: avoid;
+}
+
+th, td {
+    border: 1px solid #cccccc;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: #e9e9e9;
+    font-weight: bold;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+}
+
+hr.sub-hr {
+    border: 0;
+    border-top: 1px dotted #bbbbbb;
+    margin: 0.2in 0;
+}
+
+.text-error { color: #b30000; font-weight: bold; }
+.text-success { color: #006400; }
+.caption-text { font-size: 0.9em; color: #555555; font-style: italic; }
+
+/* --- Main Sheet Layout --- */
+.sheet-container {
+    width: 100%;
+}
+
+.sheet-header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* PL, Player, PP, Identity etc. */
+    /* Or: display: flex; flex-wrap: wrap; justify-content: space-between; */
+    gap: 3px 10px; /* Row gap, Column gap */
+    align-items: baseline;
+    margin-bottom: 0.2in;
+    padding-bottom: 0.1in;
+    border-bottom: 2px solid #555555;
+}
+.sheet-header .char-name { /* Assuming h1.char-name-pdf is used instead, or style this one */
+    font-size: 20pt; font-weight: bold; grid-column: 1 / -1; margin-bottom: 5px; text-align: left;
+}
+.sheet-header .grid-group {
+    display: contents; /* Allows spans to align with main grid if header is a grid */
+}
+.sheet-header .grid-group > span:nth-child(odd) { /* Label */
+    font-weight: bold;
+    font-size: 7pt;
+    text-transform: uppercase;
+    color: #444444;
+    text-align: right;
+    padding-right: 4px;
+}
+.sheet-header .grid-group > span:nth-child(even) { /* Value */
+    font-size: 9pt;
+    font-weight: 500;
+}
+.sheet-header .concept-desc {
+    grid-column: 1 / -1;
+    font-size: 8pt;
+    margin-top: 5px;
+}
+.sheet-header .concept-desc p { margin-bottom: 2px; }
+
+
+.sheet-body {
+    display: grid; /* Using CSS Grid for main layout */
+    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns */
+    /* Alternative: grid-template-columns: 32% 32% 32%; to account for gap */
+    gap: 0.25in; /* Space between columns */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2in; /* Space between sections within a column */
+}
+.column-one, .column-two, .column-three { /* For targeting specific columns if needed */
+    /* width: 32%; if using flexbox instead of grid */
+}
+
+.section {
+    border: 1px solid #c0c0c0;
+    padding: 0.15in 0.2in; /* More padding for sections */
+    border-radius: 2px;
+    background-color: #ffffff;
+    page-break-inside: avoid; /* Crucial for clean page breaks */
+    /* box-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle shadow for on-screen PDF */
+}
+
+/* --- Specific Section Styling --- */
+
+.abilities-section .abilities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto 1fr auto); /* Label | Rank | Mod (2 abilities per row effectively) */
+    gap: 2px 8px;
+    align-items: baseline;
+    font-size: 8pt;
+}
+.abilities-grid .ability-item {
+    display: contents; /* Children participate in grid */
+}
+.abilities-grid .ability-item span:nth-child(1) { font-weight: bold; text-transform: uppercase; }
+.abilities-grid .ability-item span:nth-child(2) { text-align: center; font-size: 10pt; font-weight: bold; }
+.abilities-grid .ability-item span:nth-child(3) { text-align: left; color: #444; }
+
+.defenses-section .defense-item {
+    display: grid;
+    grid-template-columns: 75px 25px 1fr; /* Label | Total | (Details) */
+    gap: 5px;
+    align-items: baseline;
+    font-size: 8pt;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
+}
+.defenses-section .defense-item:not(:last-child) { border-bottom: 1px dotted #dddddd; }
+.defenses-section .defense-item > span:nth-child(1) { font-weight: bold; }
+.defenses-section .defense-item > span:nth-child(2) { font-size: 10.5pt; font-weight: bold; text-align: center; }
+.defenses-section .defense-item > span:nth-child(3) { font-size: 7pt; color: #555555; }
+.defenses-section .defense-cap {
+    font-size: 7.5pt;
+    text-align: right;
+    padding-right: 5px;
+    margin-top: 2px;
+}
+
+.combat-section .combat-grid {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Label Value */
+    gap: 2px 10px;
+    align-items: baseline;
+    margin-bottom: 0.2in;
+    font-size: 8.5pt;
+}
+.combat-section .combat-stat strong { font-weight: bold; }
+.combat-section .attacks-table { font-size: 7.5pt; }
+.combat-section .attacks-table th, .combat-section .attacks-table td { padding: 3px 5px; }
+.combat-section .attacks-table th { font-size: 7pt; background-color: #f0f0f0; }
+
+.skills-section .skills-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.2in;
+    font-size: 7.5pt;
+}
+.skills-section .skill-entry {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* Name (Ab) Spacer Bonus (Ranks) */
+    gap: 0 4px;
+    line-height: 1.3;
+    margin-bottom: 0px; /* Tighter list */
+    align-items: baseline;
+}
+.skills-section .skill-entry .skill-name { font-weight: normal; }
+.skills-section .skill-entry .skill-ability { color: #666; font-size: 0.9em; padding-left: 2px; }
+.skills-section .skill-entry .skill-bonus { text-align: right; font-weight: bold; font-size: 8.5pt; }
+.skills-section .skill-entry .skill-ranks { text-align: right; color: #777; font-size: 0.9em; padding-left: 3px; }
+
+.advantages-section .advantages-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 3px;
+    font-size: 8pt;
+    column-count: 2; /* Try to make advantages list two columns if long */
+    column-gap: 0.2in;
+}
+.advantages-section .advantages-list li {
+    margin-bottom: 2px;
+    page-break-inside: avoid;
+}
+.advantages-section .advantages-list li strong { font-weight: 600; }
+.advantages-section .advantages-list li .advantage-parameter {
+    font-style: italic;
+    color: #333333;
+    font-size: 0.95em;
+}
+
+.powers-section .power-entry {
+    margin-bottom: 0.25in;
+    padding-bottom: 0.15in;
+    border-bottom: 1px solid #d0d0d0;
+    page-break-inside: avoid;
+}
+.powers-section .power-entry:last-child { border-bottom: none; }
+.powers-section .power-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+.powers-section .power-name { font-size: 10pt; font-weight: bold; color: #111; }
+.powers-section .power-cost { font-size: 8pt; font-style: italic; color: #444; }
+.powers-section .power-base-effect,
+.powers-section .power-array-info,
+.powers-section .power-sub-details { font-size: 8pt; margin-left: 0.1in; margin-top: 1px; margin-bottom: 1px; color: #333; }
+.powers-section .power-sub-details strong { font-weight: 600; }
+.powers-section .power-modifiers-list { list-style-type: none; padding-left: 0.15in; margin: 2px 0; font-size: 7.5pt; color: #222; }
+.powers-section .power-modifiers-list li::before { content: "• "; color: #777; margin-right: 3px;}
+.powers-section .power-modifiers-list li .modifier-param { font-style: normal; color: #000; font-weight: 500; }
+.powers-section .variable-configs-list { font-size: 7.5pt; margin-left: 0.15in; margin-top: 3px; }
+.powers-section .variable-configs-list strong { font-weight: 600; }
+.powers-section .variable-configs-list ul { list-style-type: circle; padding-left: 10px; margin-top: 2px; }
+.powers-section .variable-configs-list li { margin-bottom: 3px; }
+.powers-section .config-traits-desc { white-space: pre-wrap; word-wrap: break-word; background-color: #f8f8f8; padding: 3px 5px; border: 1px solid #eaeaea; border-radius: 2px; font-size: 0.9em; margin-top: 1px; }
+.powers-section .power-ally-notes pre { /* For Summon/Dupe notes */
+    white-space: pre-wrap; word-wrap: break-word; background-color: #f8f8f8;
+    padding: 5px; border: 1px solid #eaeaea; font-size: 0.9em; margin-top: 2px;
+}
+
+
+.equipment-section .ep-summary, .complications-section p.section-summary { font-weight: bold; font-size: 7.5pt; margin-bottom: 4px; }
+.equipment-section ul, .complications-section ul, .allies-section ul {
+    list-style: none; padding-left: 0; margin-top: 3px; font-size: 8pt;
+}
+.equipment-section li, .complications-section li, .allies-section .ally-entry {
+    margin-bottom: 3px; padding-left: 5px; line-height: 1.3; page-break-inside: avoid;
+}
+.equipment-section li strong, .complications-section li strong, .allies-section .ally-entry h4 { font-weight: 600; }
+.equipment-section li em { font-size: 0.9em; color: #444; }
+
+.allies-section .ally-entry { margin-bottom: 0.2in; border-bottom: 1px dotted #ddd; padding-bottom: 0.1in; }
+.allies-section .ally-entry:last-child { border-bottom: none; }
+.allies-section .ally-entry h4 { font-size: 9.5pt; margin-bottom: 2px; }
+.allies-section .ally-entry p { font-size: 8pt; margin: 1px 0 1px 0.1in; }
+.allies-section .ally-stat-block { margin-left: 0.1in; }
+.allies-section .ally-stat-block pre {
+    white-space: pre-wrap; word-wrap: break-word; background-color: #f9f9f9;
+    padding: 5px; border: 1px solid #efefef; font-size: 0.9em; margin-top: 2px;
+}
+
+.hq-section h4, .vehicle-section h4 { /* Name of HQ/Vehicle */
+    font-size: 10pt; margin-bottom: 3px; border-bottom: 1px solid #bbb; padding-bottom: 1px;
+}
+.hq-entry, .vehicle-entry { margin-bottom: 0.2in; padding-left: 5px; }
+.hq-stat, .vehicle-stat { font-size: 8.5pt; margin-bottom: 1px; }
+.hq-stat strong, .vehicle-stat strong { display: inline-block; min-width: 80px; font-weight:600; }
+.hq-feature-list, .vehicle-feature-list { list-style: disc; padding-left: 15px; margin-top: 3px; font-size: 8pt; }
+
+
+.sheet-footer {
+    margin-top: 0.3in;
+    padding-top: 0.15in;
+    border-top: 2.5px double #333333;
+    font-size: 8pt;
+}
+.footer-notes-section { display: grid; grid-template-columns: 1fr 2fr 1.5fr; gap: 0.2in;} /* HP | Conditions | Notes */
+.footer-notes-section .hero-points,
+.footer-notes-section .conditions-track,
+.footer-notes-section .general-notes { margin-bottom: 5px; }
+.footer-notes-section .hero-points .value-box { width: 15px; height: 15px; border: 1px solid #444; margin-right: 3px; }
+.footer-notes-section .conditions-track .line-fill { width: 90%; border-bottom: 1px solid #444; margin-left: 3px; }
+.footer-notes-section .notes-area { border: 1px solid #b0b0b0; min-height: 35mm; margin-top: 2px; padding: 3px; background-color: #fdfdfd; }
+
+/* Utility for forcing column break if needed, though avoid if possible */
+.force-column-break {
+    column-break-before: always; /* For older multicol implementations */
+    break-before: column; /* Standard */
+}

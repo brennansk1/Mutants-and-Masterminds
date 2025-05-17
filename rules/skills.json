@@ -1,0 +1,145 @@
+{
+    "costFactor": 0.5,
+    "help_text": {
+      "general": "Skills represent specific areas of training and expertise. Your total bonus on a skill check is your ranks in the skill + the modifier from its governing Ability. Each 2 ranks in a skill costs 1 Power Point (PP). Your total skill bonus (Ability Mod + Ranks) cannot exceed your Power Level (PL) + 10. The maximum ranks you can normally buy in a skill is PL + 5.",
+      "specialization_note": "Skills like Close Combat, Ranged Combat, and Expertise require you to choose a specific focus (e.g., 'Close Combat: Swords', 'Expertise: Magic'). You buy ranks in each specialization separately as if it were its own skill."
+    },
+    "list": [
+      {
+        "id": "skill_acrobatics",
+        "name": "Acrobatics",
+        "ability": "AGL",
+        "untrained": false,
+        "description": "Covers feats of balance, coordination, tumbling, aerial maneuvers, and escaping from grabs or restraints. Governed by Agility. Trained Only.",
+        "page_ref": "DHH p.98"
+      },
+      {
+        "id": "skill_athletics",
+        "name": "Athletics",
+        "ability": "STR",
+        "untrained": true,
+        "description": "Represents overall physical fitness and training for activities like climbing, jumping, running, and swimming. Governed by Strength.",
+        "page_ref": "DHH p.98"
+      },
+      {
+        "id": "skill_close_combat",
+        "name": "Close Combat",
+        "ability": "FGT",
+        "untrained": true,
+        "isCombatSkill": true,
+        "specialization_possible": true,
+        "specialization_prompt": "Specify weapon or unarmed style (e.g., Swords, Unarmed, Claws, Grappling)",
+        "description": "Skill in a specific form of close-quarters fighting. Adds its rank to your Fighting ability for attack checks with that specific form of combat. Each specialization is a separate skill.",
+        "page_ref": "DHH p.99"
+      },
+      {
+        "id": "skill_deception",
+        "name": "Deception",
+        "ability": "PRE",
+        "untrained": true,
+        "description": "The ability to lie, mislead, feint in combat, disguise yourself, or pass on secret messages. Governed by Presence.",
+        "page_ref": "DHH p.99"
+      },
+      {
+        "id": "skill_expertise",
+        "name": "Expertise",
+        "ability": "INT",
+        "untrained": false,
+        "specialization_possible": true,
+        "specialization_prompt": "Specify field of Expertise (e.g., Magic, Science, History, Streetwise, specific profession)",
+        "description": "Represents knowledge and training in a particular field of study or profession. Governed by Intellect. Trained Only. Each field of Expertise is a separate skill.",
+        "page_ref": "DHH p.100"
+      },
+      {
+        "id": "skill_insight",
+        "name": "Insight",
+        "ability": "AWE",
+        "untrained": true,
+        "description": "The ability to discern truth from falsehood, sense underlying motives, and resist attempts to deceive or influence you. Governed by Awareness.",
+        "page_ref": "DHH p.101"
+      },
+      {
+        "id": "skill_intimidation",
+        "name": "Intimidation",
+        "ability": "PRE",
+        "untrained": true,
+        "description": "The ability to influence others through threats, displays of power, or by inspiring fear. Governed by Presence.",
+        "page_ref": "DHH p.101"
+      },
+      {
+        "id": "skill_investigation",
+        "name": "Investigation",
+        "ability": "INT",
+        "untrained": false,
+        "description": "The ability to find clues, gather and analyze evidence, and follow trails of information. Governed by Intellect. Trained Only.",
+        "page_ref": "DHH p.102"
+      },
+      {
+        "id": "skill_perception",
+        "name": "Perception",
+        "ability": "AWE",
+        "untrained": true,
+        "description": "The ability to notice things using your senses, including spotting hidden objects or details, and detecting approaching danger. Governed by Awareness.",
+        "page_ref": "DHH p.103"
+      },
+      {
+        "id": "skill_persuasion",
+        "name": "Persuasion",
+        "ability": "PRE",
+        "untrained": true,
+        "description": "The ability to influence others through diplomacy, tact, charm, and reasoned argument. Governed by Presence.",
+        "page_ref": "DHH p.103"
+      },
+      {
+        "id": "skill_ranged_combat",
+        "name": "Ranged Combat",
+        "ability": "DEX",
+        "untrained": true,
+        "isCombatSkill": true,
+        "specialization_possible": true,
+        "specialization_prompt": "Specify weapon or attack type (e.g., Pistols, Bows, Energy Blasts, Throwing)",
+        "description": "Skill in a specific form of ranged fighting. Adds its rank to your Dexterity ability for attack checks with that specific form of combat. Each specialization is a separate skill.",
+        "page_ref": "DHH p.104"
+      },
+      {
+        "id": "skill_sleight_of_hand",
+        "name": "Sleight of Hand",
+        "ability": "DEX",
+        "untrained": false,
+        "description": "The ability to perform tasks requiring manual dexterity and misdirection, such as pickpocketing, concealing objects, or performing stage magic. Governed by Dexterity. Trained Only.",
+        "page_ref": "DHH p.104"
+      },
+      {
+        "id": "skill_stealth",
+        "name": "Stealth",
+        "ability": "AGL",
+        "untrained": true,
+        "description": "The ability to move unseen and unheard, and to hide effectively. Governed by Agility.",
+        "page_ref": "DHH p.105"
+      },
+      {
+        "id": "skill_technology",
+        "name": "Technology",
+        "ability": "INT",
+        "untrained": false,
+        "description": "Knowledge and skill in operating, repairing, building, and bypassing technological devices. Governed by Intellect. Trained Only.",
+        "page_ref": "DHH p.105"
+      },
+      {
+        "id": "skill_treatment",
+        "name": "Treatment",
+        "ability": "INT",
+        "untrained": false,
+        "description": "The ability to provide medical aid, diagnose illnesses, treat injuries, and stabilize dying characters. Governed by Intellect. Trained Only.",
+        "page_ref": "DHH p.106"
+      },
+      {
+        "id": "skill_vehicles",
+        "name": "Vehicles",
+        "ability": "DEX",
+        "untrained": false,
+        "description": "The ability to operate and maneuver various types of vehicles. Governed by Dexterity. Trained Only.",
+        "page_ref": "DHH p.106"
+      }
+    ]
+  }

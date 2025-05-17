@@ -1,0 +1,303 @@
+[
+    {
+      "rank": -30,
+      "distance": "Subatomic",
+      "time": "Subatomic",
+      "mass": "Subatomic",
+      "volume": "Subatomic"
+    },
+    {
+      "rank": -20,
+      "distance": "1 Angstrom",
+      "time": "1 Attosecond",
+      "mass": "1 Picogram",
+      "volume": "1 Picoliter"
+    },
+    {
+      "rank": -12,
+      "distance": "1 Nanometer",
+      "time": "1 Femtosecond",
+      "mass": "1 Nanogram",
+      "volume": "1 Nanoliter"
+    },
+    {
+      "rank": -10,
+      "distance": "10 Nanometers",
+      "time": "1 Picosecond",
+      "mass": "10 Nanograms",
+      "volume": "10 Nanoliters"
+    },
+    {
+      "rank": -8,
+      "distance": "1 Micrometer",
+      "time": "1 Nanosecond",
+      "mass": "1 Microgram",
+      "volume": "1 Microliter"
+    },
+    {
+      "rank": -7,
+      "distance": "10 Micrometers",
+      "time": "10 Nanoseconds",
+      "mass": "10 Micrograms",
+      "volume": "10 Microliters"
+    },
+    {
+      "rank": -6,
+      "distance": "100 Micrometers",
+      "time": "100 Nanoseconds",
+      "mass": "100 Micrograms",
+      "volume": "100 Microliters"
+    },
+    {
+      "rank": -5,
+      "distance": "1 Millimeter",
+      "time": "1 Microsecond",
+      "mass": "1 Milligram",
+      "volume": "1 Milliliter (1 cc)"
+    },
+    {
+      "rank": -4,
+      "distance": "1 Centimeter",
+      "time": "10 Microseconds",
+      "mass": "10 Milligrams",
+      "volume": "10 Milliliters"
+    },
+    {
+      "rank": -3,
+      "distance": "10 Centimeters",
+      "time": "100 Microseconds",
+      "mass": "100 Milligrams",
+      "volume": "100 Milliliters"
+    },
+    {
+      "rank": -2,
+      "distance": "1 Meter (3 feet)",
+      "time": "1 Millisecond",
+      "mass": "1 Gram",
+      "volume": "1 Liter"
+    },
+    {
+      "rank": -1,
+      "distance": "2 Meters (6 feet)",
+      "time": "3 seconds",
+      "mass": "1 Kilogram (2 lbs.)",
+      "volume": "2 Liters"
+    },
+    {
+      "rank": 0,
+      "distance": "4 Meters (12 feet)",
+      "time": "6 seconds (1 round)",
+      "mass": "25 Kilograms (50 lbs.)",
+      "volume": "4 Liters"
+    },
+    {
+      "rank": 1,
+      "distance": "8 Meters (25 feet)",
+      "time": "12 seconds",
+      "mass": "50 Kilograms (100 lbs.)",
+      "volume": "8 Liters"
+    },
+    {
+      "rank": 2,
+      "distance": "15 Meters (50 feet)",
+      "time": "30 seconds",
+      "mass": "100 Kilograms (200 lbs.)",
+      "volume": "15 Liters"
+    },
+    {
+      "rank": 3,
+      "distance": "30 Meters (100 feet)",
+      "time": "1 minute (10 rounds)",
+      "mass": "200 Kilograms (400 lbs.)",
+      "volume": "30 Liters"
+    },
+    {
+      "rank": 4,
+      "distance": "60 Meters (200 feet)",
+      "time": "2 minutes",
+      "mass": "400 Kilograms (800 lbs.)",
+      "volume": "60 Liters"
+    },
+    {
+      "rank": 5,
+      "distance": "120 Meters (400 feet)",
+      "time": "4 minutes",
+      "mass": "800 Kilograms (1,600 lbs.)",
+      "volume": "125 Liters"
+    },
+    {
+      "rank": 6,
+      "distance": "250 Meters (800 feet)",
+      "time": "8 minutes",
+      "mass": "1.6 Tons (Metric)",
+      "volume": "250 Liters"
+    },
+    {
+      "rank": 7,
+      "distance": "500 Meters (1,600 feet)",
+      "time": "15 minutes",
+      "mass": "3.2 Tons",
+      "volume": "500 Liters"
+    },
+    {
+      "rank": 8,
+      "distance": "1 Kilometer (1/2 mile)",
+      "time": "30 minutes",
+      "mass": "6 Tons",
+      "volume": "1 Kiloliter (1 cbm)"
+    },
+    {
+      "rank": 9,
+      "distance": "2 Kilometers (1 mile)",
+      "time": "1 hour",
+      "mass": "12 Tons",
+      "volume": "2 Kiloliters"
+    },
+    {
+      "rank": 10,
+      "distance": "4 Kilometers (2 miles)",
+      "time": "2 hours",
+      "mass": "25 Tons",
+      "volume": "4 Kiloliters"
+    },
+    {
+      "rank": 11,
+      "distance": "8 Kilometers (5 miles)",
+      "time": "4 hours",
+      "mass": "50 Tons",
+      "volume": "8 Kiloliters"
+    },
+    {
+      "rank": 12,
+      "distance": "15 Kilometers (10 miles)",
+      "time": "8 hours",
+      "mass": "100 Tons",
+      "volume": "15 Kiloliters"
+    },
+    {
+      "rank": 13,
+      "distance": "30 Kilometers (20 miles)",
+      "time": "16 hours",
+      "mass": "200 Tons",
+      "volume": "30 Kiloliters"
+    },
+    {
+      "rank": 14,
+      "distance": "60 Kilometers (40 miles)",
+      "time": "1 day (32 hours)",
+      "mass": "400 Tons",
+      "volume": "60 Kiloliters"
+    },
+    {
+      "rank": 15,
+      "distance": "120 Kilometers (80 miles)",
+      "time": "2 days",
+      "mass": "800 Tons",
+      "volume": "125 Kiloliters"
+    },
+    {
+      "rank": 16,
+      "distance": "250 Kilometers (150 miles)",
+      "time": "4 days",
+      "mass": "1,600 Tons (1.6 ktons)",
+      "volume": "250 Kiloliters"
+    },
+    {
+      "rank": 17,
+      "distance": "500 Kilometers (300 miles)",
+      "time": "1 week",
+      "mass": "3,200 Tons (3.2 ktons)",
+      "volume": "500 Kiloliters"
+    },
+    {
+      "rank": 18,
+      "distance": "1,000 Kilometers (600 miles)",
+      "time": "2 weeks",
+      "mass": "6,000 Tons (6 ktons)",
+      "volume": "1 megaliter (1,000 cbm)"
+    },
+    {
+      "rank": 19,
+      "distance": "2,000 Kilometers (1,200 miles)",
+      "time": "1 month",
+      "mass": "12,000 Tons (12 ktons)",
+      "volume": "2 megaliters"
+    },
+    {
+      "rank": 20,
+      "distance": "4,000 Kilometers (2,500 miles)",
+      "time": "2 months",
+      "mass": "25,000 Tons (25 ktons)",
+      "volume": "4 megaliters"
+    },
+    {
+      "rank": 21,
+      "distance": "8,000 Kilometers (5,000 miles)",
+      "time": "4 months",
+      "mass": "50 ktons",
+      "volume": "8 megaliters"
+    },
+    {
+      "rank": 22,
+      "distance": "16,000 Kilometers (10,000 miles)",
+      "time": "8 months",
+      "mass": "100 ktons",
+      "volume": "15 megaliters"
+    },
+    {
+      "rank": 23,
+      "distance": "32,000 Kilometers (20,000 miles)",
+      "time": "1.5 years",
+      "mass": "200 ktons",
+      "volume": "30 megaliters"
+    },
+    {
+      "rank": 24,
+      "distance": "64,000 Kilometers (40,000 miles)",
+      "time": "3 years",
+      "mass": "400 ktons",
+      "volume": "60 megaliters"
+    },
+    {
+      "rank": 25,
+      "distance": "125,000 Kilometers (80,000 miles)",
+      "time": "6 years",
+      "mass": "800 ktons",
+      "volume": "125 megaliters"
+    },
+    {
+      "rank": 26,
+      "distance": "250,000 Kilometers (150,000 miles)",
+      "time": "12 years",
+      "mass": "1.6 Mtons",
+      "volume": "250 megaliters"
+    },
+    {
+      "rank": 27,
+      "distance": "500,000 Kilometers (300,000 miles)",
+      "time": "25 years",
+      "mass": "3.2 Mtons",
+      "volume": "500 megaliters"
+    },
+    {
+      "rank": 28,
+      "distance": "1 million Kilometers (600,000 miles)",
+      "time": "50 years",
+      "mass": "6 Mtons",
+      "volume": "1 gigaliter (1 million cbm)"
+    },
+    {
+      "rank": 29,
+      "distance": "2 million Kilometers (1.2 million miles)",
+      "time": "100 years",
+      "mass": "12 Mtons",
+      "volume": "2 gigaliters"
+    },
+    {
+      "rank": 30,
+      "distance": "4 million Kilometers (2.5 million miles)",
+      "time": "200 years",
+      "mass": "25 Mtons",
+      "volume": "4 gigaliters"
+    }
+  ]

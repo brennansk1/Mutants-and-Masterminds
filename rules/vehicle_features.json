@@ -1,0 +1,185 @@
+[
+    {
+      "id": "vh_feat_alarm",
+      "name": "Alarm System",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 4,
+      "description": "Vehicle has an alarm. DC 20 Technology check to overcome; +5 DC per additional rank of this feature (max DC 40 at rank 4).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_autopilot",
+      "name": "Autopilot",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 5, 
+      "modifies_stat": {"stat": "Autopilot Vehicles Skill", "bonus_per_rank": 4},
+      "description": "Vehicle has self-piloting capability with an effective Vehicles skill of (Rank of this feature x 4).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_caltrops",
+      "name": "Caltrops Dispenser",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Vehicle can release caltrops (standard action) to damage tires of ordinary vehicles or force Toughness checks for hero vehicles (DC 13).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_communications",
+      "name": "Communications System",
+      "ep_cost": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Describe communications type (e.g., Encrypted Radio, Subspace Transceiver, Intercom)",
+      "parameter_type": "text",
+      "description": "Vehicle has a communications system.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_computer",
+      "name": "On-Board Computer",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Vehicle has an on-board computer for information access, system monitoring, and routine operations control.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_defense_system_vehicle",
+      "name": "Defense System (Vehicle)",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 20, 
+      "parameter_needed": true,
+      "parameter_prompt": "Describe Defense System effect and its rank (e.g., Force Field (Protection 8), Smoke Cloud (Visual Concealment 4))",
+      "parameter_type": "text_long",
+      "description": "Vehicle has built-in defensive systems. Effect rank equals EP cost. These are typically powers the vehicle itself uses.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_ejection_seats",
+      "name": "Ejection Seats",
+      "ep_cost": 1,
+      "ranked": false,
+      "parameter_needed": true,
+      "parameter_prompt": "Number and type of ejection seats (e.g., 'Pilot only', 'All 4 occupants')",
+      "parameter_type": "text",
+      "description": "Allows one or more occupants to safely eject from a disabled or crashing vehicle.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_hidden_compartments",
+      "name": "Hidden Compartments",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 4, 
+      "description": "Vehicle has hidden storage compartments. DC 20 Perception check to find; +5 DC per additional rank of this feature (max DC 40).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_impervious_toughness",
+      "name": "Impervious (Vehicle Toughness)",
+      "ep_cost_per_rank": 1, 
+      "ranked": true,
+      "maxRanks_source": "vehicle_total_toughness", 
+      "modifies_stat": {"stat": "Toughness", "add_quality": "Impervious"},
+      "description": "Vehicle's Toughness becomes Impervious. Cost is 1 EP per rank of Impervious granted, up to the vehicle's total Toughness rank.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_navigation_system",
+      "name": "Navigation System",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 2, 
+      "description": "Grants +5 circumstance bonus per rank on skill checks made for navigation while using the vehicle.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_oil_slick",
+      "name": "Oil Slick Dispenser",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Vehicle can release an oil slick (standard action) covering a 20-ft. by 20-ft. area, forcing pursuing vehicles to make DC 15 Vehicles check to retain control.",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_remote_control",
+      "name": "Remote Control",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Vehicle can be controlled remotely (typically by its owner or designated operator).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_searchlight",
+      "name": "Searchlight",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Powerful, aimable light source (equivalent to Feature: Illumination or a low-rank Environment: Light effect).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_smokescreen",
+      "name": "Smokescreen Dispenser",
+      "ep_cost": 1,
+      "ranked": false,
+      "description": "Vehicle can release a cloud of smoke, typically Visual Concealment Attack 4, Cloud Area (15-foot radius).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_feat_special_custom_vehicle",
+      "name": "Special Feature (Vehicle - Custom)",
+      "ep_cost_per_rank": 1, 
+      "ranked": true,
+      "max_ranks": 10, // GM discretion for custom features
+      "parameter_needed": true,
+      "parameter_prompt": "Describe the special vehicle feature and its agreed EP cost/rank",
+      "parameter_type": "text_long_with_cost_note",
+      "description": "A unique vehicle feature not covered by others, with GM-approved EP cost (typically 1 EP per minor feature or per rank of a scalable custom feature).",
+      "page_ref": "DHH p.183"
+    },
+    {
+      "id": "vh_stat_boost_strength",
+      "name": "Vehicle Strength Boost",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 20, // Or limited by size/realism
+      "modifies_stat": {"stat": "Strength", "bonus_per_rank": 1},
+      "description": "Increases the vehicle's Strength by +1 per EP spent (added to base from Size).",
+      "page_ref": "DHH p.182 (implied from 'Buying Off Stats')"
+    },
+    {
+      "id": "vh_stat_boost_speed",
+      "name": "Vehicle Speed Boost",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 20,
+      "modifies_stat": {"stat": "Speed", "bonus_per_rank": 1},
+      "description": "Increases the vehicle's Speed Rank by +1 per EP spent (added to base from Size).",
+      "page_ref": "DHH p.182 (implied from 'Buying Off Stats')"
+    },
+    {
+      "id": "vh_stat_boost_toughness",
+      "name": "Vehicle Toughness Boost (Armor)",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 20,
+      "modifies_stat": {"stat": "Toughness", "bonus_per_rank": 1},
+      "description": "Increases the vehicle's Toughness by +1 per EP spent (added to base from Size). This is the 'Toughness' feature.",
+      "page_ref": "DHH p.183 (as 'Toughness' feature)"
+    },
+    {
+      "id": "vh_weapon_system",
+      "name": "Weapon System (Vehicle)",
+      "ep_cost_per_rank": 1, // Cost of weapon system is EP cost of its effect ranks
+      "ranked": true,
+      "max_ranks": 20, // Or PL limit for effect
+      "parameter_needed": true,
+      "parameter_prompt": "Describe Weapon System (e.g., Laser Cannon, Ranged Damage 10; or Missile Launcher, Ranged Burst Area Damage 8)",
+      "parameter_type": "text_long",
+      "description": "Vehicle has built-in weaponry. The effect rank(s) of the weapon(s) equals the EP cost for this feature. Subject to PL limits if attack rolls are made.",
+      "page_ref": "DHH p.183"
+    }
+  ]

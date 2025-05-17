@@ -1,0 +1,29 @@
+# requirements.txt for HeroForge M&M (Streamlit Edition)
+# This file lists all Python package dependencies needed to run the application,
+# supporting all conceptualized features including the comprehensive Core Engine,
+# the full Streamlit UI (Wizard and Advanced modes), and professional PDF generation.
+
+# Core web application framework for the user interface
+streamlit>=1.33.0   # Or latest stable version as of your development date (e.g., May 2025)
+
+# For generating professional PDF character sheets from HTML/CSS
+# This supports the "professional and pretty PDF" requirement and displaying "all features" data.
+weasyprint>=59.0    # Or latest stable version.
+                    # IMPORTANT: WeasyPrint also has SYSTEM-LEVEL dependencies (Pango, Cairo, etc.)
+                    # that must be installed in the Dockerfile via apt-get or similar.
+
+# For enhanced table displays in Streamlit (e.g., the Measurements Table)
+pandas>=2.0.0       # Or latest stable version.
+
+# Optional: If you decide to use advanced HTML templating for PDF generation
+# beyond f-strings or basic string concatenation in pdf_utils.py.
+# For "all features" and a complex, "professionally organized PDF", this might be considered.
+# jinja2>=3.1.0
+
+# Notes:
+# - The `uuid` module (used for generating unique IDs) is part of Python's standard library and does not need to be listed here.
+# - Standard libraries like `json`, `math`, `copy`, `os` are also built-in.
+# - Ensure the versions specified are compatible with each other and your Python version (e.g., Python 3.10 as per Dockerfile).
+# - For a production build or to ensure exact reproducibility, you might pin versions to specific numbers
+#   (e.g., streamlit==1.33.0, weasyprint==59.0, pandas==2.2.0) after thorough testing.
+#   You can generate these exact versions from your working local development environment using `pip freeze > requirements.txt`.
