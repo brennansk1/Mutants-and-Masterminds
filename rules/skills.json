@@ -1,7 +1,7 @@
 {
     "costFactor": 0.5,
     "help_text": {
-      "general": "Skills represent specific areas of training and expertise. Your total bonus on a skill check is your ranks in the skill + the modifier from its governing Ability. Each 2 ranks in a skill costs 1 Power Point (PP). Your total skill bonus (Ability Mod + Ranks) cannot exceed your Power Level (PL) + 10. The maximum ranks you can normally buy in a skill is PL + 5.",
+      "general": "Skills represent specific areas of training and expertise. Your total bonus on a skill check is your ranks in the skill + the modifier from its governing Ability. Each 2 ranks in a skill costs 1 Power Point (PP). Your total skill bonus (Ability Mod + Ranks) cannot exceed your Power Level (PL) + 10. The maximum ranks you can normally buy in a skill is PL + 5 (though some interpretations allow ranks up to PL+10 if the total bonus cap is met).",
       "specialization_note": "Skills like Close Combat, Ranged Combat, and Expertise require you to choose a specific focus (e.g., 'Close Combat: Swords', 'Expertise: Magic'). You buy ranks in each specialization separately as if it were its own skill."
     },
     "list": [
@@ -9,8 +9,8 @@
         "id": "skill_acrobatics",
         "name": "Acrobatics",
         "ability": "AGL",
-        "untrained": false,
-        "description": "Covers feats of balance, coordination, tumbling, aerial maneuvers, and escaping from grabs or restraints. Governed by Agility. Trained Only.",
+        "untrained": true,
+        "description": "Covers feats of balance, coordination, tumbling, aerial maneuvers, and escaping from grabs or restraints. Governed by Agility.",
         "page_ref": "DHH p.98"
       },
       {

@@ -1,82 +1,84 @@
 [
     {
-      "id": "sense_accurate_one",
-      "name": "Accurate (One Sense)",
+      "id": "sense_visual_normal",
+      "name": "Normal Vision",
+      "cost": 0,
+      "ranked": false,
+      "sense_type_group": "Standard Senses",
+      "description": "Standard human visual sense. Already Accurate and Acute by default.",
+      "page_ref": "DHH p.126"
+    },
+    {
+      "id": "sense_auditory_normal",
+      "name": "Normal Hearing",
+      "cost": 0,
+      "ranked": false,
+      "sense_type_group": "Standard Senses",
+      "description": "Standard human auditory sense. Already Acute by default.",
+      "page_ref": "DHH p.126"
+    },
+    {
+      "id": "sense_olfactory_normal",
+      "name": "Normal Smell/Taste",
+      "cost": 0,
+      "ranked": false,
+      "sense_type_group": "Standard Senses",
+      "description": "Standard human olfactory and gustatory senses.",
+      "page_ref": "DHH p.126"
+    },
+    {
+      "id": "sense_tactile_normal",
+      "name": "Normal Touch",
+      "cost": 0,
+      "ranked": false,
+      "sense_type_group": "Standard Senses",
+      "description": "Standard human tactile sense. Already Accurate by default.",
+      "page_ref": "DHH p.126"
+    },
+    {
+      "id": "sense_mental_normal",
+      "name": "Normal Mental Sense",
+      "cost": 0,
+      "ranked": false,
+      "sense_type_group": "Standard Senses",
+      "description": "Baseline mental awareness, if applicable to the character concept (often a descriptor for other senses).",
+      "page_ref": "DHH p.126"
+    },
+    {
+      "id": "sense_accurate",
+      "name": "Accurate",
       "cost": 2,
       "ranked": false,
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true,
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
-      "parameter_prompt": "Specify one sense to make Accurate (e.g., Hearing, Smell)",
-      "parameter_type": "select_specific_sense",
-      "description": "An accurate sense can pinpoint exact location. Visual & Tactile are normally accurate. Cost 2 PP for one specific non-standard sense.",
+      "parameter_prompt": "Specify one non-visual/tactile sense to make Accurate (e.g., Hearing, Smell)",
+      "parameter_type": "select_sense_basic",
+      "description": "An accurate sense can pinpoint exact location. Visual & Tactile are normally accurate. Cost 2 PP for one specific non-standard sense. For an entire sense type (e.g. all Auditory), cost is 4 PP (take this twice for the same sense type or GM discretion).",
       "page_ref": "DHH p.126"
     },
     {
-      "id": "sense_accurate_type",
-      "name": "Accurate (Sense Type)",
-      "cost": 4,
-      "ranked": false,
-      "senseTypeAffected": ["Any"],
-      "requires_base_sense": true,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify sense type to make Accurate (e.g., Olfactory, Auditory)",
-      "parameter_type": "select_sense_type_category",
-      "description": "Makes an entire sense type Accurate. Cost 4 PP for the sense type.",
-      "page_ref": "DHH p.126"
-    },
-    {
-      "id": "sense_acute_one",
-      "name": "Acute (One Sense)",
+      "id": "sense_acute",
+      "name": "Acute",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true,
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
-      "parameter_prompt": "Specify one sense to make Acute (e.g., Olfactory, Taste)",
-      "parameter_type": "select_specific_sense",
-      "description": "Sense fine details, distinguish & identify subjects. Visual & Auditory are normally acute. Cost 1 PP for one specific non-standard sense.",
+      "parameter_prompt": "Specify one non-visual/auditory sense to make Acute (e.g., Olfactory, Taste)",
+      "parameter_type": "select_sense_basic",
+      "description": "Sense fine details, distinguish & identify subjects. Visual & Auditory are normally acute. Cost 1 PP for one specific non-standard sense. For an entire sense type (e.g. all Olfactory), cost is 2 PP (take this twice or GM discretion).",
       "page_ref": "DHH p.126"
     },
     {
-      "id": "sense_acute_type",
-      "name": "Acute (Sense Type)",
-      "cost": 2,
-      "ranked": false,
-      "senseTypeAffected": ["Any"],
-      "requires_base_sense": true,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify sense type to make Acute (e.g., Olfactory)",
-      "parameter_type": "select_sense_type_category",
-      "description": "Makes an entire sense type Acute. Cost 2 PP for the sense type.",
-      "page_ref": "DHH p.126"
-    },
-    {
-      "id": "sense_analytical_one",
-      "name": "Analytical (One Sense)",
+      "id": "sense_analytical",
+      "name": "Analytical",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true, 
-      "requires_sense_ability": ["sense_acute_one", "sense_acute_type"], // Must be applied to an Acute sense
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
       "parameter_prompt": "Specify one Acute sense to make Analytical",
-      "parameter_type": "select_specific_acute_sense",
-      "description": "Perceive specific details like chemical composition, exact dimensions. Applied to an Acute sense. Cost 1 PP for one sense.",
-      "page_ref": "DHH p.126"
-    },
-    {
-      "id": "sense_analytical_type",
-      "name": "Analytical (Sense Type)",
-      "cost": 2,
-      "ranked": false,
-      "senseTypeAffected": ["Any"],
-      "requires_base_sense": true,
-      "requires_sense_ability": ["sense_acute_type"], // Must be applied to an Acute sense type
-      "parameter_needed": true,
-      "parameter_prompt": "Specify an Acute sense type to make Analytical",
-      "parameter_type": "select_acute_sense_type_category",
-      "description": "Makes an entire Acute sense type Analytical. Cost 2 PP for the sense type.",
+      "parameter_type": "select_sense_basic",
+      "requires_sense_id_on_param": ["sense_acute"],
+      "description": "Perceive specific details like chemical composition, exact dimensions. Applied to an Acute sense. Cost 1 PP for one sense. For an entire Acute sense type, cost is 2 PP (take this twice or GM discretion).",
       "page_ref": "DHH p.126"
     },
     {
@@ -84,59 +86,59 @@
       "name": "Awareness (Descriptor)",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Special"],
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Specify descriptor for Awareness (e.g., Magic, Psionics, Cosmic)",
-      "parameter_type": "text",
-      "description": "Sense use of effects with a particular descriptor (Perception DC 10). Choose sense type (often mental).",
+      "parameter_prompt": "Specify descriptor for Awareness and sense type used (e.g., 'Magic via Mental Sense', 'Psionics via Visual Aura Reading')",
+      "parameter_type": "text_long",
+      "description": "Sense use of effects with a particular descriptor (Perception DC 10). Choose sense type (often mental or a special visual/auditory perception). Cost 1 PP.",
       "page_ref": "DHH p.126"
     },
     {
       "id": "sense_communication_link",
       "name": "Communication Link",
       "cost": 1,
-      "ranked": false, // Per link
-      "senseTypeAffected": ["Special"],
+      "ranked": false, 
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Individual linked with & sense medium (e.g., 'Telepathic with Professor X')",
+      "parameter_prompt": "Individual linked with & sense medium (e.g., 'Telepathic with Professor X', 'Radio Link with Teammate Alpha')",
       "parameter_type": "text_long",
-      "description": "Mental or other link with a specific individual (who must also have this).",
+      "description": "Mental or other communication link with a specific individual (who must also have this sense or compatible Communication power). Cost 1 PP per link.",
       "page_ref": "DHH p.126"
     },
     {
-      "id": "sense_counters_concealment_descriptor",
-      "name": "Counters Concealment (Descriptor)",
+      "id": "sense_counters_concealment_one",
+      "name": "Counters Concealment (One Type)",
       "cost": 2,
       "ranked": false,
-      "senseTypeAffected": ["Any"],
+      "sense_type_group": "Countersenses",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense type and descriptor it counters (e.g., Vision counters Invisibility)",
-      "parameter_type": "text_counters_conceal_desc",
-      "description": "A sense type ignores a specific Concealment effect descriptor.",
+      "parameter_prompt": "Specify sense type and the specific Concealment it counters (e.g., 'Vision counters Invisibility to Normal Sight', 'Hearing counters Silence effects')",
+      "parameter_type": "text_long",
+      "description": "A chosen sense type ignores one specific Concealment effect or descriptor. Cost 2 PP.",
       "page_ref": "DHH p.126"
     },
     {
-      "id": "sense_counters_concealment_all",
-      "name": "Counters All Concealment",
+      "id": "sense_counters_all_concealment_one_sense",
+      "name": "Counters All Concealment (One Sense Type)",
       "cost": 5,
       "ranked": false,
-      "senseTypeAffected": ["Any"],
+      "sense_type_group": "Countersenses",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense type that counters all concealment",
-      "parameter_type": "select_sense_type_category",
-      "description": "A sense type ignores all Concealment effects.",
+      "parameter_prompt": "Specify sense type that counters ALL types of concealment for that sense (e.g., 'Truesight for Visual')",
+      "parameter_type": "select_sense_basic",
+      "description": "A chosen sense type ignores all Concealment effects relevant to it. Cost 5 PP.",
       "page_ref": "DHH p.126"
     },
     {
-      "id": "sense_counters_illusion",
-      "name": "Counters Illusion",
+      "id": "sense_counters_illusion_one_sense",
+      "name": "Counters Illusion (One Sense Type)",
       "cost": 2,
       "ranked": false,
-      "senseTypeAffected": ["Any"],
+      "sense_type_group": "Countersenses",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense type that counters illusions",
-      "parameter_type": "select_sense_type_category",
-      "description": "A sense type ignores Illusion effects, automatically succeeding on resistance.",
+      "parameter_prompt": "Specify sense type that counters illusions for that sense",
+      "parameter_type": "select_sense_basic",
+      "description": "A chosen sense type ignores Illusion effects, automatically succeeding on resistance checks to disbelieve illusions targeting that sense. Cost 2 PP.",
       "page_ref": "DHH p.126"
     },
     {
@@ -144,11 +146,11 @@
       "name": "Danger Sense",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Special"],
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense type for Danger Sense (e.g., Mental, Auditory, general)",
-      "parameter_type": "select_sense_type_category_or_general",
-      "description": "Perception check (DC 10) to avoid surprise. Choose sense type.",
+      "parameter_prompt": "Specify sense type for Danger Sense (e.g., Mental, Auditory, general intuition)",
+      "parameter_type": "text",
+      "description": "Gain a Perception check (DC 10, or opposed by Stealth) to avoid surprise, even if unaware of the source. Choose the sense type providing the warning. Cost 1 PP.",
       "page_ref": "DHH p.126"
     },
     {
@@ -156,8 +158,8 @@
       "name": "Darkvision",
       "cost": 2,
       "ranked": false,
-      "senseTypeAffected": ["Visual"],
-      "description": "See in complete darkness as if it were daylight.",
+      "sense_type_group": "Visual Senses",
+      "description": "See in complete darkness (no light at all) as if it were daylight. Does not penetrate magical darkness unless specified. Cost 2 PP.",
       "page_ref": "DHH p.126"
     },
     {
@@ -165,8 +167,8 @@
       "name": "Direction Sense",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Special"], // Often mental or general
-      "description": "Always know direction (e.g., North).",
+      "sense_type_group": "Special Senses",
+      "description": "Always know direction (e.g., North, up/down in zero-G). Cost 1 PP.",
       "page_ref": "DHH p.126"
     },
     {
@@ -174,22 +176,21 @@
       "name": "Distance Sense",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Special"],
-      "description": "Accurately judge distances.",
+      "sense_type_group": "Special Senses",
+      "description": "Accurately judge distances without measurement. Cost 1 PP.",
       "page_ref": "DHH p.126"
     },
     {
       "id": "sense_extended",
       "name": "Extended Sense",
-      "cost": 1, // Cost 1 PP per rank of Extended
+      "cost": 1, 
       "ranked": true,
-      "maxRanks": 10, // Example practical limit
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true,
+      "maxRanks": 10, 
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense to extend (e.g., Hearing, Vision)",
-      "parameter_type": "select_specific_sense",
-      "description": "Increases range of a sense. Each rank extends range by a factor of 10 (reduces distance penalty by 1).",
+      "parameter_prompt": "Specify sense to extend (e.g., Hearing, Vision, Smell)",
+      "parameter_type": "select_sense_basic",
+      "description": "Increases range of a sense. Each rank extends normal range by a factor of 10 (reduces distance penalty on Perception checks by 1 per rank). Cost 1 PP per rank of Extended.",
       "page_ref": "DHH p.126"
     },
     {
@@ -197,8 +198,8 @@
       "name": "Infravision",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Visual"],
-      "description": "See in darkness by detecting heat patterns.",
+      "sense_type_group": "Visual Senses",
+      "description": "See in darkness by detecting heat patterns. Does not work in extreme cold or against cold-bodied creatures. Cost 1 PP.",
       "page_ref": "DHH p.126"
     },
     {
@@ -206,55 +207,79 @@
       "name": "Low-Light Vision",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Visual"],
-      "description": "Ignore circumstance penalties for dim light.",
+      "sense_type_group": "Visual Senses",
+      "description": "Ignore circumstance penalties for dim light (see as if normal light). Cost 1 PP.",
       "page_ref": "DHH p.127"
     },
     {
       "id": "sense_microscopic_vision",
       "name": "Microscopic Vision",
-      "cost": 1, // Cost 1 PP per rank of Microscopic Vision
+      "cost": 1, 
       "ranked": true,
-      "maxRanks": 4, // Common ranks detailed in DHH
-      "senseTypeAffected": ["Visual"],
-      "description": "See tiny objects. Each rank reduces size penalty by 1 (x10 magnification). Rank 1: dust specks, Rank 4: cellular level.",
+      "maxRanks": 4, 
+      "sense_type_group": "Visual Senses",
+      "description": "See tiny objects. Each rank reduces size penalty by 1 (approx. x10 magnification). Rank 1: dust specks, Rank 2: microbes, Rank 3: DNA strands, Rank 4: cellular level details. Cost 1 PP per rank.",
       "page_ref": "DHH p.127"
     },
     {
-      "id": "sense_penetrates_concealment",
-      "name": "Penetrates Concealment",
-      "cost": 2, // Base for specific material like cloth/wood. Can be ranked or higher flat for other types.
-      "ranked": true, // If taking the "1 PP per rank of material Toughness" option
-      "maxRanks": 20, // For ranked option
-      "senseTypeAffected": ["Visual"], // Usually visual, could be others
+      "id": "sense_penetrates_concealment_standard",
+      "name": "Penetrates Concealment (Standard Materials)",
+      "cost": 2,
+      "ranked": false,
+      "sense_type_group": "Visual Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Type of concealment penetrated (e.g., 'Cloth/Wood (2PP)', 'Stone/Metal (4PP)', or 'Material Toughness Ranks')",
-      "parameter_type": "select_penetration_type_or_rank",
-      "description": "See through solid objects. Cost varies: 2 PP (cloth/wood), 4 PP (stone/metal), or 1 PP per rank of material Toughness vision penetrates.",
+      "parameter_prompt": "Sense that penetrates (usually Vision)",
+      "parameter_type": "select_sense_basic",
+      "description": "Chosen sense sees through common, fairly transparent materials like cloth, wood, thin plastics (approx. Toughness 5 or less). Cost 2 PP.",
+      "page_ref": "DHH p.127"
+    },
+    {
+      "id": "sense_penetrates_concealment_dense",
+      "name": "Penetrates Concealment (Dense Materials)",
+      "cost": 4,
+      "ranked": false,
+      "sense_type_group": "Visual Senses",
+       "parameter_needed": true,
+      "parameter_prompt": "Sense that penetrates (usually Vision)",
+      "parameter_type": "select_sense_basic",
+      "description": "Chosen sense sees through denser materials like stone, metal, most walls (approx. Toughness 10 or less). Cost 4 PP.",
+      "page_ref": "DHH p.127"
+    },
+    {
+      "id": "sense_penetrates_concealment_ranked",
+      "name": "Penetrates Concealment (Ranked by Toughness)",
+      "cost": 1,
+      "ranked": true,
+      "maxRanks": 20,
+      "sense_type_group": "Visual Senses",
+      "parameter_needed": true,
+      "parameter_prompt": "Sense that penetrates (usually Vision). Each rank penetrates material of that Toughness.",
+      "parameter_type": "select_sense_basic",
+      "description": "Chosen sense sees through materials based on rank. Each rank allows penetration of material with that Toughness value. Cost 1 PP per rank.",
       "page_ref": "DHH p.127"
     },
     {
       "id": "sense_postcognition",
       "name": "Postcognition",
-      "cost": 2, // 2 PP for standard, 4 PP if Limited to Uncontrolled Remote Sensing
+      "cost": 2, 
       "ranked": false,
-      "senseTypeAffected": ["Special"], // Often Mental or Psychic
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Type (Standard 2PP, or Uncontrolled Flaw -4PP on Remote Sensing like effect for 4PP total)",
-      "parameter_type": "text",
-      "description": "Perceive past events related to an area or object. Standard (2PP) or as Flawed Remote Sensing (4PP).",
+      "parameter_prompt": "Is this Limited to Uncontrolled? (Standard is 2PP. If Flawed as Uncontrolled Remote Sensing, total cost is 4PP for the sense itself).",
+      "parameter_type": "text_long",
+      "description": "Perceive past events related to an area or object (Perception check, DC set by GM based on time elapsed/obscurity). Standard cost 2 PP. A Flawed (Uncontrolled) version like Remote Sensing can be 4 PP.",
       "page_ref": "DHH p.127"
     },
     {
       "id": "sense_precognition",
       "name": "Precognition",
-      "cost": 4, // 4 PP for standard, 8 PP if Limited to Uncontrolled Remote Sensing
+      "cost": 4, 
       "ranked": false,
-      "senseTypeAffected": ["Special"], // Often Mental or Psychic
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "Type (Standard 4PP, or Uncontrolled Flaw -4PP on Remote Sensing like effect for 8PP total)",
-      "parameter_type": "text",
-      "description": "Perceive future events. Standard (4PP) or as Flawed Remote Sensing (8PP). Highly GM dependent.",
+      "parameter_prompt": "Is this Limited to Uncontrolled? (Standard is 4PP. If Flawed as Uncontrolled Remote Sensing, total cost is 8PP for the sense itself).",
+      "parameter_type": "text_long",
+      "description": "Perceive future events, often vaguely or in response to specific triggers (Perception check, DC set by GM). Highly GM dependent. Standard cost 4 PP. A Flawed (Uncontrolled) version like Remote Sensing can be 8 PP.",
       "page_ref": "DHH p.127"
     },
     {
@@ -262,22 +287,20 @@
       "name": "Radio",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Radio"],
-      "description": "Hear radio frequencies as if they were normal sound.",
+      "sense_type_group": "Auditory Senses",
+      "description": "Perceive radio frequencies as if they were normal sound. Can be Extended. Cost 1 PP.",
       "page_ref": "DHH p.127"
     },
     {
       "id": "sense_radius",
       "name": "Radius (Sense)",
-      "cost": 1, // 1 PP per sense it applies to
-      "ranked": true, // Can apply to multiple senses
-      "maxRanks": 5, // For each of the 5 general sense types
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true,
+      "cost": 1, 
+      "ranked": false, // Take once per sense it applies to
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense to make Radius (e.g., Vision, Hearing)",
-      "parameter_type": "select_specific_sense_for_radius",
-      "description": "Perceive with a sense in all directions around you (360 degrees). Cost 1 PP for each sense it applies to.",
+      "parameter_prompt": "Specify sense to make Radius (e.g., Vision, Hearing, Detect X)",
+      "parameter_type": "select_sense_basic_or_detect",
+      "description": "Perceive with a chosen sense in all directions around you (360 degrees). Cost 1 PP for each sense it applies to.",
       "page_ref": "DHH p.127"
     },
     {
@@ -285,35 +308,41 @@
       "name": "Ranged (Touch)",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Tactile"],
-      "requires_base_sense": true,
-      "description": "Extend tactile sense to perception range (usually sight).",
+      "sense_type_group": "Sense Modifications",
+      "applies_to_sense_type": "Tactile",
+      "description": "Extend tactile sense to perception range (usually matching visual range). Allows 'touching' things at a distance. Cost 1 PP.",
       "page_ref": "DHH p.127"
     },
     {
-      "id": "sense_rapid_sense",
-      "name": "Rapid Sense",
-      "cost": 1, // Cost 1 PP per rank of Rapid, per sense type
+      "id": "sense_rapid_vision",
+      "name": "Rapid Vision",
+      "cost": 1, 
       "ranked": true,
-      "maxRanks": 5, // Example
-      "senseTypeAffected": ["Specific"],
-      "requires_base_sense": true,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify sense for Rapid processing & #ranks (e.g., Vision Rank 2 for x100 speed)",
-      "parameter_type": "select_sense_and_rank_for_rapid",
-      "description": "Process sensory information faster. Each rank reduces time penalty by 1 (x10 speed). Cost 1 PP per rank of Rapid, per sense type.",
+      "maxRanks": 3, // Max -10 time penalty reduction (x1,000,000,000 speed)
+      "sense_type_group": "Visual Senses",
+      "description": "Process visual information faster. Each rank reduces time penalty for observing fast events or large amounts of visual data by 1 (x10 speed). Cost 1 PP per rank.",
       "page_ref": "DHH p.127"
     },
     {
-      "id": "sense_detect_descriptor",
+      "id": "sense_rapid_hearing",
+      "name": "Rapid Hearing",
+      "cost": 1, 
+      "ranked": true,
+      "maxRanks": 3,
+      "sense_type_group": "Auditory Senses",
+      "description": "Process auditory information faster. Each rank reduces time penalty by 1. Cost 1 PP per rank.",
+      "page_ref": "DHH p.127"
+    },
+    {
+      "id": "sense_detect_descriptor_base",
       "name": "Detect (Descriptor)",
-      "cost": 2, // For common descriptor, 1 PP for uncommon/rare
-      "ranked": false,
-      "senseTypeAffected": ["Special"],
+      "cost": 1, // Base for uncommon/limited. Common/broad is 2 PP.
+      "ranked": false, // This is the base Detect. Acute, Ranged etc. are separate sense abilities applied to it.
+      "sense_type_group": "Special Senses",
       "parameter_needed": true,
-      "parameter_prompt": "What is detected and its commonality? (e.g., 'Minds (Common, 2PP)', 'Undead (Uncommon, 1PP)')",
-      "parameter_type": "text_long_detect",
-      "description": "Sense specific things as a distinct sense. 2 PP for common, 1 PP for uncommon/rare. Can be Acute, Ranged, etc. with other Senses effects.",
+      "parameter_prompt": "What is detected and its commonality? (e.g., 'Minds (Common, 2PP)', 'Undead (Uncommon, 1PP)', 'Specific Person (Rare, 1PP)')",
+      "parameter_type": "text_long_with_cost_note", // UI should guide user on 1 vs 2 PP base cost
+      "description": "Sense specific things as a distinct sense. Cost 2 PP for a common, broad type; 1 PP for an uncommon or rare, limited type. This sense can then be modified by Acute, Analytical, Ranged, Radius, Tracking as separate sense abilities.",
       "page_ref": "DHH p.126 (under 'Senses' description)"
     },
     {
@@ -321,22 +350,21 @@
       "name": "Time Sense",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Special"],
-      "description": "Always know the exact time.",
+      "sense_type_group": "Special Senses",
+      "description": "Always know the exact time, down to the second. Cost 1 PP.",
       "page_ref": "DHH p.127"
     },
     {
-      "id": "sense_tracking",
-      "name": "Tracking",
-      "cost": 1, // Cost 1 PP per rank of Tracking
+      "id": "sense_tracking_sense",
+      "name": "Tracking (Sense Mod)",
+      "cost": 1, 
       "ranked": true,
-      "maxRanks": 5, // Example
-      "senseTypeAffected": ["Specific"], // Usually Olfactory or Visual
-      "requires_base_sense": true,
+      "maxRanks": 5, 
+      "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
-      "parameter_prompt": "Sense used for Tracking (e.g., Olfactory, Visual)",
-      "parameter_type": "select_specific_sense",
-      "description": "Follow trails. Each rank provides +1 circumstance bonus to Perception for tracking, or negates -1 speed penalty. Cost 1 PP per rank.",
+      "parameter_prompt": "Sense used for Tracking (e.g., Olfactory, Visual, Detect X)",
+      "parameter_type": "select_sense_basic_or_detect",
+      "description": "Follow trails using a chosen sense. Each rank provides +1 circumstance bonus to Perception for tracking with that sense, OR negates -1 speed penalty for tracking at full speed, OR combines these. Cost 1 PP per rank.",
       "page_ref": "DHH p.127"
     },
     {
@@ -344,8 +372,8 @@
       "name": "Ultra-Hearing",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Auditory"],
-      "description": "Hear very high and low frequency sounds.",
+      "sense_type_group": "Auditory Senses",
+      "description": "Hear very high and low frequency sounds (ultrasonic, infrasonic). Cost 1 PP.",
       "page_ref": "DHH p.127"
     },
     {
@@ -353,8 +381,9 @@
       "name": "Ultravision",
       "cost": 1,
       "ranked": false,
-      "senseTypeAffected": ["Visual"],
-      "description": "See into ultraviolet spectrum.",
+      "sense_type_group": "Visual Senses",
+      "description": "See into the ultraviolet spectrum. Cost 1 PP.",
       "page_ref": "DHH p.127"
     }
   ]
+  

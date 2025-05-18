@@ -1,5 +1,4 @@
 [
-    // --- EXTRAS (DHH p.147-157) ---
     {
       "id": "mod_extra_accurate",
       "name": "Accurate",
@@ -7,9 +6,10 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "powerRank", 
-      "description": "Increases attack check bonus by +2 per rank of this modifier. Max ranks cannot give bonus greater than power rank.",
-      "page_ref": "DHH p.147"
+      "maxRanks_source": "powerRank", 
+      "description": "Increases attack check bonus by +2 per rank of this modifier. Max ranks of this modifier cannot provide a bonus greater than the power's rank.",
+      "page_ref": "DHH p.147",
+      "appliesToEffectType": ["Attack"]
     },
     {
       "id": "mod_extra_affects_corporeal",
@@ -18,8 +18,8 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "powerRank",
-      "appliesToEffectType": ["General"],
+      "maxRanks_source": "powerRank", 
+      "appliesToEffect": ["eff_insubstantial"], // Primarily for offensive use of Insubstantial
       "description": "Allows an effect that normally only affects insubstantial targets (like Insubstantial itself used offensively) to affect corporeal targets. Effect rank against corporeal targets equals rank of this extra.",
       "page_ref": "DHH p.148"
     },
@@ -28,121 +28,249 @@
       "name": "Affects Insubstantial",
       "type": "Extra",
       "costType": "flat",
-      "flatCostChange": 1, // For half effect
+      "flatCostChange": 1, 
       "parameter_needed": true,
-      "parameter_prompt": "Effectiveness against Insubstantial (Half or Full)",
-      "parameter_type": "select",
+      "parameter_prompt": "Effectiveness against Insubstantial",
+      "parameter_type": "select_from_options",
       "parameter_options": [
-          {"value": "half", "cost_adjust": 0, "label": "Half Effect (Total +1 flat PP)"},
-          {"value": "full", "cost_adjust": 1, "label": "Full Effect (Total +2 flat PP)"}
+          {"value": "half", "label": "Half Effect (+1 flat PP total)", "cost_adjust_flat": 0},
+          {"value": "full", "label": "Full Effect (+2 flat PP total)", "cost_adjust_flat": 1}
       ],
-      "description": "Effect works on insubstantial beings. +1 flat point for half effect, +2 flat points for full effect.",
+      "description": "Effect works on insubstantial beings. Costs +1 flat point for half effect against insubstantial targets, or +2 flat points for full effect.",
       "page_ref": "DHH p.148"
     },
     {
-      "id": "mod_extra_affects_objects",
-      "name": "Affects Objects",
+      "id": "mod_extra_affects_objects_also",
+      "name": "Affects Objects (Also)",
       "type": "Extra",
-      "costChangePerRank": 1, // +1 per rank to affect objects and creatures
-      "parameter_needed": true,
-      "parameter_prompt": "Does this affect ONLY objects?",
-      "parameter_type": "boolean_checkbox",
-      "cost_logic_note": "If 'Affects Objects Only', cost becomes +0 per rank. This extra normally makes Fortitude resisted effects work on objects.",
-      "description": "Allows a Fortitude resisted effect to work on inanimate objects. Costs +1 per rank if it affects both creatures and objects, or +0 per rank if it *only* affects objects (effectively taking this and a Limited flaw).",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToResistance": ["Fortitude"], // Typically for Fortitude-resisted effects
+      "description": "Allows a Fortitude resisted effect that normally only affects creatures to also affect inanimate objects. +1 PP/rank.",
       "page_ref": "DHH p.148"
     },
     {
-      "id": "mod_extra_affects_others",
-      "name": "Affects Others",
+      "id": "mod_extra_affects_objects_only",
+      "name": "Affects Objects (Only)",
       "type": "Extra",
-      "costChangePerRank": 1, // +1 per rank to affect others and self
-      "parameter_needed": true,
-      "parameter_prompt": "Does this affect ONLY others?",
-      "parameter_type": "boolean_checkbox",
-      "cost_logic_note": "If 'Affects Others Only', cost becomes +0 per rank.",
-      "description": "Allows a Personal range effect to be used on others by touch. Costs +1 per rank if it affects self AND others, or +0 per rank if it *only* affects others.",
+      "costType": "perRank",
+      "costChangePerRank": 0, // Net +0 after implicit Limited flaw
+      "appliesToResistance": ["Fortitude"],
+      "description": "Allows a Fortitude resisted effect to affect *only* inanimate objects, not creatures. This is effectively a +0 cost modifier (Affects Objects +1/rank combined with Limited to Objects -1/rank).",
       "page_ref": "DHH p.148"
     },
     {
-      "id": "mod_extra_alternate_effect",
-      "name": "Alternate Effect (AE)",
+      "id": "mod_extra_affects_others_also",
+      "name": "Affects Others (Also)",
       "type": "Extra",
-      "costType": "special", // Handled by array costing logic
-      "flatCostChange": 1, // Each AE slot costs 1 PP (or 2 PP if Dynamic)
-      "description": "Allows a power to have one or more alternative effects, chosen when the power is used. Only one effect in an array can be active at a time (unless Dynamic). Cost is 1 PP per AE (2 PP if Dynamic AE).",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Touch", // Implies it now needs a touch attack roll if offensive
+      "description": "Allows a Personal range effect to be used on others by touch, while still usable on self. +1 PP/rank.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_others_only",
+      "name": "Affects Others (Only)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 0, // Net +0 after implicit Limited flaw
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Touch",
+      "description": "Allows a Personal range effect to be used *only* on others by touch, not on self. +0 PP/rank.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_alternate_effect_static",
+      "name": "Alternate Effect (Static)",
+      "type": "Extra",
+      "costType": "special_alternate_effect",
+      "ae_type": "static",
+      "flatCostChange": 1, // Cost per AE slot in a static array
+      "description": "Allows a power to have one or more alternative effects, chosen when the power is used. Only one effect in a static array can be active at a time. Each AE costs 1 PP.",
+      "page_ref": "DHH p.136, p.148"
+    },
+    {
+      "id": "mod_extra_alternate_effect_dynamic",
+      "name": "Alternate Effect (Dynamic)",
+      "type": "Extra",
+      "costType": "special_alternate_effect",
+      "ae_type": "dynamic",
+      "flatCostChange": 2, // Cost per DAE slot
+      "description": "Allows a power to have dynamic alternate effects. Points from the base power's cost can be allocated among any of its DAEs. Each DAE slot costs 2 PP.",
       "page_ref": "DHH p.136, p.148"
     },
     {
       "id": "mod_extra_alternate_resistance",
       "name": "Alternate Resistance",
       "type": "Extra",
-      "costChangePerRank": 1, // Usually +1 per rank if increasing difficulty (e.g., Toughness to Will)
-                              // +0 per rank if roughly equivalent or easier (e.g., Fortitude to Dodge)
+      "costType": "perRank", // +0 or +1 per rank
       "parameter_needed": true,
-      "parameter_prompt": "New Resistance (e.g., Will, Dodge, custom DC). Specify if cost changes.",
-      "parameter_type": "text_long_alt_res", // UI needs to clarify cost implication
-      "description": "Effect uses a different resistance check. +1 cost per rank if new save is harder, +0 if equivalent or easier (GM's call).",
+      "parameter_prompt": "New Resistance Type (e.g., Will, Dodge, Fortitude, Perception DC)",
+      "parameter_type": "select_defense_or_dc_type", // Custom type for UI
+      "parameter_options_source": "defenses", // UI can populate from defense list
+      "cost_logic_note": "+1 cost per rank if new save is significantly harder (e.g., Toughness to Will for Damage), +0 if equivalent or easier (e.g., Fortitude to Dodge). GM's call. UI should allow user to specify +0 or +1/rank.",
+      "description": "Effect uses a different resistance check than its default. Cost change (+0 or +1 per rank) depends on the difficulty of the new resistance compared to the original.",
       "page_ref": "DHH p.148"
     },
     {
-      "id": "mod_extra_area", // This is a category, specific Area types below
-      "name": "Area",
+      "id": "mod_extra_area_burst",
+      "name": "Area (Burst)",
       "type": "Extra",
+      "costType": "perRank",
       "costChangePerRank": 1,
-      "ranked": true, // Rank of Area determines size
-      "maxRanks": "powerRank", // Area rank often doesn't exceed power rank
-      "parameter_needed": true,
-      "parameter_prompt": "Select Area Type and Details",
-      "parameter_type": "select_area_type_details", // Complex UI needed
-      "description": "Effect works on an area rather than a specific target. +1 PP/rank. Various shapes.",
-      "page_ref": "DHH p.148"
+      "ranked": true, 
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Burst)", // Indicates it's an Area attack
+      "description": "Effect targets a sphere (burst) with radius based on Area rank (Distance Rank of Area Rank - 2, e.g., Area Rank 0 = 5ft radius). No attack check needed; targets get Dodge check (DC 10 + Area Rank) for half effect. Max Effect Rank = PL.",
+      "page_ref": "DHH p.149"
     },
-    // Specific Area Types (could be sub-options for "Area" in UI)
-    { "id": "mod_extra_area_burst", "name": "Area (Burst)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Sphere, radius Rank x 5 feet (Distance Rank -2 + Area Rank).", "page_ref": "DHH p.149"},
-    { "id": "mod_extra_area_cloud", "name": "Area (Cloud)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Sphere, lingers for 1 round after initial. Radius Rank x 5 feet.", "page_ref": "DHH p.149"},
-    { "id": "mod_extra_area_cone", "name": "Area (Cone)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Cone shape, length & base Rank x 15 feet (Distance Rank + Area Rank).", "page_ref": "DHH p.149"},
-    { "id": "mod_extra_area_cylinder", "name": "Area (Cylinder)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Cylinder, radius Rank x 5 feet, height Rank x 15 feet.", "page_ref": "DHH p.149"},
-    { "id": "mod_extra_area_line", "name": "Area (Line)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Line shape, length Rank x 15 feet, width 5 feet.", "page_ref": "DHH p.149"},
     {
-      "id": "mod_extra_area_perception", "name": "Area (Perception)", "type": "Extra", 
-      "costChangePerRank": 1, // Base cost for Perception Area
-      "parameter_needed": true, "parameter_prompt": "Perception Sense Type (Visual, Auditory, etc.)", "parameter_type": "select_sense_type",
-      "description": "Affects targets able to perceive origin point with chosen sense. No attack check. Max effect rank = PL.", "page_ref": "DHH p.149"
-    },
-    { "id": "mod_extra_area_shapeable", "name": "Area (Shapeable)", "type": "Extra", "costChangePerRank": 1, "ranked": true, "description": "Shapeable volume, (Rank x 30 cubic feet).", "page_ref": "DHH p.149"},
-    
-    {
-      "id": "mod_extra_attack_modifier", 
-      "name": "Attack (Modifier)", // To distinguish from Attack "Action"
+      "id": "mod_extra_area_cloud",
+      "name": "Area (Cloud)",
       "type": "Extra",
-      "costChangePerRank": 0, // Makes a Personal effect usable as an attack of its original range
-      "description": "Allows a normally Personal effect to be used on others as an attack (Close by default, or Ranged if original effect was Perception and new one is Ranged, or if combined with Increased Range). +0 PP/rank.",
+      "costType": "perRank",
+      "costChangePerRank": 1, // Base cost. Often +2/rank total because it lingers (treat as Burst + 1 rank of Feature: Lingers)
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cloud)",
+      "description": "Sphere, like Burst, but the effect lingers for 1 round after initial use per rank of this type of Area. Radius Rank x 5 feet. (DHH: costs +1/rank over Burst for lingering). Effectively +2/rank total for Cloud.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_cone",
+      "name": "Area (Cone)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cone)",
+      "description": "Cone shape, length & base width based on Area rank (Distance Rank of Area Rank, e.g., Area Rank 0 = 15ft cone). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_cylinder",
+      "name": "Area (Cylinder)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cylinder)",
+      "description": "Cylinder shape, radius based on Area Rank -2 (like Burst), height based on Area Rank (like Cone). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_line",
+      "name": "Area (Line)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Line)",
+      "description": "Line shape, length based on Area Rank, fixed width (typically 5 feet). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_perception_attack",
+      "name": "Area (Perception - Attack)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1, // If the power is already Ranged. If Close to Perception Area, +2/rank.
+      "parameter_needed": true,
+      "parameter_prompt": "Perception Sense Type for Area (e.g., Visual, Auditory)",
+      "parameter_type": "select_sense_type",
+      "changesRangeTo": "Area (Perception)",
+      "description": "Attack targets all subjects able to perceive the target of the attack (not the user) with the chosen sense type. No attack check. Max effect rank = PL. Cost +1/rank if power is already Ranged, or +2/rank if power was Close.",
+      "page_ref": "DHH p.149"
+    },
+     {
+      "id": "mod_extra_area_perception_general",
+      "name": "Area (Perception - General Effect)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1, 
+      "parameter_needed": true,
+      "parameter_prompt": "Perception Sense Type for Area (e.g., Visual, Auditory for non-attack effect)",
+      "parameter_type": "select_sense_type",
+      "changesRangeTo": "Area (Perception)",
+      "description": "Non-attack effect targets all subjects able to perceive its origin point with the chosen sense type. Max effect rank = PL. Cost +1/rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_shapeable",
+      "name": "Area (Shapeable)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Shapeable)",
+      "description": "Effect fills a volume that can be shaped by the user, based on Area rank (Volume Rank of Area Rank + 2, e.g., Area Rank 0 = 30 cubic feet). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_attack_action", 
+      "name": "Attack (Action Change)", 
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 0, 
+      "appliesToRange": ["Personal"], // Applied to a Personal effect
+      "changesActionFromPersonalToAttack": true, // Special flag for engine
+      "description": "Allows a normally Personal effect to be used on others as an attack (Close by default). +0 PP/rank, as it usually also gains a resistance check. If the original Personal effect was Perception range (like Mind Reading), this can make it a Ranged or Perception attack.",
       "page_ref": "DHH p.150"
     },
     {
       "id": "mod_extra_contagious",
       "name": "Contagious",
       "type": "Extra",
+      "costType": "perRank",
       "costChangePerRank": 1,
-      "appliesToEffectType": ["Attack"], // Usually on Afflictions or Damage with lingering effects
-      "description": "Effect can spread to others who come into contact with the original target. +1 PP/rank.",
+      "appliesToEffectType": ["Attack"], 
+      "appliesToDuration": ["Instant"], // Typically for effects whose results linger
+      "description": "Effect can spread to others who come into contact with the original target (or its lingering effect). Target resists Contagious effect with same defense as original. +1 PP/rank.",
       "page_ref": "DHH p.150"
     },
     {
-      "id": "mod_extra_dimensional",
-      "name": "Dimensional",
+      "id": "mod_extra_dimensional_travel",
+      "name": "Dimensional (Travel)",
       "type": "Extra",
       "costType": "flatPerRankOfModifier",
-      "flatCost": 1, // 1 PP per rank of Dimensional (1 rank for adjacent, 2 for group, 3 for any)
+      "flatCost": 1, 
       "ranked": true,
       "maxRanks": 3,
-      "parameter_needed": true, "parameter_prompt": "Scope of Dimensional Travel", "parameter_type": "select",
+      "parameter_needed": true, 
+      "parameter_prompt": "Scope of Dimensional Travel", 
+      "parameter_type": "select_from_options",
       "parameter_options": [
-          {"value": 1, "label": "Single Other Dimension"},
-          {"value": 2, "label": "Group of Related Dimensions"},
-          {"value": 3, "label": "Any Dimension"}
+          {"value": 1, "label": "Single Other Dimension (1 PP total)"},
+          {"value": 2, "label": "Group of Related Dimensions (2 PP total)"},
+          {"value": 3, "label": "Any Dimension (3 PP total)"}
       ],
-      "description": "Effect can affect targets in or travel to other dimensions. Cost 1-3 flat PP based on scope.",
+      "appliesToEffect": ["eff_movement"], // Specifically for Movement (Teleport) or custom travel powers
+      "description": "Allows a movement effect (like Teleport) to travel to other dimensions. Cost 1-3 flat PP based on scope (1 rank = one dimension, 2 ranks = group, 3 ranks = any).",
+      "page_ref": "DHH p.150"
+    },
+    {
+      "id": "mod_extra_dimensional_affect",
+      "name": "Dimensional (Affect)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1, 
+      "ranked": true,
+      "maxRanks": 3,
+       "parameter_needed": true, 
+      "parameter_prompt": "Scope of Dimensional Effect", 
+      "parameter_type": "select_from_options",
+      "parameter_options": [
+          {"value": 1, "label": "Affect Single Other Dimension (1 PP total)"},
+          {"value": 2, "label": "Affect Group of Related Dimensions (2 PP total)"},
+          {"value": 3, "label": "Affect Any Dimension (3 PP total)"}
+      ],
+      "description": "Allows an effect to affect targets in other dimensions. Cost 1-3 flat PP based on scope (1 rank = one dimension, 2 ranks = group, 3 ranks = any).",
       "page_ref": "DHH p.150"
     },
     {
@@ -152,23 +280,23 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "unlimited",
+      "maxRanks": 10, // Practical limit
       "appliesToRange": ["Ranged"],
-      "description": "Doubles a ranged effect's distances per rank of this modifier. 1 flat PP per rank.",
+      "description": "Doubles a ranged effect's distances per rank of this modifier (each rank reduces range penalty by 1). 1 flat PP per rank of Extended Range.",
       "page_ref": "DHH p.151"
     },
     {
-      "id": "mod_extra_feature",
-      "name": "Feature",
+      "id": "mod_extra_feature_power", // Renamed to distinguish from eff_feature
+      "name": "Feature (Power)",
       "type": "Extra",
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "unlimited",
+      "maxRanks": 10, // GM discretion
       "parameter_needed": true,
-      "parameter_prompt": "Describe the minor capability or benefit",
+      "parameter_prompt": "Describe the minor capability or benefit this power provides",
       "parameter_type": "text_long",
-      "description": "Adds a minor capability or benefit to an effect. 1 flat PP per rank (per feature).",
+      "description": "Adds a minor capability or benefit to an effect, not worth a full power effect on its own. 1 flat PP per rank (per feature).",
       "page_ref": "DHH p.151"
     },
     {
@@ -178,29 +306,54 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": 5, // Example practical limit
+      "maxRanks": 5, 
       "appliesToEffectType": ["Attack"],
-      "description": "Attack effect gains additional chances to hit if it misses (1 extra attempt per rank of Homing). 1 flat PP per rank.",
+      "description": "Attack effect gains additional chances to hit if it misses (1 extra attack attempt per rank of Homing, in subsequent rounds). 1 flat PP per rank of Homing.",
       "page_ref": "DHH p.152"
     },
     {
       "id": "mod_extra_impervious",
       "name": "Impervious",
       "type": "Extra",
+      "costType": "perRank", // Cost is +1 per rank of Impervious applied
       "costChangePerRank": 1,
-      "appliesToEffect": ["eff_protection", "eff_create"], // Usually on Protection or Toughness of Create
-      "ranked": true, // Ranks of Impervious itself
-      "maxRanks": "powerRank", // Cannot exceed rank of Protection/Toughness it applies to
-      "description": "Resistance (usually Toughness) ignores effects with rank half Impervious rank or less. +1 PP/rank of Impervious.",
+      "appliesToTrait": ["Toughness"], // Usually on Protection, or Toughness of Create object
+      "ranked": true, 
+      "maxRanks_source": "powerRankOfBaseEffect", // Cannot exceed rank of Protection/Toughness it applies to
+      "description": "Resistance (usually Toughness) ignores effects with rank half Impervious rank or less (rounded up). +1 PP per rank of Impervious applied.",
       "page_ref": "DHH p.152"
     },
     {
-      "id": "mod_extra_increased_duration", // This is a category
-      "name": "Increased Duration",
+      "id": "mod_extra_increased_duration_concentration",
+      "name": "Increased Duration (Concentration)",
       "type": "Extra",
-      "costChangePerRank": 1, // +1 per rank for each step up (e.g., Instant to Concentration, Sustained to Continuous)
-      "parameter_needed": true, "parameter_prompt": "Target Duration", "parameter_type": "select_duration_target",
-      "description": "Improves effect's duration (Instant -> Concentration, Concentration -> Sustained, Sustained -> Continuous). Each step typically +1 PP/rank.",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Instant"],
+      "changesDurationTo": "Concentration",
+      "description": "Changes an Instant duration effect to Concentration duration (+1 PP/rank). Requires a standard action each round to maintain.",
+      "page_ref": "DHH p.153"
+    },
+    {
+      "id": "mod_extra_increased_duration_sustained",
+      "name": "Increased Duration (Sustained)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Concentration"], 
+      "changesDurationTo": "Sustained",
+      "description": "Changes a Concentration duration effect to Sustained duration (+1 PP/rank). Requires a free action each round to maintain. (If from Instant, total +2 PP/rank).",
+      "page_ref": "DHH p.153"
+    },
+    {
+      "id": "mod_extra_increased_duration_continuous",
+      "name": "Increased Duration (Continuous)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Sustained"],
+      "changesDurationTo": "Continuous",
+      "description": "Changes a Sustained duration effect to Continuous duration (+1 PP/rank). Effect remains until turned off (free action) or countered, no action to maintain.",
       "page_ref": "DHH p.153"
     },
     {
@@ -210,17 +363,42 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "unlimited",
-      "description": "Effect can carry/affect more mass. Each rank increases mass rank by 1. 1 flat PP per rank.",
+      "maxRanks": 20, // Practical limit
+      "appliesToEffect": ["eff_move_object", "eff_teleport"], // Effects that move things
+      "description": "Effect can carry/affect more mass. Each rank of this modifier increases the mass rank the power can affect by 1 (see Measurements Table). 1 flat PP per rank of Increased Mass.",
       "page_ref": "DHH p.154"
     },
     {
-      "id": "mod_extra_increased_range", // This is a category
-      "name": "Increased Range",
+      "id": "mod_extra_increased_range_close_to_ranged",
+      "name": "Increased Range (Close to Ranged)",
       "type": "Extra",
-      "costChangePerRank": 1, // +1 per rank for each step up (e.g., Personal -> Close, Close -> Ranged, Ranged -> Perception)
-      "parameter_needed": true, "parameter_prompt": "Target Range", "parameter_type": "select_range_target",
-      "description": "Improves effect's range (Personal -> Close -> Ranged -> Perception). Each step +1 PP/rank.",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Close", "Touch"],
+      "changesRangeTo": "Ranged",
+      "description": "Changes a Close or Touch range effect to Ranged (+1 PP/rank).",
+      "page_ref": "DHH p.155"
+    },
+    {
+      "id": "mod_extra_increased_range_personal_to_close",
+      "name": "Increased Range (Personal to Close/Touch)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Close", // Or Touch, if more appropriate
+      "description": "Changes a Personal range effect to Close/Touch range (+1 PP/rank). This often overlaps with Affects Others.",
+      "page_ref": "DHH p.155, p.148"
+    },
+    {
+      "id": "mod_extra_increased_range_ranged_to_perception",
+      "name": "Increased Range (Ranged to Perception)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Ranged"],
+      "changesRangeTo": "Perception",
+      "description": "Changes a Ranged effect to Perception range (+1 PP/rank). No attack check needed.",
       "page_ref": "DHH p.155"
     },
     {
@@ -229,7 +407,8 @@
       "type": "Extra",
       "costType": "flat",
       "flatCostChange": 1,
-      "description": "Effect cannot be countered or removed by Healing or Regeneration (unless they have Persistent). +1 flat PP.",
+      "appliesToEffectType": ["Damage", "Affliction"], // Effects that Healing normally counters
+      "description": "Effect cannot be countered or removed by Healing or Regeneration (unless they have the Persistent extra). +1 flat PP.",
       "page_ref": "DHH p.155"
     },
     {
@@ -239,15 +418,18 @@
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": 4, // Different levels of indirectness
-      "parameter_needed": true, "parameter_prompt": "Type of Indirectness", "parameter_type": "select",
+      "maxRanks": 4, 
+      "parameter_needed": true, 
+      "parameter_prompt": "Type of Indirectness", 
+      "parameter_type": "select_from_options",
       "parameter_options": [
-          {"value":1, "label":"Fixed point other than self, not through cover"},
-          {"value":2, "label":"Any point other than self, not through cover"},
-          {"value":3, "label":"Fixed point, through cover"},
-          {"value":4, "label":"Any point, through cover"}
+          {"value": 1, "label": "Fixed point other than self, not through cover (1 PP total)"},
+          {"value": 2, "label": "Any point other than self, not through cover (2 PP total)"},
+          {"value": 3, "label": "Fixed point, through cover (3 PP total)"},
+          {"value": 4, "label": "Any point, through cover (4 PP total)"}
       ],
-      "description": "Effect can originate from a point other than the user. 1 flat PP per rank (1-4 ranks for increasing indirectness).",
+      "appliesToEffectType": ["Attack"],
+      "description": "Effect can originate from a point other than the user, bypassing cover depending on rank. 1 flat PP per rank (1-4 ranks for increasing indirectness and cover penetration).",
       "page_ref": "DHH p.155"
     },
     {
@@ -256,7 +438,7 @@
       "type": "Extra",
       "costType": "flat",
       "flatCostChange": 1,
-      "description": "Effect is a natural part of you and cannot be Nullified. +1 flat PP.",
+      "description": "Effect is a natural part of you and cannot be Nullified (though its effects might be countered by other powers). +1 flat PP.",
       "page_ref": "DHH p.155"
     },
     {
@@ -265,433 +447,568 @@
       "type": "Extra",
       "costType": "flat",
       "flatCostChange": 1,
-      "description": "Result of the effect is more difficult to detect (DC 20 Perception/Insight or appropriate skill). +1 flat PP.",
+      "description": "The result of the effect is more difficult to detect. Target needs a Perception or Insight check (DC 10 + effect rank) to realize they were affected or by what. +1 flat PP.",
       "page_ref": "DHH p.156"
     },
     {
-      "id": "mod_extra_linked",
-      "name": "Linked",
+      "id": "mod_extra_linked_effect", // Renamed from "Linked"
+      "name": "Linked Effect",
       "type": "Extra",
-      "costType": "flat",
-      "flatCostChange": 0, // The extra itself is free
+      "costType": "special_linked", // No direct cost for the modifier itself
+      "flatCostChange": 0, 
       "parameter_needed": true,
-      "parameter_prompt": "Select Power ID to Link with",
-      "parameter_type": "select_existing_power",
-      "description": "Two or more effects work together as one. Must have same range, activate with same action. Total cost is sum of effects.",
+      "parameter_prompt": "Select another Power effect to Link with this one",
+      "parameter_type": "select_power_for_link", // UI allows selecting another power from char's list
+      "description": "Two or more effects activate together as a single action. Both effects must have the same range. Total cost is the sum of the linked effects. This modifier is applied to one of the effects, and the linked power is specified.",
       "page_ref": "DHH p.156"
     },
     {
       "id": "mod_extra_multiattack",
       "name": "Multiattack",
       "type": "Extra",
+      "costType": "perRank",
       "costChangePerRank": 1,
       "appliesToEffectType": ["Attack"],
-      "description": "Effect can hit multiple targets with penalty, or a single target for increased effect on good hits. +1 PP/rank.",
+      "description": "Allows an attack effect to hit multiple targets with penalties, or a single target for increased effect on very successful hits. +1 PP/rank.",
       "page_ref": "DHH p.156"
     },
     {
-      "id": "mod_extra_penetrating",
-      "name": "Penetrating",
+      "id": "mod_extra_penetrating_damage", // Renamed for clarity
+      "name": "Penetrating (Damage)",
       "type": "Extra",
-      "costType": "flatPerRankOfModifier", // Or per rank of power depending on interpretation. DHH says "1 point per rank"
-                                          // which often means ranks of the *modifier* for these flat cost types.
-                                          // If it applies to power rank, it should be costChangePerRank.
-                                          // Let's model as per rank of modifier for consistency with Accurate.
+      "costType": "flatPerRankOfModifier",                                       
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "powerRank", // Ranks of Penetrating cannot exceed effect rank.
-      "description": "Effect overcomes Impervious Resistance. 1 rank of Penetrating ignores 1 rank of Impervious. 1 flat PP per rank of Penetrating.",
+      "maxRanks_source": "powerRank", 
+      "appliesToEffect": ["eff_damage"], // Specifically for Damage effects
+      "description": "Damage effect overcomes Impervious Resistance. Each rank of Penetrating overcomes 1 rank of Impervious. 1 flat PP per rank of Penetrating.",
       "page_ref": "DHH p.156"
     },
     {
-      "id": "mod_extra_perception_range_mod", // Specific modifier for "Increased Range: Perception"
-      "name": "Increased Range (Perception)",
+      "id": "mod_extra_precise_effect", // Renamed
+      "name": "Precise (Effect)",
       "type": "Extra",
-      "costChangePerRank": 1, // If changing from Ranged to Perception
-                             // If changing from Close to Perception directly, it's +2/rank
-      "changesRangeTo": "Perception",
-      "appliesToRange": ["Ranged"], // Or ["Close", "Ranged"] if +2 from Close
-      "description": "Changes effect's range to Perception. +1 PP/rank from Ranged, or +2 PP/rank from Close.",
+      "costType": "flat",
+      "flatCostChange": 1,
+      "description": "Effect can perform delicate and precise tasks it normally couldn't (e.g., Create making intricate objects, Move Object for fine manipulation). +1 flat PP.",
+      "page_ref": "DHH p.157"
+    },
+    {
+      "id": "mod_extra_reach_melee", // Renamed
+      "name": "Reach (Melee)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks": 10, // e.g., 50 ft reach
+      "appliesToRange": ["Close", "Touch"],
+      "description": "Extend a close or touch range effect's reach by 5 feet per rank of this modifier. 1 flat PP per rank of Reach.",
+      "page_ref": "DHH p.157"
+    },
+    {
+      "id": "mod_extra_accurate",
+      "name": "Accurate",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank", 
+      "description": "Increases attack check bonus by +2 per rank of this modifier. Max ranks of this modifier cannot provide a bonus greater than the power's rank.",
+      "page_ref": "DHH p.147",
+      "appliesToEffectType": ["Attack"]
+    },
+    {
+      "id": "mod_extra_affects_corporeal",
+      "name": "Affects Corporeal",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank", 
+      "appliesToEffect": ["eff_insubstantial"], // Primarily for offensive use of Insubstantial
+      "description": "Allows an effect that normally only affects insubstantial targets (like Insubstantial itself used offensively) to affect corporeal targets. Effect rank against corporeal targets equals rank of this extra.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_insubstantial",
+      "name": "Affects Insubstantial",
+      "type": "Extra",
+      "costType": "flat",
+      "flatCostChange": 1, 
+      "parameter_needed": true,
+      "parameter_prompt": "Effectiveness against Insubstantial",
+      "parameter_type": "select_from_options",
+      "parameter_options": [
+          {"value": "half", "label": "Half Effect (+1 flat PP total)", "cost_adjust_flat": 0},
+          {"value": "full", "label": "Full Effect (+2 flat PP total)", "cost_adjust_flat": 1}
+      ],
+      "description": "Effect works on insubstantial beings. Costs +1 flat point for half effect against insubstantial targets, or +2 flat points for full effect.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_objects_also",
+      "name": "Affects Objects (Also)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToResistance": ["Fortitude"], // Typically for Fortitude-resisted effects
+      "description": "Allows a Fortitude resisted effect that normally only affects creatures to also affect inanimate objects. +1 PP/rank.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_objects_only",
+      "name": "Affects Objects (Only)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 0, // Net +0 after implicit Limited flaw
+      "appliesToResistance": ["Fortitude"],
+      "description": "Allows a Fortitude resisted effect to affect *only* inanimate objects, not creatures. This is effectively a +0 cost modifier (Affects Objects +1/rank combined with Limited to Objects -1/rank).",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_others_also",
+      "name": "Affects Others (Also)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Touch", // Implies it now needs a touch attack roll if offensive
+      "description": "Allows a Personal range effect to be used on others by touch, while still usable on self. +1 PP/rank.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_affects_others_only",
+      "name": "Affects Others (Only)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 0, // Net +0 after implicit Limited flaw
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Touch",
+      "description": "Allows a Personal range effect to be used *only* on others by touch, not on self. +0 PP/rank.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_alternate_effect_static",
+      "name": "Alternate Effect (Static)",
+      "type": "Extra",
+      "costType": "special_alternate_effect",
+      "ae_type": "static",
+      "flatCostChange": 1, // Cost per AE slot in a static array
+      "description": "Allows a power to have one or more alternative effects, chosen when the power is used. Only one effect in a static array can be active at a time. Each AE costs 1 PP.",
+      "page_ref": "DHH p.136, p.148"
+    },
+    {
+      "id": "mod_extra_alternate_effect_dynamic",
+      "name": "Alternate Effect (Dynamic)",
+      "type": "Extra",
+      "costType": "special_alternate_effect",
+      "ae_type": "dynamic",
+      "flatCostChange": 2, // Cost per DAE slot
+      "description": "Allows a power to have dynamic alternate effects. Points from the base power's cost can be allocated among any of its DAEs. Each DAE slot costs 2 PP.",
+      "page_ref": "DHH p.136, p.148"
+    },
+    {
+      "id": "mod_extra_alternate_resistance",
+      "name": "Alternate Resistance",
+      "type": "Extra",
+      "costType": "perRank", // +0 or +1 per rank
+      "parameter_needed": true,
+      "parameter_prompt": "New Resistance Type (e.g., Will, Dodge, Fortitude, Perception DC)",
+      "parameter_type": "select_defense_or_dc_type", // Custom type for UI
+      "parameter_options_source": "defenses", // UI can populate from defense list
+      "cost_logic_note": "+1 cost per rank if new save is significantly harder (e.g., Toughness to Will for Damage), +0 if equivalent or easier (e.g., Fortitude to Dodge). GM's call. UI should allow user to specify +0 or +1/rank.",
+      "description": "Effect uses a different resistance check than its default. Cost change (+0 or +1 per rank) depends on the difficulty of the new resistance compared to the original.",
+      "page_ref": "DHH p.148"
+    },
+    {
+      "id": "mod_extra_area_burst",
+      "name": "Area (Burst)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true, 
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Burst)", // Indicates it's an Area attack
+      "description": "Effect targets a sphere (burst) with radius based on Area rank (Distance Rank of Area Rank - 2, e.g., Area Rank 0 = 5ft radius). No attack check needed; targets get Dodge check (DC 10 + Area Rank) for half effect. Max Effect Rank = PL.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_cloud",
+      "name": "Area (Cloud)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1, // Base cost. Often +2/rank total because it lingers (treat as Burst + 1 rank of Feature: Lingers)
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cloud)",
+      "description": "Sphere, like Burst, but the effect lingers for 1 round after initial use per rank of this type of Area. Radius Rank x 5 feet. (DHH: costs +1/rank over Burst for lingering). Effectively +2/rank total for Cloud.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_cone",
+      "name": "Area (Cone)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cone)",
+      "description": "Cone shape, length & base width based on Area rank (Distance Rank of Area Rank, e.g., Area Rank 0 = 15ft cone). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_cylinder",
+      "name": "Area (Cylinder)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Cylinder)",
+      "description": "Cylinder shape, radius based on Area Rank -2 (like Burst), height based on Area Rank (like Cone). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_line",
+      "name": "Area (Line)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Line)",
+      "description": "Line shape, length based on Area Rank, fixed width (typically 5 feet). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_perception_attack",
+      "name": "Area (Perception - Attack)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1, // If the power is already Ranged. If Close to Perception Area, +2/rank.
+      "parameter_needed": true,
+      "parameter_prompt": "Perception Sense Type for Area (e.g., Visual, Auditory)",
+      "parameter_type": "select_sense_type",
+      "changesRangeTo": "Area (Perception)",
+      "description": "Attack targets all subjects able to perceive the target of the attack (not the user) with the chosen sense type. No attack check. Max effect rank = PL. Cost +1/rank if power is already Ranged, or +2/rank if power was Close.",
+      "page_ref": "DHH p.149"
+    },
+     {
+      "id": "mod_extra_area_perception_general",
+      "name": "Area (Perception - General Effect)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1, 
+      "parameter_needed": true,
+      "parameter_prompt": "Perception Sense Type for Area (e.g., Visual, Auditory for non-attack effect)",
+      "parameter_type": "select_sense_type",
+      "changesRangeTo": "Area (Perception)",
+      "description": "Non-attack effect targets all subjects able to perceive its origin point with the chosen sense type. Max effect rank = PL. Cost +1/rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_area_shapeable",
+      "name": "Area (Shapeable)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank",
+      "changesRangeTo": "Area (Shapeable)",
+      "description": "Effect fills a volume that can be shaped by the user, based on Area rank (Volume Rank of Area Rank + 2, e.g., Area Rank 0 = 30 cubic feet). Dodge DC 10 + Area Rank.",
+      "page_ref": "DHH p.149"
+    },
+    {
+      "id": "mod_extra_attack_action", 
+      "name": "Attack (Action Change)", 
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 0, 
+      "appliesToRange": ["Personal"], // Applied to a Personal effect
+      "changesActionFromPersonalToAttack": true, // Special flag for engine
+      "description": "Allows a normally Personal effect to be used on others as an attack (Close by default). +0 PP/rank, as it usually also gains a resistance check. If the original Personal effect was Perception range (like Mind Reading), this can make it a Ranged or Perception attack.",
+      "page_ref": "DHH p.150"
+    },
+    {
+      "id": "mod_extra_contagious",
+      "name": "Contagious",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToEffectType": ["Attack"], 
+      "appliesToDuration": ["Instant"], // Typically for effects whose results linger
+      "description": "Effect can spread to others who come into contact with the original target (or its lingering effect). Target resists Contagious effect with same defense as original. +1 PP/rank.",
+      "page_ref": "DHH p.150"
+    },
+    {
+      "id": "mod_extra_dimensional_travel",
+      "name": "Dimensional (Travel)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1, 
+      "ranked": true,
+      "maxRanks": 3,
+      "parameter_needed": true, 
+      "parameter_prompt": "Scope of Dimensional Travel", 
+      "parameter_type": "select_from_options",
+      "parameter_options": [
+          {"value": 1, "label": "Single Other Dimension (1 PP total)"},
+          {"value": 2, "label": "Group of Related Dimensions (2 PP total)"},
+          {"value": 3, "label": "Any Dimension (3 PP total)"}
+      ],
+      "appliesToEffect": ["eff_movement"], // Specifically for Movement (Teleport) or custom travel powers
+      "description": "Allows a movement effect (like Teleport) to travel to other dimensions. Cost 1-3 flat PP based on scope (1 rank = one dimension, 2 ranks = group, 3 ranks = any).",
+      "page_ref": "DHH p.150"
+    },
+    {
+      "id": "mod_extra_dimensional_affect",
+      "name": "Dimensional (Affect)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1, 
+      "ranked": true,
+      "maxRanks": 3,
+       "parameter_needed": true, 
+      "parameter_prompt": "Scope of Dimensional Effect", 
+      "parameter_type": "select_from_options",
+      "parameter_options": [
+          {"value": 1, "label": "Affect Single Other Dimension (1 PP total)"},
+          {"value": 2, "label": "Affect Group of Related Dimensions (2 PP total)"},
+          {"value": 3, "label": "Affect Any Dimension (3 PP total)"}
+      ],
+      "description": "Allows an effect to affect targets in other dimensions. Cost 1-3 flat PP based on scope (1 rank = one dimension, 2 ranks = group, 3 ranks = any).",
+      "page_ref": "DHH p.150"
+    },
+    {
+      "id": "mod_extra_extended_range",
+      "name": "Extended Range",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks": 10, // Practical limit
+      "appliesToRange": ["Ranged"],
+      "description": "Doubles a ranged effect's distances per rank of this modifier (each rank reduces range penalty by 1). 1 flat PP per rank of Extended Range.",
+      "page_ref": "DHH p.151"
+    },
+    {
+      "id": "mod_extra_feature_power", // Renamed to distinguish from eff_feature
+      "name": "Feature (Power)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks": 10, // GM discretion
+      "parameter_needed": true,
+      "parameter_prompt": "Describe the minor capability or benefit this power provides",
+      "parameter_type": "text_long",
+      "description": "Adds a minor capability or benefit to an effect, not worth a full power effect on its own. 1 flat PP per rank (per feature).",
+      "page_ref": "DHH p.151"
+    },
+    {
+      "id": "mod_extra_homing",
+      "name": "Homing",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks": 5, 
+      "appliesToEffectType": ["Attack"],
+      "description": "Attack effect gains additional chances to hit if it misses (1 extra attack attempt per rank of Homing, in subsequent rounds). 1 flat PP per rank of Homing.",
+      "page_ref": "DHH p.152"
+    },
+    {
+      "id": "mod_extra_impervious",
+      "name": "Impervious",
+      "type": "Extra",
+      "costType": "perRank", // Cost is +1 per rank of Impervious applied
+      "costChangePerRank": 1,
+      "appliesToTrait": ["Toughness"], // Usually on Protection, or Toughness of Create object
+      "ranked": true, 
+      "maxRanks_source": "powerRankOfBaseEffect", // Cannot exceed rank of Protection/Toughness it applies to
+      "description": "Resistance (usually Toughness) ignores effects with rank half Impervious rank or less (rounded up). +1 PP per rank of Impervious applied.",
+      "page_ref": "DHH p.152"
+    },
+    {
+      "id": "mod_extra_increased_duration_concentration",
+      "name": "Increased Duration (Concentration)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Instant"],
+      "changesDurationTo": "Concentration",
+      "description": "Changes an Instant duration effect to Concentration duration (+1 PP/rank). Requires a standard action each round to maintain.",
+      "page_ref": "DHH p.153"
+    },
+    {
+      "id": "mod_extra_increased_duration_sustained",
+      "name": "Increased Duration (Sustained)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Concentration"], 
+      "changesDurationTo": "Sustained",
+      "description": "Changes a Concentration duration effect to Sustained duration (+1 PP/rank). Requires a free action each round to maintain. (If from Instant, total +2 PP/rank).",
+      "page_ref": "DHH p.153"
+    },
+    {
+      "id": "mod_extra_increased_duration_continuous",
+      "name": "Increased Duration (Continuous)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToDuration": ["Sustained"],
+      "changesDurationTo": "Continuous",
+      "description": "Changes a Sustained duration effect to Continuous duration (+1 PP/rank). Effect remains until turned off (free action) or countered, no action to maintain.",
+      "page_ref": "DHH p.153"
+    },
+    {
+      "id": "mod_extra_increased_mass",
+      "name": "Increased Mass",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks": 20, // Practical limit
+      "appliesToEffect": ["eff_move_object", "eff_teleport"], // Effects that move things
+      "description": "Effect can carry/affect more mass. Each rank of this modifier increases the mass rank the power can affect by 1 (see Measurements Table). 1 flat PP per rank of Increased Mass.",
+      "page_ref": "DHH p.154"
+    },
+    {
+      "id": "mod_extra_increased_range_close_to_ranged",
+      "name": "Increased Range (Close to Ranged)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Close", "Touch"],
+      "changesRangeTo": "Ranged",
+      "description": "Changes a Close or Touch range effect to Ranged (+1 PP/rank).",
       "page_ref": "DHH p.155"
     },
     {
-      "id": "mod_extra_precise",
-      "name": "Precise",
+      "id": "mod_extra_increased_range_personal_to_close",
+      "name": "Increased Range (Personal to Close/Touch)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Personal"],
+      "changesRangeTo": "Close", // Or Touch, if more appropriate
+      "description": "Changes a Personal range effect to Close/Touch range (+1 PP/rank). This often overlaps with Affects Others.",
+      "page_ref": "DHH p.155, p.148"
+    },
+    {
+      "id": "mod_extra_increased_range_ranged_to_perception",
+      "name": "Increased Range (Ranged to Perception)",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToRange": ["Ranged"],
+      "changesRangeTo": "Perception",
+      "description": "Changes a Ranged effect to Perception range (+1 PP/rank). No attack check needed.",
+      "page_ref": "DHH p.155"
+    },
+    {
+      "id": "mod_extra_incurable",
+      "name": "Incurable",
       "type": "Extra",
       "costType": "flat",
       "flatCostChange": 1,
-      "description": "Effect can perform delicate and precise tasks. +1 flat PP.",
-      "page_ref": "DHH p.157"
+      "appliesToEffectType": ["Damage", "Affliction"], // Effects that Healing normally counters
+      "description": "Effect cannot be countered or removed by Healing or Regeneration (unless they have the Persistent extra). +1 flat PP.",
+      "page_ref": "DHH p.155"
     },
     {
-      "id": "mod_extra_reach",
-      "name": "Reach",
+      "id": "mod_extra_indirect",
+      "name": "Indirect",
       "type": "Extra",
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": "unlimited", // Max practical reach
-      "appliesToRange": ["Close", "Touch"],
-      "description": "Extend effect's reach by 5 feet per rank of this modifier. 1 flat PP per rank.",
-      "page_ref": "DHH p.157"
-    },
-    {
-      "id": "mod_extra_reaction",
-      "name": "Reaction",
-      "type": "Extra",
-      "costChangePerRank": 3, // Standard is +3/rank. Limited Reaction can be +1/rank (separate modifier or parameter).
-      "parameter_needed": true,
-      "parameter_prompt": "Triggering circumstance for the Reaction",
-      "parameter_type": "text_long",
-      "changesActionTo": "Reaction",
-      "description": "Changes effect's required action to reaction. Standard cost +3 PP/rank. A more limited trigger might be +1 PP/rank (GM call, or separate 'Limited Reaction' modifier).",
-      "page_ref": "DHH p.157"
-    },
-    {
-      "id": "mod_extra_reversible",
-      "name": "Reversible",
-      "type": "Extra",
-      "costType": "flat",
-      "flatCostChange": 1,
-      "description": "Effect can be removed at will as a free action. +1 flat PP.",
-      "page_ref": "DHH p.157"
-    },
-    {
-      "id": "mod_extra_ricochet",
-      "name": "Ricochet",
-      "type": "Extra",
-      "costType": "flatPerRankOfModifier",
-      "flatCost": 1,
-      "ranked": true,
-      "maxRanks": 5, // Example
+      "maxRanks": 4, 
+      "parameter_needed": true, 
+      "parameter_prompt": "Type of Indirectness", 
+      "parameter_type": "select_from_options",
+      "parameter_options": [
+          {"value": 1, "label": "Fixed point other than self, not through cover (1 PP total)"},
+          {"value": 2, "label": "Any point other than self, not through cover (2 PP total)"},
+          {"value": 3, "label": "Fixed point, through cover (3 PP total)"},
+          {"value": 4, "label": "Any point, through cover (4 PP total)"}
+      ],
       "appliesToEffectType": ["Attack"],
-      "description": "Attacker can bounce effect to change direction once per rank of this modifier. 1 flat PP per rank.",
+      "description": "Effect can originate from a point other than the user, bypassing cover depending on rank. 1 flat PP per rank (1-4 ranks for increasing indirectness and cover penetration).",
+      "page_ref": "DHH p.155"
+    },
+    {
+      "id": "mod_extra_innate",
+      "name": "Innate",
+      "type": "Extra",
+      "costType": "flat",
+      "flatCostChange": 1,
+      "description": "Effect is a natural part of you and cannot be Nullified (though its effects might be countered by other powers). +1 flat PP.",
+      "page_ref": "DHH p.155"
+    },
+    {
+      "id": "mod_extra_insidious",
+      "name": "Insidious",
+      "type": "Extra",
+      "costType": "flat",
+      "flatCostChange": 1,
+      "description": "The result of the effect is more difficult to detect. Target needs a Perception or Insight check (DC 10 + effect rank) to realize they were affected or by what. +1 flat PP.",
+      "page_ref": "DHH p.156"
+    },
+    {
+      "id": "mod_extra_linked_effect", // Renamed from "Linked"
+      "name": "Linked Effect",
+      "type": "Extra",
+      "costType": "special_linked", // No direct cost for the modifier itself
+      "flatCostChange": 0, 
+      "parameter_needed": true,
+      "parameter_prompt": "Select another Power effect to Link with this one",
+      "parameter_type": "select_power_for_link", // UI allows selecting another power from char's list
+      "description": "Two or more effects activate together as a single action. Both effects must have the same range. Total cost is the sum of the linked effects. This modifier is applied to one of the effects, and the linked power is specified.",
+      "page_ref": "DHH p.156"
+    },
+    {
+      "id": "mod_extra_multiattack",
+      "name": "Multiattack",
+      "type": "Extra",
+      "costType": "perRank",
+      "costChangePerRank": 1,
+      "appliesToEffectType": ["Attack"],
+      "description": "Allows an attack effect to hit multiple targets with penalties, or a single target for increased effect on very successful hits. +1 PP/rank.",
+      "page_ref": "DHH p.156"
+    },
+    {
+      "id": "mod_extra_penetrating_damage", // Renamed for clarity
+      "name": "Penetrating (Damage)",
+      "type": "Extra",
+      "costType": "flatPerRankOfModifier",                                       
+      "flatCost": 1,
+      "ranked": true,
+      "maxRanks_source": "powerRank", 
+      "appliesToEffect": ["eff_damage"], // Specifically for Damage effects
+      "description": "Damage effect overcomes Impervious Resistance. Each rank of Penetrating overcomes 1 rank of Impervious. 1 flat PP per rank of Penetrating.",
+      "page_ref": "DHH p.156"
+    },
+    {
+      "id": "mod_extra_precise_effect", // Renamed
+      "name": "Precise (Effect)",
+      "type": "Extra",
+      "costType": "flat",
+      "flatCostChange": 1,
+      "description": "Effect can perform delicate and precise tasks it normally couldn't (e.g., Create making intricate objects, Move Object for fine manipulation). +1 flat PP.",
       "page_ref": "DHH p.157"
     },
     {
-      "id": "mod_extra_secondary_effect",
-      "name": "Secondary Effect",
-      "type": "Extra",
-      "costChangePerRank": 1,
-      "appliesToDuration": ["Instant"],
-      "description": "Instant effect works on the target twice (second effect hits at end of your next turn). +1 PP/rank.",
-      "page_ref": "DHH p.157"
-    },
-    {
-      "id": "mod_extra_selective",
-      "name": "Selective",
-      "type": "Extra",
-      "costChangePerRank": 1,
-      "requiresModifier": ["mod_extra_area_burst", "mod_extra_area_cone", "mod_extra_area_cylinder", "mod_extra_area_line", "mod_extra_area_shapeable", "mod_extra_area_perception"], // Requires an Area effect
-      "description": "Resistible effect (usually Area) works only on targets you choose within the area. +1 PP/rank.",
-      "page_ref": "DHH p.158"
-    },
-    {
-      "id": "mod_extra_sleep_affliction", // Specific to Affliction
-      "name": "Sleep (Affliction Extra)",
-      "type": "Extra",
-      "costChangePerRank": 0,
-      "appliesToEffect": ["eff_affliction"],
-      "description": "Affliction leaves targets asleep rather than incapacitated (third degree). +0 PP/rank.",
-      "page_ref": "DHH p.158"
-    },
-    {
-      "id": "mod_extra_split",
-      "name": "Split",
+      "id": "mod_extra_reach_melee", // Renamed
+      "name": "Reach (Melee)",
       "type": "Extra",
       "costType": "flatPerRankOfModifier",
       "flatCost": 1,
       "ranked": true,
-      "maxRanks": 5, // Example, rank = number of targets - 1
-      "description": "Effect can split to affect multiple targets. Each rank allows splitting off one additional attack at one rank lower. 1 flat PP per rank (per additional target).",
-      "page_ref": "DHH p.158"
-    },
-    {
-      "id": "mod_extra_subtle",
-      "name": "Subtle",
-      "type": "Extra",
-      "costType": "flat",
-      "flatCostChange": 1, // For rank 1 subtle
-      "parameter_needed": true,
-      "parameter_prompt": "Degree of Subtlety (Difficult to Notice or Imperceptible)",
-      "parameter_type": "select",
-      "parameter_options": [
-          {"value": 1, "label": "Difficult to Notice (DC 20 Perception, +1 flat PP)"},
-          {"value": 2, "label": "Imperceptible (No Perception check, +2 flat PP)"}
-      ],
-      "description": "Effect is less noticeable. +1 flat PP for difficult to notice (DC 20 Perception), +2 flat PP for imperceptible.",
-      "page_ref": "DHH p.158"
-    },
-    {
-      "id": "mod_extra_sustained_on_permanent", // Special case
-      "name": "Sustained (on Permanent)",
-      "type": "Extra",
-      "costChangePerRank": 0,
-      "appliesToDuration": ["Permanent"],
-      "changesDurationTo": "Sustained",
-      "description": "Makes a normally Permanent effect Sustained, allowing it to be turned on/off. +0 PP/rank.",
-      "page_ref": "DHH p.159"
-    },
-    {
-      "id": "mod_extra_triggered",
-      "name": "Triggered",
-      "type": "Extra",
-      "costType": "flatPerRankOfModifier", // 1 PP per use that can be set
-      "flatCost": 1,
-      "ranked": true,
-      "maxRanks": 10, // Example limit on uses prepared
-      "parameter_needed": true,
-      "parameter_prompt": "Triggering condition or event",
-      "parameter_type": "text_long",
-      "description": "Set effect for later activation under specific conditions. 1 flat PP per use that can be set.",
-      "page_ref": "DHH p.159"
-    },
-    {
-      "id": "mod_extra_variable_descriptor",
-      "name": "Variable Descriptor",
-      "type": "Extra",
-      "costType": "flat",
-      "flatCostChange": 1, // For related group
-      "parameter_needed": true,
-      "parameter_prompt": "Scope of Descriptors (Related Group or Any Descriptor)",
-      "parameter_type": "select",
-       "parameter_options": [
-          {"value": 1, "label": "Related Group of Descriptors (+1 flat PP)"},
-          {"value": 2, "label": "Any Descriptor of a type (+2 flat PP)"}
-      ],
-      "description": "Effect can change descriptors. +1 flat PP for a related group, +2 flat PP for any descriptor of a type.",
-      "page_ref": "DHH p.159"
-    },
-  
-    // --- FLAWS (DHH p.159-163) ---
-    {
-      "id": "mod_flaw_activation",
-      "name": "Activation",
-      "type": "Flaw",
-      "costType": "flat",
-      "flatCostChange": -1, // For Move Action
-      "parameter_needed": true,
-      "parameter_prompt": "Action to Activate (Move or Standard)",
-      "parameter_type": "select",
-      "parameter_options": [
-          {"value": -1, "label": "Move Action (-1 flat PP)"},
-          {"value": -2, "label": "Standard Action (-2 flat PP)"}
-      ],
-      "description": "Effect requires a move (-1 flat PP) or standard (-2 flat PP) action to activate.",
-      "page_ref": "DHH p.159"
-    },
-    {
-      "id": "mod_flaw_check_required",
-      "name": "Check Required",
-      "type": "Flaw",
-      "costType": "flatPerRankOfFlaw", // -1 flat PP per rank of this flaw (e.g., per 2 DC of check)
-      "flatCostChange": -1, // Each rank of this flaw is -1 PP
-      "ranked": true, // Rank of this flaw determines how difficult the check is
-      "maxRanks": 10, // Example: Max -10 points from this flaw
-      "parameter_needed": true,
-      "parameter_prompt": "Describe Check (Skill and DC, e.g., Expertise: Magic DC 12)",
-      "parameter_type": "text_complex",
-      "description": "Must succeed on a check to use effect. Each -1 point Flaw value typically corresponds to a DC 2 + Power Rank check difficulty increase or similar. (SRD: -1 flat per rank of flaw)",
-      "page_ref": "DHH p.160"
-    },
-    {
-      "id": "mod_flaw_decreased_duration", // Category
-      "name": "Decreased Duration",
-      "type": "Flaw",
-      "costChangePerRank": -1, // -1 per rank for each step down
-      "parameter_needed": true, "parameter_prompt": "New Lower Duration", "parameter_type": "select_duration_target_flaw",
-      "description": "Worsens effect's duration (e.g., Sustained -> Concentration, Concentration -> Instant). Each step -1 PP/rank.",
-      "page_ref": "DHH p.160"
-    },
-    {
-      "id": "mod_flaw_diminished_range",
-      "name": "Diminished Range",
-      "type": "Flaw",
-      "costType": "flatPerRankOfFlaw", // DHH: "-1 flat point per reduction" of range category
-      "flatCostChange": -1, // -1 flat point per step reduction
-      "ranked": true,
-      "maxRanks": 3, // Max 3 steps down (e.g. Ranged -> Close -> Touch -> Personal)
-      "description": "Reduces effect's range by one step per rank of flaw (-1 flat PP per step).",
-      "page_ref": "DHH p.160"
-    },
-    {
-      "id": "mod_flaw_distracting",
-      "name": "Distracting",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "You are vulnerable while using the effect. -1 PP/rank.",
-      "page_ref": "DHH p.160"
-    },
-    {
-      "id": "mod_flaw_fades",
-      "name": "Fades",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "Effect loses 1 rank each time it is used, recovering over time (e.g., 1 rank per minute or hour). -1 PP/rank.",
-      "page_ref": "DHH p.161"
-    },
-    {
-      "id": "mod_flaw_feedback",
-      "name": "Feedback",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "Suffer damage or other effect when your power's manifestation is damaged or resisted. -1 PP/rank.",
-      "page_ref": "DHH p.161"
-    },
-    {
-      "id": "mod_flaw_inaccurate",
-      "name": "Inaccurate",
-      "type": "Flaw",
-      "costType": "flatPerRankOfFlaw",
-      "flatCostChange": -1, // -1 PP per rank of Inaccurate
-      "ranked": true,
-      "maxRanks": "powerRank", // Cannot reduce attack bonus below a certain point
-      "description": "Effect is less accurate (-2 attack check bonus per rank of this flaw). -1 flat PP per rank of flaw.",
-      "page_ref": "DHH p.161"
-    },
-    {
-      "id": "mod_flaw_increased_action", // Category
-      "name": "Increased Action",
-      "type": "Flaw",
-      "costChangePerRank": -1, // -1 per rank for each step up in action time
-      "parameter_needed": true, "parameter_prompt": "New Slower Action", "parameter_type": "select_action_target_flaw",
-      "description": "Increases time required to use an effect (e.g., Free -> Move, Move -> Standard, Standard -> Full). Each step -1 PP/rank.",
-      "page_ref": "DHH p.161"
-    },
-    {
-      "id": "mod_flaw_limited",
-      "name": "Limited",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "parameter_needed": true,
-      "parameter_prompt": "Describe the Limitation (must reduce effectiveness by about half)",
-      "parameter_type": "text_long",
-      "description": "Effect loses about half its effectiveness due to some limitation. -1 PP/rank.",
-      "page_ref": "DHH p.161"
-    },
-    {
-      "id": "mod_flaw_noticeable",
-      "name": "Noticeable",
-      "type": "Flaw",
-      "costType": "flat",
-      "flatCostChange": -1,
-      "description": "A continuous or permanent effect that is normally subtle becomes obvious. -1 flat PP.",
-      "page_ref": "DHH p.162"
-    },
-    {
-      "id": "mod_flaw_permanent_duration", // Special flaw on Continuous/Sustained
-      "name": "Permanent (Duration Flaw)",
-      "type": "Flaw",
-      "costChangePerRank": -1, // Typically makes a Continuous effect cost like Sustained, or Sustained like Concentration if it can't be turned off.
-                              // DHH p.152 lists Permanent as a +0 Extra that makes an effect always on.
-                              // If applied as a Flaw to a non-Permanent effect, it means it *cannot be turned off*.
-                              // This often makes a Sustained/Continuous power cheaper. DHH p.162 states it makes Continuous -1/rank (like Sustained)
-      "appliesToDuration": ["Continuous", "Sustained"],
-      "changesDurationTo": "Permanent (Cannot be turned off)",
-      "description": "Effect is always active and cannot be shut off. Typically -1 PP/rank on Continuous or Sustained effects.",
-      "page_ref": "DHH p.162"
-    },
-    {
-      "id": "mod_flaw_quirk",
-      "name": "Quirk",
-      "type": "Flaw",
-      "costType": "flatPerRankOfFlaw",
-      "flatCostChange": -1, // -1 flat PP per rank of Quirk (per minor flaw)
-      "ranked": true,
-      "maxRanks": 5, // GM discretion
-      "parameter_needed": true,
-      "parameter_prompt": "Describe the minor flaw",
-      "parameter_type": "text_long",
-      "description": "A minor flaw attached to an effect, worth -1 flat PP per rank (per Quirk). Max is GM dependent, often -5 points.",
-      "page_ref": "DHH p.162"
-    },
-    {
-      "id": "mod_flaw_reduced_range", // Category
-      "name": "Reduced Range",
-      "type": "Flaw",
-      "costChangePerRank": -1, // -1 per rank for each step down
-      "parameter_needed": true, "parameter_prompt": "New Shorter Range", "parameter_type": "select_range_target_flaw",
-      "description": "Effect's range decreases (e.g., Ranged -> Close, Close -> Touch). Each step -1 PP/rank.",
-      "page_ref": "DHH p.162"
-    },
-    {
-      "id": "mod_flaw_removable",
-      "name": "Removable",
-      "type": "Flaw",
-      "costType": "special", // -1 PP per 5 total points of power, or -2 PP per 5 for Easily Removable
-      "parameter_needed": true,
-      "parameter_prompt": "Ease of Removal (Standard or Easily Removable)",
-      "parameter_type": "select",
-      "parameter_options": [
-          {"value": "standard", "label": "Removable (-1 PP per 5 total points of power)"},
-          {"value": "easy", "label": "Easily Removable (-2 PP per 5 total points of power)"}
-      ],
-      "description": "Effect can be taken away (is a device/item). Reduces total power cost by 1 point for every 5 full points the power costs (round up discount), or by 2 points for every 5 if easily removable.",
-      "page_ref": "DHH p.162"
-    },
-    {
-      "id": "mod_flaw_resistible", // For non-Attack effects usually
-      "name": "Resistible",
-      "type": "Flaw",
-      "costChangePerRank": -1, // -1/rank if it gains a defense check like Dodge
-      "parameter_needed": true,
-      "parameter_prompt": "Resistance Check Gained (e.g., Dodge, Will)",
-      "parameter_type": "select_defense_type",
-      "description": "Effect that normally doesn't allow a resistance check (like some Senses or Movement) now does. Typically -1 PP/rank.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_sense_dependent",
-      "name": "Sense-Dependent",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "parameter_needed": true,
-      "parameter_prompt": "Specific sense the target must possess and use",
-      "parameter_type": "select_sense_type",
-      "description": "Target must be able to perceive the effect (or its origin) with a specific sense for it to work. -1 PP/rank.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_side_effect",
-      "name": "Side Effect",
-      "type": "Flaw",
-      "costChangePerRank": -1, // -1 for side effect on failed use, -2 for side effect on any use or always active
-      "parameter_needed": true,
-      "parameter_prompt": "Describe Side Effect and when it occurs (Failed Use, Any Use, Always Active)",
-      "parameter_type": "text_long_side_effect",
-      "description": "Using the effect, or failing to use it, causes a problematic side effect. -1 PP/rank for side effect on failed use; -2 PP/rank if it always occurs or occurs on any use.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_tiring",
-      "name": "Tiring",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "Effect causes a level of fatigue when used. -1 PP/rank.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_uncontrolled",
-      "name": "Uncontrolled",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "You have no control over when or how the effect activates or what it does (GM controlled). -1 PP/rank.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_unreliable_uses", // DHH p.163 Unreliable (5 uses)
-      "name": "Unreliable (5 uses)",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "Effect has a limited number of uses (typically 5) before needing to be recharged/recovered. -1 PP/rank.",
-      "page_ref": "DHH p.163"
-    },
-    {
-      "id": "mod_flaw_unreliable_roll", // DHH p.163 Unreliable (roll)
-      "name": "Unreliable (Roll)",
-      "type": "Flaw",
-      "costChangePerRank": -1,
-      "description": "Effect only works about half the time (e.g., on an 11+ on a d20 roll each time you try to use it). -1 PP/rank.",
-      "page_ref": "DHH p.163"
+      "maxRanks": 10, // e.g., 50 ft reach
+      "appliesToRange": ["Close", "Touch"],
+      "description": "Extend a close or touch range effect's reach by 5 feet per rank of this modifier. 1 flat PP per rank of Reach.",
+      "page_ref": "DHH p.157"
     }
-  ]
+]

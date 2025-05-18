@@ -3,20 +3,20 @@
       "size_rank_value": -8,
       "size_name": "Diminutive",
       "example_vehicle": "Large Drone, Small Robot",
-      "base_str": -4, 
+      "base_str": 0,  
       "base_spd": 1, 
-      "base_def": 18,
+      "base_def": 14, 
       "base_tou": 1, 
       "base_ep_cost": 1,
-      "page_ref": "DHH p.182 (extrapolated/interpolated)"
+      "page_ref": "DHH p.182"
     },
     {
       "size_rank_value": -4,
       "size_name": "Tiny",
-      "example_vehicle": "Motorcycle, Jet Ski",
+      "example_vehicle": "Motorcycle, Jet Ski, Small Drone",
       "base_str": 0,
       "base_spd": 4,
-      "base_def": 14,
+      "base_def": 12, 
       "base_tou": 4,
       "base_ep_cost": 2,
       "page_ref": "DHH p.182"
@@ -24,10 +24,10 @@
     {
       "size_rank_value": -2,
       "size_name": "Small",
-      "example_vehicle": "Car, Light Aircraft",
+      "example_vehicle": "Car, Light Aircraft, Large Motorcycle",
       "base_str": 1,
       "base_spd": 5,
-      "base_def": 12,
+      "base_def": 11, 
       "base_tou": 6,
       "base_ep_cost": 4,
       "page_ref": "DHH p.182"
@@ -35,10 +35,10 @@
     {
       "size_rank_value": 0,
       "size_name": "Medium",
-      "example_vehicle": "Van, APC, Helicopter",
+      "example_vehicle": "Van, SUV, APC, Helicopter, Light Truck",
       "base_str": 5,
       "base_spd": 5,
-      "base_def": 10,
+      "base_def": 10, 
       "base_tou": 8,
       "base_ep_cost": 8,
       "page_ref": "DHH p.182"
@@ -46,10 +46,10 @@
     {
       "size_rank_value": 2,
       "size_name": "Large",
-      "example_vehicle": "Garbage Truck, Bus, Large Boat",
+      "example_vehicle": "Garbage Truck, Bus, Large Boat, Small Jet",
       "base_str": 8,
       "base_spd": 4,
-      "base_def": 8,
+      "base_def": 9,  
       "base_tou": 10,
       "base_ep_cost": 10,
       "page_ref": "DHH p.182"
@@ -57,10 +57,10 @@
     {
       "size_rank_value": 4,
       "size_name": "Huge",
-      "example_vehicle": "Jumbo Jet, Tanker Truck, Small Freighter",
+      "example_vehicle": "Jumbo Jet, Tanker Truck, Small Freighter, Tank",
       "base_str": 12,
       "base_spd": 4,
-      "base_def": 6,
+      "base_def": 8,  
       "base_tou": 12,
       "base_ep_cost": 12,
       "page_ref": "DHH p.182"
@@ -68,10 +68,10 @@
     {
       "size_rank_value": 8,
       "size_name": "Gargantuan",
-      "example_vehicle": "Battleship, Large Freighter, Mobile HQ",
+      "example_vehicle": "Battleship, Large Freighter, Mobile HQ base",
       "base_str": 16,
       "base_spd": 3,
-      "base_def": 0, 
+      "base_def": 6,   
       "base_tou": 14,
       "base_ep_cost": 14,
       "page_ref": "DHH p.182"
@@ -80,9 +80,9 @@
       "size_rank_value": 12,
       "size_name": "Colossal",
       "example_vehicle": "Aircraft Carrier, Supertanker, Giant Robot",
-      "base_str": 20,
+      "base_str": 20, // Max Str from size as per DHH
       "base_spd": 2,
-      "base_def": -2, 
+      "base_def": 2,   
       "base_tou": 16,
       "base_ep_cost": 16,
       "page_ref": "DHH p.182"
@@ -90,23 +90,23 @@
     {
       "size_rank_value": 16,
       "size_name": "Awesome",
-      "example_vehicle": "Mobile Fortress, Small Space Station",
-      "base_str": 20, // DHH notes STR typically doesn't exceed 20 for vehicles from size alone
+      "example_vehicle": "Mobile Fortress, Small Space Station, Larger Giant Robot",
+      "base_str": 20, 
       "base_spd": 1,
-      "base_def": -4, 
+      "base_def": -2,  // 10 + (-12) 
       "base_tou": 18,
       "base_ep_cost": 18,
-      "page_ref": "DHH p.182 (extrapolated, Str capped as per general vehicle guidelines)"
+      "page_ref": "DHH p.182 (extrapolated)"
     },
     {
       "size_rank_value": 20,
-      "size_name": "Kaiju/Titanic", // Name for very large scale beyond Awesome
-      "example_vehicle": "Massive Starship, City-sized Construct",
-      "base_str": 20, // Still typically capped at 20 from size alone
-      "base_spd": 0,  // Or very low
-      "base_def": -6, // Further extrapolation
-      "base_tou": 20, // Further extrapolation
-      "base_ep_cost": 20, // Further extrapolation
+      "size_name": "Titanic", // Renamed from "Kaiju/Titanic" for consistency
+      "example_vehicle": "Massive Starship, City-sized Construct, Kaiju-scale Vehicle",
+      "base_str": 20, 
+      "base_spd": 0,  
+      "base_def": -6,  // 10 + (-16)
+      "base_tou": 20, 
+      "base_ep_cost": 20, 
       "page_ref": "DHH p.182 (extrapolated)"
     }
   ]

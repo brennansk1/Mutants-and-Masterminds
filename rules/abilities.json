@@ -1,64 +1,64 @@
 {
-    "costFactor": 2,
-    "list": [
-      {
-        "id": "STR",
-        "name": "Strength",
-        "description": "Represents raw physical power, might, and brawn. Strength affects how much your hero can lift and carry, the damage bonus for close combat attacks, and skills like Athletics (for jumping, climbing, swimming).",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "STA",
-        "name": "Stamina",
-        "description": "Measures health, endurance, and overall physical resilience. Stamina is the basis for your hero's Toughness defense (resisting damage) and Fortitude defense (resisting effects targeting health like disease or poison).",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "AGL",
-        "name": "Agility",
-        "description": "Defines coordination, balance, speed, and overall physical grace. Agility is the basis for your hero's Dodge defense (avoiding ranged and area attacks), contributes to Initiative, and governs skills like Acrobatics and Stealth.",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "DEX",
-        "name": "Dexterity",
-        "description": "Represents hand-eye coordination, aiming, and manual precision. Dexterity affects ranged attack checks and governs skills such as Ranged Combat (for specific weapons/attacks), Sleight of Hand, and Vehicles.",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "FGT",
-        "name": "Fighting",
-        "description": "Measures a hero's skill and training in close-quarters combat, both armed and unarmed. Fighting affects close attack checks and is the basis for the Parry defense (avoiding close attacks).",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "INT",
-        "name": "Intellect",
-        "description": "Covers reasoning ability, education, memory, and general knowledge. Intellect governs skills like Expertise (for specific fields of knowledge), Investigation, Technology, and Treatment.",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "AWE",
-        "name": "Awareness",
-        "description": "Represents perception, intuition, common sense, and willpower. Awareness is the basis for the Will defense (resisting mental and some other effects) and governs skills like Insight and Perception.",
-        "page_ref": "DHH p.27"
-      },
-      {
-        "id": "PRE",
-        "name": "Presence",
-        "description": "Measures a hero's force of personality, persuasiveness, leadership, and ability to command attention. Presence governs interaction skills like Deception, Intimidation, and Persuasion.",
-        "page_ref": "DHH p.27"
-      }
-    ],
-    "help_text": {
-      "general": "Abilities are your hero's eight core attributes, representing innate talent and training. They range from -5 (very poor) to 20+ (cosmic), with 0 being average human. Each rank costs 2 Power Points (PP). Ability ranks directly serve as modifiers for checks and are the foundation for Defenses and many Skill bonuses.",
-      "STR": "Strength is crucial for melee fighters dealing damage or characters needing to perform feats of raw power.",
-      "STA": "Stamina is vital for survivability, directly boosting your Toughness against damage and Fortitude against debilitating effects.",
-      "AGL": "Agility is key for nimble characters, determining how well they dodge attacks, act first in combat (Initiative), and perform stealthy or acrobatic maneuvers.",
-      "DEX": "Dexterity is essential for ranged attackers and characters who rely on precision tasks, like operating vehicles or delicate work.",
-      "FGT": "Fighting is paramount for close-combat specialists, directly impacting their ability to hit and parry blows.",
-      "INT": "Intellect is the core for knowledgeable heroes, investigators, scientists, and medics.",
-      "AWE": "Awareness is important for perceptive characters, those who need to resist mental influence, and for noticing important details.",
-      "PRE": "Presence defines a hero's social impact, whether through inspiration, intimidation, or deception."
+  "costFactor": 2,
+  "list": [
+    {
+      "id": "STR",
+      "name": "Strength",
+      "description": "Represents raw physical power, might, and brawn. Strength affects how much your hero can lift and carry, the damage bonus for close combat attacks, and skills like Athletics (for jumping, climbing, swimming).",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "STA",
+      "name": "Stamina",
+      "description": "Measures health, endurance, and overall physical resilience. Stamina is the basis for your hero's Toughness defense (resisting damage) and Fortitude defense (resisting effects targeting health like disease or poison).",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "AGL",
+      "name": "Agility",
+      "description": "Defines coordination, balance, speed, and overall physical grace. Agility is the basis for your hero's Dodge defense (avoiding ranged and area attacks), contributes to Initiative, and governs skills like Acrobatics and Stealth.",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "DEX",
+      "name": "Dexterity",
+      "description": "Represents hand-eye coordination, aiming, and manual precision. Dexterity affects ranged attack checks and governs skills such as Ranged Combat (for specific weapons/attacks), Sleight of Hand, and Vehicles.",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "FGT",
+      "name": "Fighting",
+      "description": "Measures a hero's skill and training in close-quarters combat, both armed and unarmed. Fighting affects close attack checks and is the basis for the Parry defense (avoiding close attacks).",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "INT",
+      "name": "Intellect",
+      "description": "Covers reasoning ability, education, memory, and general knowledge. Intellect governs skills like Expertise (for specific fields of knowledge), Investigation, Technology, and Treatment.",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "AWE",
+      "name": "Awareness",
+      "description": "Represents perception, intuition, common sense, and willpower. Awareness is the basis for the Will defense (resisting mental and some other effects) and governs skills like Insight and Perception.",
+      "page_ref": "DHH p.27"
+    },
+    {
+      "id": "PRE",
+      "name": "Presence",
+      "description": "Measures a hero's force of personality, persuasiveness, leadership, and ability to command attention. Presence governs interaction skills like Deception, Intimidation, and Persuasion.",
+      "page_ref": "DHH p.27"
     }
+  ],
+  "help_text": {
+    "general": "Abilities are your hero's eight core attributes, representing innate talent and training. They range from -5 (very poor) to 20+ (cosmic), with 0 being average human. Each rank costs 2 Power Points (PP). Ability ranks directly serve as modifiers for checks and are the foundation for Defenses and many Skill bonuses.",
+    "STR": "Strength is crucial for melee fighters dealing damage or characters needing to perform feats of raw power.",
+    "STA": "Stamina is vital for survivability, directly boosting your Toughness against damage and Fortitude against debilitating effects.",
+    "AGL": "Agility is key for nimble characters, determining how well they dodge attacks, act first in combat (Initiative), and perform stealthy or acrobatic maneuvers.",
+    "DEX": "Dexterity is essential for ranged attackers and characters who rely on precision tasks, like operating vehicles or delicate work.",
+    "FGT": "Fighting is paramount for close-combat specialists, directly impacting their ability to hit and parry blows.",
+    "INT": "Intellect is the core for knowledgeable heroes, investigators, scientists, and medics.",
+    "AWE": "Awareness is important for perceptive characters, those who need to resist mental influence, and for noticing important details.",
+    "PRE": "Presence defines a hero's social impact, whether through inspiration, intimidation, or deception."
   }
+}

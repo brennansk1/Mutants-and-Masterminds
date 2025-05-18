@@ -14,8 +14,8 @@
       "ep_cost_per_rank": 1,
       "ranked": true,
       "max_ranks": 5, 
-      "modifies_stat": {"stat": "Autopilot Vehicles Skill", "bonus_per_rank": 4},
-      "description": "Vehicle has self-piloting capability with an effective Vehicles skill of (Rank of this feature x 4).",
+      "modifies_stat": {"stat": "Autopilot_Vehicles_Skill_Bonus", "bonus_per_rank": 4},
+      "description": "Vehicle has self-piloting capability with an effective Vehicles skill of (Rank of this feature x 4). This skill bonus is used for autopilot checks.",
       "page_ref": "DHH p.183"
     },
     {
@@ -23,7 +23,7 @@
       "name": "Caltrops Dispenser",
       "ep_cost": 1,
       "ranked": false,
-      "description": "Vehicle can release caltrops (standard action) to damage tires of ordinary vehicles or force Toughness checks for hero vehicles (DC 13).",
+      "description": "Vehicle can release caltrops (standard action) to damage tires of ordinary vehicles or force Toughness checks for hero vehicles (DC 13 vs. Toughness of tires/vehicle).",
       "page_ref": "DHH p.183"
     },
     {
@@ -47,14 +47,14 @@
     },
     {
       "id": "vh_feat_defense_system_vehicle",
-      "name": "Defense System (Vehicle)",
+      "name": "Defense System (Vehicle Power)",
       "ep_cost_per_rank": 1,
       "ranked": true,
       "max_ranks": 20, 
       "parameter_needed": true,
-      "parameter_prompt": "Describe Defense System effect and its rank (e.g., Force Field (Protection 8), Smoke Cloud (Visual Concealment 4))",
+      "parameter_prompt": "Describe Defense System effect and its rank (e.g., Force Field (Protection 8), Smoke Cloud (Visual Concealment 4)). EP cost equals effect rank.",
       "parameter_type": "text_long",
-      "description": "Vehicle has built-in defensive systems. Effect rank equals EP cost. These are typically powers the vehicle itself uses.",
+      "description": "Vehicle has built-in defensive systems, treated as powers. The effect rank of the defense(s) equals the EP cost for this feature. Subject to PL limits if applicable.",
       "page_ref": "DHH p.183"
     },
     {
@@ -93,7 +93,7 @@
       "ep_cost_per_rank": 1,
       "ranked": true,
       "max_ranks": 2, 
-      "description": "Grants +5 circumstance bonus per rank on skill checks made for navigation while using the vehicle.",
+      "description": "Grants +5 circumstance bonus per rank on skill checks made for navigation while using the vehicle (max +10).",
       "page_ref": "DHH p.183"
     },
     {
@@ -109,7 +109,7 @@
       "name": "Remote Control",
       "ep_cost": 1,
       "ranked": false,
-      "description": "Vehicle can be controlled remotely (typically by its owner or designated operator).",
+      "description": "Vehicle can be controlled remotely (typically by its owner or designated operator with appropriate Technology skill check).",
       "page_ref": "DHH p.183"
     },
     {
@@ -133,9 +133,9 @@
       "name": "Special Feature (Vehicle - Custom)",
       "ep_cost_per_rank": 1, 
       "ranked": true,
-      "max_ranks": 10, // GM discretion for custom features
+      "max_ranks": 10, 
       "parameter_needed": true,
-      "parameter_prompt": "Describe the special vehicle feature and its agreed EP cost/rank",
+      "parameter_prompt": "Describe the special vehicle feature and its agreed EP cost/rank (default 1 EP/rank)",
       "parameter_type": "text_long_with_cost_note",
       "description": "A unique vehicle feature not covered by others, with GM-approved EP cost (typically 1 EP per minor feature or per rank of a scalable custom feature).",
       "page_ref": "DHH p.183"
@@ -145,10 +145,10 @@
       "name": "Vehicle Strength Boost",
       "ep_cost_per_rank": 1,
       "ranked": true,
-      "max_ranks": 20, // Or limited by size/realism
+      "max_ranks": 20, 
       "modifies_stat": {"stat": "Strength", "bonus_per_rank": 1},
-      "description": "Increases the vehicle's Strength by +1 per EP spent (added to base from Size).",
-      "page_ref": "DHH p.182 (implied from 'Buying Off Stats')"
+      "description": "Increases the vehicle's Strength by +1 per EP spent (added to base Strength from Size).",
+      "page_ref": "DHH p.182 (as 'Strength' feature)"
     },
     {
       "id": "vh_stat_boost_speed",
@@ -157,8 +157,18 @@
       "ranked": true,
       "max_ranks": 20,
       "modifies_stat": {"stat": "Speed", "bonus_per_rank": 1},
-      "description": "Increases the vehicle's Speed Rank by +1 per EP spent (added to base from Size).",
-      "page_ref": "DHH p.182 (implied from 'Buying Off Stats')"
+      "description": "Increases the vehicle's Speed Rank by +1 per EP spent (added to base Speed from Size).",
+      "page_ref": "DHH p.182 (as 'Speed' feature)"
+    },
+    {
+      "id": "vh_stat_boost_defense",
+      "name": "Vehicle Defense Boost",
+      "ep_cost_per_rank": 1,
+      "ranked": true,
+      "max_ranks": 20, 
+      "modifies_stat": {"stat": "Defense", "bonus_per_rank": 1},
+      "description": "Increases the vehicle's base Defense value by +1 per EP spent (added to base Defense from Size).",
+      "page_ref": "DHH p.182 (as 'Defense' feature)"
     },
     {
       "id": "vh_stat_boost_toughness",
@@ -167,19 +177,19 @@
       "ranked": true,
       "max_ranks": 20,
       "modifies_stat": {"stat": "Toughness", "bonus_per_rank": 1},
-      "description": "Increases the vehicle's Toughness by +1 per EP spent (added to base from Size). This is the 'Toughness' feature.",
+      "description": "Increases the vehicle's Toughness by +1 per EP spent (added to base Toughness from Size). This is the 'Toughness' feature.",
       "page_ref": "DHH p.183 (as 'Toughness' feature)"
     },
     {
       "id": "vh_weapon_system",
-      "name": "Weapon System (Vehicle)",
-      "ep_cost_per_rank": 1, // Cost of weapon system is EP cost of its effect ranks
+      "name": "Weapon System (Vehicle Power)",
+      "ep_cost_per_rank": 1, 
       "ranked": true,
-      "max_ranks": 20, // Or PL limit for effect
+      "max_ranks": 20, 
       "parameter_needed": true,
-      "parameter_prompt": "Describe Weapon System (e.g., Laser Cannon, Ranged Damage 10; or Missile Launcher, Ranged Burst Area Damage 8)",
+      "parameter_prompt": "Describe Weapon System (e.g., Laser Cannon, Ranged Damage 10; or Missile Launcher, Ranged Burst Area Damage 8). EP cost equals effect rank.",
       "parameter_type": "text_long",
-      "description": "Vehicle has built-in weaponry. The effect rank(s) of the weapon(s) equals the EP cost for this feature. Subject to PL limits if attack rolls are made.",
+      "description": "Vehicle has built-in weaponry, treated as powers. The effect rank(s) of the weapon(s) equals the EP cost for this feature. Subject to PL limits if attack rolls are made.",
       "page_ref": "DHH p.183"
     }
   ]

@@ -1,340 +1,394 @@
 # app.py for HeroForge M&M (Streamlit Edition)
-# Version: V1.0 "All Features" Conceptual Build
+# Version: V1.0 "All Features" Fully Developed
 
 import streamlit as st
 import json
 import copy
 import math
 import os
-import uuid
+import uuid # For unique IDs
 from typing import Dict, List, Any, Optional, Callable
 
 # --- Core Application Logic and Data ---
-from core_engine import CoreEngine, CharacterState # type: ignore
-from pdf_utils import generate_pdf_html_content, generate_pdf_bytes # type: ignore
+# Ensure these type hints are available if your core_engine defines them clearly
+from core_engine import CoreEngine, CharacterState, PowerDefinition, AdvantageDefinition, EquipmentDefinition, HQDefinition, VehicleDefinition, AllyDefinition
+from pdf_utils import generate_pdf_bytes 
+
+# --- UI Section Imports ---
+# These imports assume your project structure has ui_sections at the same level as app.py,
+# or your PYTHONPATH is set up accordingly. If app.py is in the root and ui_sections is a subdir,
+# the imports would be like: from ui_sections.wizard_steps import ...
+from ui_sections.wizard_steps import (
+    render_wizard_step1_basics,
+    render_wizard_step2_archetype,
+    render_wizard_step3_abilities_guided,
+    render_wizard_step4_defskills_guided,
+    render_wizard_step5_powers_guided,
+    render_wizard_step6_complreview_final
+)
+from ui_sections.advanced_mode_ui import (
+    render_selected_advanced_view,
+    DEFAULT_ADVANTAGE_EDITOR_CONFIG, 
+    DEFAULT_EQUIPMENT_EDITOR_CONFIG,
+    DEFAULT_HQ_EDITOR_CONFIG,
+    DEFAULT_VEHICLE_EDITOR_CONFIG,
+    DEFAULT_ALLY_EDITOR_CONFIG
+)
+from ui_sections.power_builder_ui import get_default_power_form_state 
 
 # --- Page Configuration (do this first) ---
 st.set_page_config(
     page_title="HeroForge M&M",
-    page_icon="assets/icon.png", # Make sure this path is valid if using
+    page_icon="assets/icon.png", # Create this image file in assets/
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.d20herosrd.com/mutants-masterminds-3e-srd/', # Link to M&M SRD
+        'Report a bug': "https://github.com/your_username/your_project_repo/issues", # Replace with your repo
+        'About': "# HeroForge M&M Character Creator\nThis is a tool to help create characters for Mutants & Masterminds 3rd Edition."
+    }
 )
 
 # --- Initialize Core Engine & Rule Data (Cached) ---
-@st.cache_resource # Cache the engine instance for the session
+@st.cache_resource # Cache the engine instance and rule_data for the session
 def load_core_resources():
+    """Loads the CoreEngine and its rule data. Stops app on critical failure."""
     print("Loading Core Engine and Rule Data...")
     try:
-        engine = CoreEngine(rule_dir="rules")
-        rule_data_loaded = engine.rule_data
-        if not rule_data_loaded or not all(k in rule_data_loaded for k in ['abilities', 'skills', 'advantages_v1', 'power_effects', 'power_modifiers']):
-            st.error("Fatal Error: Core rule data files are missing or incomplete from the 'rules' directory. Application cannot proceed.")
+        engine_instance = CoreEngine(rule_dir="rules")
+        # CoreEngine now loads all rule files internally. Access via engine_instance.rule_data
+        if not engine_instance.rule_data or not all(k in engine_instance.rule_data for k in [
+            'abilities', 'skills', 'advantages_v1', 'power_effects', 
+            'power_modifiers', 'power_senses_config', 'power_immunities_config',
+            'equipment_items', 'hq_features', 'vehicle_features', 
+            'vehicle_size_stats', 'archetypes', 'measurements_table'
+            # Add 'prebuilt_powers_v1' if your archetypes rely on it and it's loaded by CoreEngine
+        ]):
+            st.error("Fatal Error: Core rule data files are missing or incomplete. Ensure all JSON files are present in the 'rules' directory and loaded by CoreEngine. Application cannot proceed.")
             st.stop()
         
-        # Pre-process/prepare rule data lists for easier UI use
-        prepped_rule_data = {
-            "abilities": rule_data_loaded.get('abilities', {}).get('list', []),
-            "skills": rule_data_loaded.get('skills', {}).get('list', []),
-            "advantages": rule_data_loaded.get('advantages_v1', []),
-            "power_effects": rule_data_loaded.get('power_effects', []),
-            "power_modifiers": rule_data_loaded.get('power_modifiers', []),
-            "power_senses_config": rule_data_loaded.get('power_senses_config', []),
-            "power_immunities_config": rule_data_loaded.get('power_immunities_config', []),
-            "equipment_items": rule_data_loaded.get('equipment_items', []),
-            "hq_features": rule_data_loaded.get('hq_features', []),
-            "vehicle_features": rule_data_loaded.get('vehicle_features', []),
-            "vehicle_size_stats": rule_data_loaded.get('vehicle_size_stats', []), # For vehicle base stats
-            "archetypes": rule_data_loaded.get('archetypes', []),
-            "measurements_table": rule_data_loaded.get('measurements_table', [])
-        }
-        return engine, prepped_rule_data
+        print("Core Engine and Rule Data loaded successfully.")
+        return engine_instance, engine_instance.rule_data 
     except Exception as e:
         st.error(f"Fatal Error initializing Core Engine: {e}. Check console and 'rules' directory structure/content.")
         st.stop()
 
-engine, rule_data = load_core_resources()
+engine, rule_data_app = load_core_resources() 
 
 # --- Session State Initialization ---
-def get_default_power_form_state():
-    base_effect_id_default = rule_data.get('power_effects', [])[0]['id'] if rule_data.get('power_effects') else None
-    return {
-        'editing_power_id': None, 'name': 'New Power', 'baseEffectId': base_effect_id_default,
-        'rank': 1, 'modifiersConfig': [], 'sensesConfig': [], 'immunityConfig': [],
-        'variableDescriptors': "", 'variableConfigurations': [], # List of dicts for configs
-        'transform_scope_cost_per_rank': 2, 'transform_description': "", # For Transform effect
-        'create_toughness_override': None, 'create_volume_override': None, # For Create effect
-        'linkedCombatSkill': '', 'arrayId': '', 'isAlternateEffectOf': None,
-        'isArrayBase': False,
-        'current_ally_stats': get_default_ally_stat_block(), # For Summon/Duplication power config
-        'current_variable_config_trait_builder': {} # For building traits within Variable
-    }
-
-def get_default_ally_stat_block(): # Used for Summon/Dupe config and Minion/Sidekick advantage instances
-    return {"name": "New Ally/Creation", "type": "Minion", "pl_for_ally": 5, 
-            "cost_pp_asserted_by_user": 0, # What the user *thinks* this ally costs from its pool
-            "calculated_cost_engine": 0, # What the engine *actually* calculates for this ally
-            "abilities_summary": {ab['id']: 0 for ab in rule_data.get('abilities', [])}, # Simplified ability input
-            "defenses_summary": {"Dodge":0, "Parry":0, "Toughness":0, "Fortitude":0, "Will":0}, # Simplified
-            "skills_summary_text": "", # Text area for skills
-            "powers_summary_text": "", # Text area for powers
-            "advantages_summary_text": "", # Text area for advantages
-            "notes": ""}
-
-def get_default_hq_form_state():
-    return {"editing_hq_id": None, "name": "New HQ", 
-            "size_id": next((s['id'] for s in rule_data.get('hq_features', []) if s.get('name', '').lower() == 'size: medium (house)'), "hq_size_medium"), 
-            "bought_toughness_ranks": 0, "features": []} # features: [{'id': fid, 'rank': r}]
-
-def get_default_vehicle_form_state():
-    return {"editing_vehicle_id": None, "name": "New Vehicle", "size_rank": 0, # User inputs vehicle size rank
-            "features": []} # features: [{'id': fid, 'rank': r}]
-
 def initialize_session_state():
+    """Initializes all necessary session state variables if they don't exist."""
     default_char_state = engine.get_default_character_state()
+
     if 'character' not in st.session_state:
         st.session_state.character = copy.deepcopy(default_char_state)
-    
-    # Initialize all keys to avoid KeyErrors later
-    for key, value in default_char_state.items():
-        if key not in st.session_state.character:
-            st.session_state.character[key] = copy.deepcopy(value)
-    if 'allies' not in st.session_state.character: st.session_state.character['allies'] = []
-    if 'headquarters' not in st.session_state.character: st.session_state.character['headquarters'] = []
-    if 'vehicles' not in st.session_state.character: st.session_state.character['vehicles'] = []
-
+    else: 
+        for key, value in default_char_state.items():
+            if key not in st.session_state.character:
+                st.session_state.character[key] = copy.deepcopy(value)
 
     if 'current_view' not in st.session_state:
-        st.session_state.current_view = 'Abilities'
+        st.session_state.current_view = 'Abilities' 
+    
     if 'in_wizard_mode' not in st.session_state:
-        st.session_state.in_wizard_mode = False
+        st.session_state.in_wizard_mode = True 
     if 'wizard_step' not in st.session_state:
         st.session_state.wizard_step = 1
     if 'wizard_character_state' not in st.session_state:
         st.session_state.wizard_character_state = copy.deepcopy(default_char_state)
-    
-    if 'power_form_state' not in st.session_state:
-        st.session_state.power_form_state = get_default_power_form_state()
-    if 'hq_form_state' not in st.session_state:
-        st.session_state.hq_form_state = get_default_hq_form_state()
-    if 'vehicle_form_state' not in st.session_state:
-        st.session_state.vehicle_form_state = get_default_vehicle_form_state()
+    else: 
+        for key, value in default_char_state.items():
+            if key not in st.session_state.wizard_character_state:
+                st.session_state.wizard_character_state[key] = copy.deepcopy(value)
 
-initialize_session_state() # Call it to ensure state is set up on first run
+    # Editor/Form States for Advanced Mode
+    if 'power_form_state' not in st.session_state:
+        st.session_state.power_form_state = get_default_power_form_state(rule_data_app)
+    if 'show_power_builder_form' not in st.session_state: 
+        st.session_state.show_power_builder_form = False
+
+    if 'advantage_editor_config' not in st.session_state:
+        st.session_state.advantage_editor_config = copy.deepcopy(DEFAULT_ADVANTAGE_EDITOR_CONFIG)
+    if 'equipment_editor_config' not in st.session_state:
+        st.session_state.equipment_editor_config = copy.deepcopy(DEFAULT_EQUIPMENT_EDITOR_CONFIG)
+    if 'hq_form_state' not in st.session_state: 
+        st.session_state.hq_form_state = copy.deepcopy(DEFAULT_HQ_EDITOR_CONFIG)
+    if 'vehicle_form_state' not in st.session_state: 
+        st.session_state.vehicle_form_state = copy.deepcopy(DEFAULT_VEHICLE_EDITOR_CONFIG)
+    if 'ally_editor_config' not in st.session_state:
+        st.session_state.ally_editor_config = copy.deepcopy(DEFAULT_ALLY_EDITOR_CONFIG)
+
+initialize_session_state() 
 
 # --- Helper Functions ---
 def generate_unique_id(prefix="item_"):
-    return f"{prefix}{uuid.uuid4().hex[:12]}" # Shorter UUID for readability
+    """Generates a unique ID string with a given prefix."""
+    return f"{prefix}{uuid.uuid4().hex[:12]}"
 
 def update_char_value(key_path: List[str], value: Any, target_state_key: str = 'character', do_recalc: bool = True):
-    char_obj_ref = st.session_state.get(target_state_key)
-    if char_obj_ref is None: return
+    """
+    Updates a value in the character state dictionary and optionally triggers recalculation.
+    """
+    if target_state_key not in st.session_state:
+        st.error(f"Target state key '{target_state_key}' not found in session state.")
+        return
 
+    char_obj_ref = st.session_state[target_state_key]
     current_level = char_obj_ref
-    for i, k_part in enumerate(key_path):
-        if i == len(key_path) - 1:
-            current_level[k_part] = value
-        else:
-            current_level = current_level.setdefault(k_part, {}) # Ensure path exists
+    try:
+        for i, k_part in enumerate(key_path):
+            if i == len(key_path) - 1:
+                current_level[k_part] = value
+            else:
+                if not isinstance(current_level.get(k_part), dict):
+                    current_level[k_part] = {} # Ensure path exists
+                current_level = current_level[k_part]
+    except TypeError as e:
+        st.error(f"Error updating character state at path {key_path}: {e}. Current level was not a dictionary.")
+        return
     
     if do_recalc:
         st.session_state[target_state_key] = engine.recalculate(char_obj_ref)
-    # No explicit st.rerun() needed here, widget on_change + state update handles it.
 
-def apply_archetype_template(character_state: CharacterState, archetype_id: str) -> CharacterState:
-    # ... (Full implementation from previous responses, ensuring it correctly
-    #      constructs powers from archetype template using pre-built power data or engine logic) ...
-    # This function is crucial and needs to be robust.
-    archetype_rule = next((arch for arch in rule_data.get('archetypes', []) if arch['id'] == archetype_id), None)
-    if not archetype_rule: return character_state
-    new_state = engine.get_default_character_state(character_state.get('powerLevel',10)) # Start fresh but keep PL
-    new_state['name'] = f"{archetype_rule.get('name', 'Hero')} (Archetype)"
-    new_state['concept'] = archetype_rule.get('description', '')
+# --- Wizard Mode Callbacks ---
+def update_char_value_wiz(key_path: List[str], value: Any, do_recalc: bool = True):
+    update_char_value(key_path, value, target_state_key='wizard_character_state', do_recalc=do_recalc)
 
-    template = archetype_rule.get('template', {})
-    new_state['abilities'].update(template.get('abilities', {}))
-    new_state['defenses'].update(template.get('defenses', {}))
-    for skill_id, rank in template.get('skills', {}).items():
-        if skill_id in new_state['skills']: new_state['skills'][skill_id] = rank
-    new_state['advantages'] = copy.deepcopy(template.get('advantages', [])) # Ensure params are copied if any
-    
-    # Archetype Powers - these need to be constructed as full power objects
-    template_powers_def = template.get('powers', [])
-    constructed_powers = []
-    for p_template in template_powers_def:
-        # This needs to create a complete power definition that calculate_individual_power_cost can use
-        # For simplicity, assume prebuilt_powers.json has full definitions for these id_refs
-        prebuilt_pwr = next((p for p in rule_data.get('prebuilt_powers_v1',[]) if p.get('id') == p_template.get('id_ref')), None)
-        if prebuilt_pwr:
-            new_power = copy.deepcopy(prebuilt_pwr)
-            new_power['id'] = generate_unique_id("pwr_arch_")
-            new_power['name'] = p_template.get('name', new_power.get('name', 'Archetype Power'))
-            new_power['rank'] = p_template.get('rank', new_power.get('rank', 1))
-            # If archetype template specifies different modifiers for a prebuilt, apply them here
-            constructed_powers.append(new_power)
-        else: # Fallback if id_ref not found in prebuilts (less ideal)
-             constructed_powers.append({
-                'id': generate_unique_id("pwr_arch_"), 'name': p_template.get('name'), 
-                'baseEffectId': p_template.get('baseEffectId', 'eff_feature'), # Need a mapping or better data
-                'rank': p_template.get('rank',1), 'modifiersConfig':[], 'cost':0
-            })
-    new_state['powers'] = constructed_powers
-    return engine.recalculate(new_state)
+def apply_archetype_to_wizard_state_callback(archetype_id: str):
+    if not archetype_id: # "Start from Scratch" selected
+        current_pl = st.session_state.wizard_character_state.get('powerLevel', 10)
+        # Preserve name, concept, PL if user entered them before choosing scratch
+        name = st.session_state.wizard_character_state.get('name', 'New Hero')
+        concept = st.session_state.wizard_character_state.get('concept', '')
+        st.session_state.wizard_character_state = engine.get_default_character_state(pl=current_pl)
+        st.session_state.wizard_character_state['name'] = name
+        st.session_state.wizard_character_state['concept'] = concept
+        st.session_state.wizard_character_state = engine.recalculate(st.session_state.wizard_character_state)
 
+    else:
+        archetype_rule = next((arch for arch in rule_data_app.get('archetypes', []) if arch['id'] == archetype_id), None)
+        if not archetype_rule: 
+            st.error(f"Archetype '{archetype_id}' not found.")
+            return
 
-# --- UI Rendering Functions (Import from ui_sections/ or define inline) ---
-# To keep app.py manageable, these would ideally be in ui_sections/
-# For this "fully coded out" request, I will provide the structure and key logic inline
-# for the most complex parts, and placeholders for simpler, repetitive sections.
+        current_pl = st.session_state.wizard_character_state.get('powerLevel', 10)
+        new_state = engine.get_default_character_state(pl=current_pl)
+        
+        new_state['name'] = st.session_state.wizard_character_state.get('name', archetype_rule.get('name', 'Hero'))
+        new_state['concept'] = st.session_state.wizard_character_state.get('concept', archetype_rule.get('description', ''))
+        
+        template = archetype_rule.get('template', {})
+        new_state['abilities'].update(template.get('abilities', {}))
+        new_state['defenses'].update(template.get('defenses', {}))
+        
+        base_skill_rules_list = rule_data_app.get('skills',{}).get('list',[])
+        for skill_id_template, rank in template.get('skills', {}).items():
+            # Check if it's a base skill or a known specialized skill pattern
+            is_valid_skill = False
+            base_skill_of_template = None
+            for base_skill_def in base_skill_rules_list:
+                if skill_id_template == base_skill_def['id'] or \
+                   (base_skill_def.get('specialization_possible') and skill_id_template.startswith(base_skill_def['id'] + "_")):
+                    is_valid_skill = True
+                    base_skill_of_template = base_skill_def
+                    break
+            if is_valid_skill:
+                 new_state['skills'][skill_id_template] = rank
+            else:
+                st.warning(f"Skill '{skill_id_template}' from archetype not directly mapped. Ensure it's a valid base or specialized skill ID.")
 
-def render_sidebar(target_char_state_key: str):
-    # ... (Full sidebar UI code from previous response, ensuring it reads from target_char_state_key) ...
-    # This includes: Character Info, PP Summary, Full Validation Display, Navigation, File Ops, Mode Switching
-    # Crucially, validation display iterates st.session_state[target_char_state_key]['validationErrors']
-    pass # Placeholder for the full sidebar codeblock
+        new_state['advantages'] = copy.deepcopy(template.get('advantages', []))
+        for adv in new_state['advantages']:
+            if 'instance_id' not in adv: # Ensure unique instance ID for each advantage
+                adv['instance_id'] = generate_unique_id(f"adv_{adv.get('id','unknown')}_arch_")
 
-def render_wizard_mode():
-    # ... (Full Wizard Mode UI code with all 6 steps and help text from previous response) ...
-    # Ensures it uses target_state_key='wizard_character_state' for updates
-    # and the 'Finish' button correctly transfers to st.session_state.character
-    # and sets st.session_state.in_wizard_mode = False
-    st.header("✨ Character Creation Wizard ✨")
-    st.markdown("*(Wizard Mode fully implemented here - see previous detailed steps)*")
-    st.caption("This section guides new users through character creation step-by-step.")
-    # Add navigation buttons and display current wizard character state's PP
-    pass # Placeholder for the full Wizard Mode codeblock
+        template_powers = template.get('powers', [])
+        constructed_powers = []
+        archetype_power_id_map: Dict[str, str] = {}
 
-# --- ADVANCED MODE SECTIONS ---
-def render_abilities_section(char_state: CharacterState):
-    st.header("Abilities")
-    st.markdown("*(Full UI from previous development steps for Abilities - using `st.number_input` for each, displaying mod and cost, using `update_char_value`)*")
-    with st.expander("ℹ️ Understanding Abilities"):
-        st.markdown(rule_data.get("help_text",{}).get("abilities_help","Ability descriptions from DHH...")) # Load from ruleData
-    # Example for one ability
-    new_str_rank = st.number_input(f"Strength (STR)", min_value=-5, max_value=30, # Max 30 for cosmic
-                                   value=char_state.get('abilities',{}).get('STR',0), 
-                                   key="ability_STR_input",
-                                   help=next((a.get('description') for a in rule_data.get('abilities',[]) if a.get('id')=='STR'),""))
-    if new_str_rank != char_state.get('abilities',{}).get('STR',0):
-        update_char_value(['abilities','STR'], new_str_rank)
-        st.rerun() # Force immediate recalc and display update
-    # ... Repeat for all abilities ...
+        for p_template in template_powers:
+            new_power_instance_id = generate_unique_id("pwr_arch_")
+            if p_template.get('id'): 
+                archetype_power_id_map[p_template['id']] = new_power_instance_id
 
-def render_defenses_section(char_state: CharacterState):
-    st.header("Defenses")
-    st.markdown("*(Full UI from previous development steps for Defenses - base, bought, total, PL cap display using st.metric, using `update_char_value`)*")
+            power_entry: PowerDefinition = {
+                'id': new_power_instance_id,
+                'name': p_template.get('name', 'Archetype Power'),
+                'baseEffectId': p_template.get('baseEffectId'),
+                'rank': p_template.get('rank', 1),
+                'descriptors': p_template.get('descriptors', ''),
+                'modifiersConfig': copy.deepcopy(p_template.get('modifiersConfig', [])),
+                'sensesConfig': copy.deepcopy(p_template.get('sensesConfig', [])),
+                'immunityConfig': copy.deepcopy(p_template.get('immunityConfig', [])),
+                'powerSpecificData': copy.deepcopy(p_template.get('powerSpecificData', {})), # For Affliction degrees etc.
+                'linkedCombatSkill': p_template.get('linkedCombatSkill'),
+                'arrayId': p_template.get('arrayId'),
+                'isArrayBase': p_template.get('isArrayBase', False),
+                'isAlternateEffectOf': None 
+            }
+            for mod_conf in power_entry['modifiersConfig']:
+                if 'instance_id' not in mod_conf:
+                    mod_conf['instance_id'] = generate_unique_id("mod_arch_")
+            constructed_powers.append(power_entry)
 
-def render_skills_section(char_state: CharacterState):
-    st.header("Skills")
-    st.markdown("*(Full UI from previous development steps for Skills - listing all, inputting ranks, showing total bonus, gov ability, skill cap display, using `update_char_value`)*")
+        for pwr in constructed_powers: # Resolve AE links
+            template_ae_base_id = next((pt['isAlternateEffectOf'] for pt_idx, pt in enumerate(template_powers) if archetype_power_id_map.get(pt.get('id',''),f"none_{pt_idx}") == pwr['id'] and pt.get('isAlternateEffectOf')), None)
+            if template_ae_base_id and template_ae_base_id in archetype_power_id_map:
+                pwr['isAlternateEffectOf'] = archetype_power_id_map[template_ae_base_id]
+        
+        new_state['powers'] = constructed_powers
+        st.session_state.wizard_character_state = engine.recalculate(new_state)
+    st.rerun()
 
-def render_advantages_section(char_state: CharacterState):
-    st.header("Advantages")
-    st.markdown("*(Full UI from previous development steps for Advantages - searchable list, adding, removing, ranking, **comprehensive dynamic parameter input** for ALL advantages based on `ruleData.advantages_v1.json` `parameter_type`, using `update_char_value`)*")
+def finish_wizard_callback():
+    st.session_state.character = copy.deepcopy(st.session_state.wizard_character_state)
+    st.session_state.character = engine.recalculate(st.session_state.character)
+    st.session_state.in_wizard_mode = False
+    st.session_state.current_view = 'Character Sheet' 
+    st.session_state.wizard_character_state = engine.get_default_character_state(st.session_state.character.get('powerLevel',10))
+    st.session_state.wizard_step = 1
+    st.success("Character created! Switched to Advanced Mode.")
+    st.rerun()
 
-def render_powers_section(char_state: CharacterState):
-    st.header("Powers")
-    st.markdown("*(This is the MOST complex UI section. It needs the full Power Builder implementation as detailed across all previous steps, including the `st.session_state.power_form_state` management for adding/editing a single power within an `st.form`.)*")
-    st.markdown("""
-    **Key Power Builder Features to Implement Here:**
-    - Display list of current character powers with edit/delete buttons.
-    - "Add New Power" button / "Edit Power {name}" header for the form.
-    - `st.form(key="power_builder_form", clear_on_submit=True)`
-        - Select Base Effect (`st.selectbox` from `ruleData.power_effects`).
-        - Input Rank (`st.number_input`).
-        - **Contextual Measurement Display:** Show what rank means (e.g., Flight 5 = 250ft/round).
-        - **Specialized UI Blocks** (conditionally rendered based on selected Base Effect):
-            - **Senses:** Multiselect for sense abilities from `power_senses_config.json`.
-            - **Immunity:** Multiselect for immunities from `power_immunities_config.json`.
-            - **Variable:** Inputs for Rank, Descriptors. **"Mini-builder" UI for Variable Configurations:**
-                - Allow adding multiple named configurations.
-                - For each config: A sub-UI to add traits (Power, Enhanced Ability/Skill/Defense/Advantage) with their ranks/parameters.
-                - The engine (`_calculate_cost_and_validate_trait_for_variable_or_ally`) calculates the cost of each trait in the config.
-                - Display sum of trait costs for the config vs. Variable pool.
-                - Display PL validation for traits within the config.
-            - **Create:** Input for Rank. UI for Create-specific modifiers (Movable, Continuous, Impervious with its own rank, etc.). Display derived Toughness/Volume.
-            - **Healing:** Input for Rank. UI for Healing-specific modifiers (Restorative, Persistent, etc.).
-            - **Nullify/Weaken/Teleport/Transform/Growth/Shrinking/Duplication/Summon:** UI for their specific parameters and common modifiers.
-                - For Summon/Duplication: Display allotted PP for creation. Link to "Companions" section or include simplified stat block input here.
-        - **Comprehensive Modifier UI:**
-            - `st.selectbox` to choose a modifier to add from *all* modifiers in `ruleData.power_modifiers.json`.
-            - Dynamically display input fields for the selected modifier's parameters (rank, text input, selection from options) based on `modifier_rule.parameter_type`.
-            - Display list of currently applied modifiers to the power, with options to edit their parameters or remove them.
-        - **Array Configuration UI:**
-            - Checkbox "Is this an Alternate Effect (AE)?"
-            - If AE, `st.selectbox` to choose base power from existing character powers.
-            - Checkbox "Is this the base of a new Power Array?"
-            - If Array Base, `st.text_input("Array ID")`.
-            - Checkbox "Make this Array Dynamic?" (adds Dynamic extra).
-        - **Linked Combat Skill:** `st.selectbox` as before.
-        - **Live Power Cost Preview:** Display `engine.calculate_individual_power_cost(st.session_state.power_form_state, char_state.get('powers',[]))`.
-        - `st.form_submit_button("Save Power to Character")` logic to add/update power in `char_state.powers` and call `update_char_value`.
-    """)
+# --- Sidebar Rendering ---
+def render_sidebar():
+    with st.sidebar:
+        st.title("HeroForge M&M")
+        st.caption(f"v1.0 - M&M 3e Character Creator")
+        st.markdown("---")
 
-def render_equipment_section(char_state: CharacterState):
-    st.header("Equipment")
-    st.markdown("*(Full UI from previous development steps for Equipment - EP display, adding standard items from `ruleData`, adding custom items, using `update_char_value`)*")
+        active_char_state_key = 'wizard_character_state' if st.session_state.in_wizard_mode else 'character'
+        active_char_state = st.session_state[active_char_state_key]
 
-def render_hq_builder_section(char_state: CharacterState):
-    st.header("Headquarters")
-    st.markdown("*(Full UI for Headquarters construction as detailed previously: adding HQs, selecting Size (which sets base Toughness/EP), adding Features from `ruleData.hq_features` with ranks, displaying total EP for each HQ, overall EP validation, using `update_char_value`)*")
+        st.header("Character Info")
+        st.markdown(f"**Name:** {active_char_state.get('name', 'N/A')}")
+        st.markdown(f"**PL:** {active_char_state.get('powerLevel', 0)}")
+        st.markdown(f"**PP:** {active_char_state.get('spentPowerPoints',0)} / {active_char_state.get('totalPowerPoints',0)}")
+        
+        remaining_pp = active_char_state.get('totalPowerPoints',0) - active_char_state.get('spentPowerPoints',0)
+        pp_color = "error" if remaining_pp < 0 else "success"
+        st.markdown(f"<span style='color:{'red' if pp_color=='error' else 'green'};'>Remaining PP: {remaining_pp}</span>", unsafe_allow_html=True)
+        st.markdown("---")
 
-def render_vehicle_builder_section(char_state: CharacterState):
-    st.header("Vehicles")
-    st.markdown("*(Full UI for Vehicle construction as detailed previously: adding Vehicles, selecting Size Rank (engine derives base stats/EP), adding Features from `ruleData.vehicle_features` with ranks, displaying total EP for each Vehicle, overall EP validation, using `update_char_value`)*")
+        if st.session_state.in_wizard_mode:
+            st.subheader("Wizard Navigation")
+            max_steps = 6
+            cols_wiz_nav = st.columns(2)
+            if cols_wiz_nav[0].button("⬅️ Previous", disabled=(st.session_state.wizard_step <= 1), use_container_width=True, key="wiz_prev_btn"):
+                st.session_state.wizard_step -= 1; st.rerun()
+            if cols_wiz_nav[1].button("Next ➡️", disabled=(st.session_state.wizard_step >= max_steps), use_container_width=True, key="wiz_next_btn"):
+                st.session_state.wizard_step += 1; st.rerun()
+            if st.button("Exit Wizard to Advanced Mode", key="exit_wizard_sidebar_btn", use_container_width=True):
+                st.session_state.character = copy.deepcopy(st.session_state.wizard_character_state)
+                st.session_state.character = engine.recalculate(st.session_state.character)
+                st.session_state.in_wizard_mode = False
+                st.session_state.current_view = 'Abilities'; st.rerun()
+        else: 
+            st.subheader("Advanced Sections")
+            view_options = ["Abilities", "Defenses", "Skills", "Advantages", "Powers", "Equipment", "Headquarters", "Vehicles", "Companions (Allies)", "Complications", "Character Sheet", "Measurements Table"]
+            current_view_adv = st.session_state.get('current_view', 'Abilities')
+            if current_view_adv not in view_options: current_view_adv = 'Abilities'
+            new_view = st.radio("Go to:", view_options, index=view_options.index(current_view_adv), key="adv_nav_radio_main")
+            if new_view != current_view_adv:
+                st.session_state.current_view = new_view; st.rerun()
+            if st.button("✨ Start Character Wizard", key="start_wizard_btn_sidebar", use_container_width=True):
+                st.session_state.wizard_character_state = engine.get_default_character_state(st.session_state.character.get('powerLevel',10))
+                st.session_state.wizard_step = 1; st.session_state.in_wizard_mode = True; st.rerun()
+        st.markdown("---")
 
-def render_allies_section(char_state: CharacterState): # Companions
-    st.header("Companions (Minions, Sidekicks, Summons, Duplicates)")
-    st.markdown("*(Full UI for managing allies as detailed previously: display total Minion/Sidekick PP pools, add/edit ally records with structured stat block inputs (Name, Type, Ally PL, User-Asserted PP Cost, Key Abilities text, Defenses text, Skills text, Powers/Advantages text area), engine validates User-Asserted PP against pool and basic PL for ally stats, using `update_char_value`)*")
+        st.subheader("File Operations")
+        if st.button("➕ New Character", key="new_char_sidebar_btn", use_container_width=True):
+            default_pl = st.session_state.character.get('powerLevel', 10)
+            st.session_state.character = engine.get_default_character_state(pl=default_pl)
+            st.session_state.wizard_character_state = engine.get_default_character_state(pl=default_pl)
+            st.session_state.power_form_state = get_default_power_form_state(rule_data_app)
+            st.session_state.advantage_editor_config = copy.deepcopy(DEFAULT_ADVANTAGE_EDITOR_CONFIG)
+            st.session_state.equipment_editor_config = copy.deepcopy(DEFAULT_EQUIPMENT_EDITOR_CONFIG)
+            st.session_state.hq_form_state = copy.deepcopy(DEFAULT_HQ_EDITOR_CONFIG)
+            st.session_state.vehicle_form_state = copy.deepcopy(DEFAULT_VEHICLE_EDITOR_CONFIG)
+            st.session_state.ally_editor_config = copy.deepcopy(DEFAULT_ALLY_EDITOR_CONFIG)
+            st.session_state.show_power_builder_form = False
+            st.session_state.current_view = 'Abilities' if not st.session_state.in_wizard_mode else st.session_state.current_view
+            st.session_state.wizard_step = 1 if st.session_state.in_wizard_mode else st.session_state.wizard_step
+            st.success("New character started."); st.rerun()
 
-def render_complications_section(char_state: CharacterState):
-    st.header("Complications")
-    st.markdown("*(Full UI from previous development steps for Complications - add/remove, min 2 validation, using `update_char_value`)*")
+        char_json_data = json.dumps(st.session_state.character, indent=4)
+        char_name_for_file = "".join(c for c in st.session_state.character.get('name', 'M_M_Hero') if c.isalnum() or c in (' ', '_')).rstrip()
+        st.download_button(label="💾 Save Character (JSON)", data=char_json_data, file_name=f"{char_name_for_file}.json", mime="application/json", key="save_char_json_sidebar_btn", use_container_width=True)
 
-def render_measurements_table_view():
-    st.header("Measurements Table Reference")
-    st.markdown("*(Full UI from previous development steps for displaying Measurements Table using `st.dataframe`)*")
+        uploaded_file = st.file_uploader("📂 Load Character (JSON)", type=["json"], key="load_char_json_sidebar_uploader")
+        if uploaded_file is not None:
+            try:
+                loaded_data = json.load(uploaded_file)
+                if 'powerLevel' in loaded_data and 'abilities' in loaded_data:
+                    default_for_load = engine.get_default_character_state(loaded_data.get('powerLevel',10))
+                    merged_char_state = default_for_load
+                    merged_char_state.update(loaded_data) 
+                    st.session_state.character = engine.recalculate(merged_char_state)
+                    st.session_state.in_wizard_mode = False 
+                    st.session_state.current_view = 'Character Sheet'
+                    st.success(f"Character '{st.session_state.character.get('name')}' loaded successfully!"); st.rerun()
+                else: st.error("Invalid character file format.")
+            except Exception as e: st.error(f"Error loading character: {e}")
+        
+        if st.button("📄 Export to PDF", key="export_pdf_sidebar_btn", use_container_width=True):
+            pdf_char_state = st.session_state.character # Use the main character state for PDF
+            with st.spinner("Generating PDF..."):
+                pdf_bytes = generate_pdf_bytes(pdf_char_state, rule_data_app, engine)
+                if pdf_bytes:
+                    st.download_button(label="📥 Download PDF Sheet", data=pdf_bytes, file_name=f"{pdf_char_state.get('name', 'M_M_Hero')}_Sheet.pdf", mime="application/pdf", key="download_pdf_final_sidebar_btn", use_container_width=True)
+                    # st.success("PDF ready for download!") # Button itself is the call to action
+                else: st.error("Failed to generate PDF.")
+        st.markdown("---")
+
+        st.subheader("Validation Status")
+        validation_errors = active_char_state.get('validationErrors', [])
+        if not validation_errors:
+            st.success("✅ Character is Valid!")
+        else:
+            st.error(f"⚠️ {len(validation_errors)} Validation Issue(s) Found:")
+            for err_idx, error_msg in enumerate(validation_errors):
+                st.markdown(f"- {error_msg}", key=_uk("sidebar_validation_error_disp", err_idx)) # Unique key
+        st.markdown("---")
+        
+        if st.button("🔄 Force Full Recalculate", key="force_recalc_sidebar_btn", use_container_width=True):
+            st.session_state[active_char_state_key] = engine.recalculate(active_char_state)
+            st.success("Character data recalculated."); st.rerun()
 
 # --- Main Application Flow ---
 def main():
-    # Sidebar is rendered first and its state might affect main view
-    active_char_key_for_sidebar = 'wizard_character_state' if st.session_state.in_wizard_mode else 'character'
-    render_sidebar(active_char_key_for_sidebar) # Pass the key of the character state it should operate on
-
+    render_sidebar() 
     if st.session_state.in_wizard_mode:
-        render_wizard_mode()
-    else: # Advanced Mode
-        char_state_adv = st.session_state.character
-        view = st.session_state.current_view
-
-        if view == 'Character Sheet':
-            st.header(f"{char_state_adv.get('name', 'Unnamed Hero')} - Character Sheet")
-            if st.button("🔄 Recalculate & Refresh Sheet Data", key="refresh_sheet_adv_btn"):
-                 st.session_state.character = engine.recalculate(char_state_adv)
-                 st.rerun()
-            sheet_html = generate_pdf_html_content(st.session_state.character, rule_data, engine)
-            try:
-                with open("assets/pdf_styles.css", "r", encoding="utf-8") as f:
-                    sheet_css = f"<style>{f.read()}</style>"
-                st.markdown(sheet_css, unsafe_allow_html=True)
-                st.markdown(sheet_html, unsafe_allow_html=True)
-            except FileNotFoundError:
-                st.error("`assets/pdf_styles.css` not found.")
-                st.markdown(sheet_html, unsafe_allow_html=True)
-        
-        elif view == 'Abilities': render_abilities_section(char_state_adv)
-        elif view == 'Defenses': render_defenses_section(char_state_adv)
-        elif view == 'Skills': render_skills_section(char_state_adv)
-        elif view == 'Advantages': render_advantages_section(char_state_adv)
-        elif view == 'Powers': render_powers_section(char_state_adv)
-        elif view == 'Equipment': render_equipment_section(char_state_adv)
-        elif view == 'Headquarters': render_hq_builder_section(char_state_adv)
-        elif view == 'Vehicles': render_vehicle_builder_section(char_state_adv)
-        elif view == 'Companions (Allies)': render_allies_section(char_state_adv)
-        elif view == 'Complications': render_complications_section(char_state_adv)
-        elif view == 'Measurements Table': render_measurements_table_view()
-        else:
-            st.error(f"Unknown view: {view}")
+        wizard_render_functions = {
+            1: render_wizard_step1_basics, 2: render_wizard_step2_archetype,
+            3: render_wizard_step3_abilities_guided, 4: render_wizard_step4_defskills_guided,
+            5: render_wizard_step5_powers_guided, 6: render_wizard_step6_complreview_final
+        }
+        current_wizard_step_func = wizard_render_functions.get(st.session_state.wizard_step)
+        if current_wizard_step_func:
+            wizard_args = {
+                "st_obj": st, "char_state": st.session_state.wizard_character_state,
+                "rule_data": rule_data_app, "engine": engine,
+                "update_char_value_wiz": update_char_value_wiz
+            }
+            if st.session_state.wizard_step == 2: wizard_args["apply_archetype_to_wizard_state"] = apply_archetype_to_wizard_state_callback
+            if st.session_state.wizard_step == 5: wizard_args["generate_unique_id_func"] = generate_unique_id
+            if st.session_state.wizard_step == 6: wizard_args["finish_wizard_func"] = finish_wizard_callback
+            current_wizard_step_func(**wizard_args)
+        else: st.error(f"Unknown wizard step: {st.session_state.wizard_step}")
+    else: 
+        render_selected_advanced_view(
+            view_name=st.session_state.current_view, st_obj=st, 
+            char_state=st.session_state.character, rule_data=rule_data_app, 
+            engine=engine, update_char_value=update_char_value, 
+            generate_id_func=generate_unique_id,
+            power_form_state_ref=st.session_state.power_form_state,
+            advantage_editor_config_ref=st.session_state.advantage_editor_config,
+            equipment_editor_config_ref=st.session_state.equipment_editor_config,
+            hq_form_state_ref=st.session_state.hq_form_state,
+            vehicle_form_state_ref=st.session_state.vehicle_form_state,
+            ally_editor_config_ref=st.session_state.ally_editor_config
+        )
 
 if __name__ == '__main__':
     main()

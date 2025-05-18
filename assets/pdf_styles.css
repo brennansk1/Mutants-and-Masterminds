@@ -26,7 +26,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'League Spartan', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Example header font - ensure it's available or use web safe */
+    font-family: 'League Spartan', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Header font stack - ensure League Spartan is available or it falls back */
     margin-top: 0.6em;
     margin-bottom: 0.3em;
     color: #1a1a1a;
@@ -50,7 +50,7 @@ h3.section-title { /* For main section titles like Abilities, Powers, etc. */
     padding-bottom: 3px;
     margin-top: 0.25in; /* Space above sections */
     margin-bottom: 0.15in;
-    page-break-before: auto; /* Allow breaking before new major sections if needed, but not forcing unless section is huge */
+    page-break-before: auto; 
     page-break-after: avoid;
 }
 h3.section-title:first-child {
@@ -82,6 +82,7 @@ ul, ol {
 li {
     margin-bottom: 0.1em;
     line-height: 1.3;
+    page-break-inside: avoid; /* Important for multi-column lists */
 }
 
 strong {
@@ -133,19 +134,18 @@ hr.sub-hr {
 
 .sheet-header {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* PL, Player, PP, Identity etc. */
-    /* Or: display: flex; flex-wrap: wrap; justify-content: space-between; */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 3px 10px; /* Row gap, Column gap */
     align-items: baseline;
     margin-bottom: 0.2in;
     padding-bottom: 0.1in;
     border-bottom: 2px solid #555555;
 }
-.sheet-header .char-name { /* Assuming h1.char-name-pdf is used instead, or style this one */
+.sheet-header .char-name { 
     font-size: 20pt; font-weight: bold; grid-column: 1 / -1; margin-bottom: 5px; text-align: left;
 }
 .sheet-header .grid-group {
-    display: contents; /* Allows spans to align with main grid if header is a grid */
+    display: contents; 
 }
 .sheet-header .grid-group > span:nth-child(odd) { /* Label */
     font-weight: bold;
@@ -168,9 +168,8 @@ hr.sub-hr {
 
 
 .sheet-body {
-    display: grid; /* Using CSS Grid for main layout */
-    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns */
-    /* Alternative: grid-template-columns: 32% 32% 32%; to account for gap */
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
     gap: 0.25in; /* Space between columns */
 }
 
@@ -179,30 +178,27 @@ hr.sub-hr {
     flex-direction: column;
     gap: 0.2in; /* Space between sections within a column */
 }
-.column-one, .column-two, .column-three { /* For targeting specific columns if needed */
-    /* width: 32%; if using flexbox instead of grid */
-}
+/* .column-one, .column-two, .column-three {} */
 
 .section {
     border: 1px solid #c0c0c0;
-    padding: 0.15in 0.2in; /* More padding for sections */
+    padding: 0.15in 0.2in; 
     border-radius: 2px;
     background-color: #ffffff;
-    page-break-inside: avoid; /* Crucial for clean page breaks */
-    /* box-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle shadow for on-screen PDF */
+    page-break-inside: avoid; 
 }
 
 /* --- Specific Section Styling --- */
 
 .abilities-section .abilities-grid {
     display: grid;
-    grid-template-columns: repeat(2, auto 1fr auto); /* Label | Rank | Mod (2 abilities per row effectively) */
+    grid-template-columns: repeat(2, auto 1fr auto); /* Label | Rank | Mod */
     gap: 2px 8px;
     align-items: baseline;
     font-size: 8pt;
 }
 .abilities-grid .ability-item {
-    display: contents; /* Children participate in grid */
+    display: contents; 
 }
 .abilities-grid .ability-item span:nth-child(1) { font-weight: bold; text-transform: uppercase; }
 .abilities-grid .ability-item span:nth-child(2) { text-align: center; font-size: 10pt; font-weight: bold; }
@@ -252,7 +248,7 @@ hr.sub-hr {
     grid-template-columns: auto 1fr auto auto; /* Name (Ab) Spacer Bonus (Ranks) */
     gap: 0 4px;
     line-height: 1.3;
-    margin-bottom: 0px; /* Tighter list */
+    margin-bottom: 0px; 
     align-items: baseline;
 }
 .skills-section .skill-entry .skill-name { font-weight: normal; }
@@ -265,12 +261,12 @@ hr.sub-hr {
     padding-left: 0;
     margin-top: 3px;
     font-size: 8pt;
-    column-count: 2; /* Try to make advantages list two columns if long */
+    column-count: 2; 
     column-gap: 0.2in;
 }
 .advantages-section .advantages-list li {
     margin-bottom: 2px;
-    page-break-inside: avoid;
+    page-break-inside: avoid; /* Already present, confirmed good */
 }
 .advantages-section .advantages-list li strong { font-weight: 600; }
 .advantages-section .advantages-list li .advantage-parameter {
@@ -285,9 +281,9 @@ hr.sub-hr {
     border-bottom: 1px solid #d0d0d0;
     page-break-inside: avoid;
 }
-.powers-section .power-entry:last-child { border-bottom: none; }
+.powers-section .power-entry:last-child { border-bottom: none; margin-bottom: 0.1in; }
 .powers-section .power-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
-.powers-section .power-name { font-size: 10pt; font-weight: bold; color: #111; }
+.powers-section .power-name { font-size: 10.5pt; font-weight: bold; color: #000; } /* Slightly more emphasis */
 .powers-section .power-cost { font-size: 8pt; font-style: italic; color: #444; }
 .powers-section .power-base-effect,
 .powers-section .power-array-info,
@@ -296,14 +292,22 @@ hr.sub-hr {
 .powers-section .power-modifiers-list { list-style-type: none; padding-left: 0.15in; margin: 2px 0; font-size: 7.5pt; color: #222; }
 .powers-section .power-modifiers-list li::before { content: "• "; color: #777; margin-right: 3px;}
 .powers-section .power-modifiers-list li .modifier-param { font-style: normal; color: #000; font-weight: 500; }
+
 .powers-section .variable-configs-list { font-size: 7.5pt; margin-left: 0.15in; margin-top: 3px; }
 .powers-section .variable-configs-list strong { font-weight: 600; }
 .powers-section .variable-configs-list ul { list-style-type: circle; padding-left: 10px; margin-top: 2px; }
-.powers-section .variable-configs-list li { margin-bottom: 3px; }
-.powers-section .config-traits-desc { white-space: pre-wrap; word-wrap: break-word; background-color: #f8f8f8; padding: 3px 5px; border: 1px solid #eaeaea; border-radius: 2px; font-size: 0.9em; margin-top: 1px; }
-.powers-section .power-ally-notes pre { /* For Summon/Dupe notes */
-    white-space: pre-wrap; word-wrap: break-word; background-color: #f8f8f8;
-    padding: 5px; border: 1px solid #eaeaea; font-size: 0.9em; margin-top: 2px;
+.powers-section .variable-configs-list li { margin-bottom: 3px; page-break-inside: avoid; }
+.powers-section .config-traits-desc, 
+.powers-section .power-ally-notes pre { 
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+    background-color: #f7f7f7; /* Slightly adjusted */
+    padding: 4px 6px;  /* Slightly adjusted */
+    border: 1px solid #e0e0e0; /* Slightly adjusted */
+    border-radius: 3px; /* Added */
+    font-size: 0.85em; /* Slightly adjusted */
+    margin-top: 2px;
+    font-family: 'Menlo', 'Consolas', 'Courier New', monospace; /* Monospaced font for code-like text */
 }
 
 
@@ -322,18 +326,21 @@ hr.sub-hr {
 .allies-section .ally-entry h4 { font-size: 9.5pt; margin-bottom: 2px; }
 .allies-section .ally-entry p { font-size: 8pt; margin: 1px 0 1px 0.1in; }
 .allies-section .ally-stat-block { margin-left: 0.1in; }
-.allies-section .ally-stat-block pre {
-    white-space: pre-wrap; word-wrap: break-word; background-color: #f9f9f9;
-    padding: 5px; border: 1px solid #efefef; font-size: 0.9em; margin-top: 2px;
+.allies-section .ally-stat-block pre { /* Uses same style as .config-traits-desc */
+    white-space: pre-wrap; word-wrap: break-word; background-color: #f7f7f7;
+    padding: 4px 6px; border: 1px solid #e0e0e0; border-radius: 3px; 
+    font-size: 0.85em; margin-top: 2px;
+    font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
 }
 
-.hq-section h4, .vehicle-section h4 { /* Name of HQ/Vehicle */
+.hq-section h4, .vehicle-section h4 { 
     font-size: 10pt; margin-bottom: 3px; border-bottom: 1px solid #bbb; padding-bottom: 1px;
 }
-.hq-entry, .vehicle-entry { margin-bottom: 0.2in; padding-left: 5px; }
+.hq-entry, .vehicle-entry { margin-bottom: 0.2in; padding-left: 5px; page-break-inside: avoid; }
 .hq-stat, .vehicle-stat { font-size: 8.5pt; margin-bottom: 1px; }
 .hq-stat strong, .vehicle-stat strong { display: inline-block; min-width: 80px; font-weight:600; }
 .hq-feature-list, .vehicle-feature-list { list-style: disc; padding-left: 15px; margin-top: 3px; font-size: 8pt; }
+.hq-feature-list li, .vehicle-feature-list li { page-break-inside: avoid; }
 
 
 .sheet-footer {
@@ -341,17 +348,37 @@ hr.sub-hr {
     padding-top: 0.15in;
     border-top: 2.5px double #333333;
     font-size: 8pt;
+    page-break-before: auto; /* Allow break before footer if it's at bottom of page */
 }
 .footer-notes-section { display: grid; grid-template-columns: 1fr 2fr 1.5fr; gap: 0.2in;} /* HP | Conditions | Notes */
 .footer-notes-section .hero-points,
 .footer-notes-section .conditions-track,
 .footer-notes-section .general-notes { margin-bottom: 5px; }
-.footer-notes-section .hero-points .value-box { width: 15px; height: 15px; border: 1px solid #444; margin-right: 3px; }
-.footer-notes-section .conditions-track .line-fill { width: 90%; border-bottom: 1px solid #444; margin-left: 3px; }
-.footer-notes-section .notes-area { border: 1px solid #b0b0b0; min-height: 35mm; margin-top: 2px; padding: 3px; background-color: #fdfdfd; }
+.footer-notes-section .hero-points .value-box { 
+    display: inline-block; /* For box rendering */
+    width: 12px; /* Smaller boxes */
+    height: 12px; 
+    border: 1px solid #444; 
+    margin-right: 3px; 
+    vertical-align: middle;
+}
+.footer-notes-section .conditions-track .line-fill { 
+    display: inline-block;
+    width: 85%; 
+    border-bottom: 1px solid #444; 
+    margin-left: 3px; 
+    vertical-align: middle;
+}
+.footer-notes-section .notes-area { 
+    border: 1px solid #b0b0b0; 
+    min-height: 30mm; /* Slightly reduced */
+    margin-top: 2px; padding: 3px; 
+    background-color: #fdfdfd; 
+    font-size: 7.5pt; /* Allow smaller font for notes */
+    line-height: 1.2;
+}
 
 /* Utility for forcing column break if needed, though avoid if possible */
 .force-column-break {
-    column-break-before: always; /* For older multicol implementations */
-    break-before: column; /* Standard */
+    break-before: column; 
 }

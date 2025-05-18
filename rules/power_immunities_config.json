@@ -5,7 +5,7 @@
       "cost": 1,
       "category": "Common Conditions",
       "description": "Immunity to the effects of aging.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_disease",
@@ -13,7 +13,7 @@
       "cost": 1,
       "category": "Common Conditions",
       "description": "Immunity to diseases.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_poison",
@@ -21,7 +21,7 @@
       "cost": 1,
       "category": "Common Conditions",
       "description": "Immunity to poisons.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_env_cold",
@@ -29,7 +29,7 @@
       "cost": 1,
       "category": "Environmental",
       "description": "Immunity to environmental cold.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_env_heat",
@@ -37,7 +37,7 @@
       "cost": 1,
       "category": "Environmental",
       "description": "Immunity to environmental heat.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_env_pressure",
@@ -45,7 +45,7 @@
       "cost": 1,
       "category": "Environmental",
       "description": "Immunity to environmental high pressure.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_env_radiation",
@@ -53,7 +53,7 @@
       "cost": 1,
       "category": "Environmental",
       "description": "Immunity to environmental radiation.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_env_vacuum",
@@ -61,7 +61,7 @@
       "cost": 1,
       "category": "Environmental",
       "description": "Immunity to environmental vacuum.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_suffocation_one_type",
@@ -69,10 +69,10 @@
       "cost": 1,
       "category": "Common Conditions",
       "parameter_needed": true,
-      "parameter_prompt": "Specify type of suffocation immunity (e.g., Drowning, Specific Atmosphere)",
+      "parameter_prompt": "Specify type of suffocation immunity (e.g., Drowning, Specific Gas)",
       "parameter_type": "text",
       "description": "Immunity to one specific type of suffocation (e.g., drowning).",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_starvation_thirst",
@@ -80,7 +80,7 @@
       "cost": 1,
       "category": "Life Support Components",
       "description": "Immunity to the need for food and water.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_need_sleep",
@@ -88,7 +88,7 @@
       "cost": 1,
       "category": "Life Support Components",
       "description": "Immunity to the need for sleep.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.112, p.134"
     },
     {
       "id": "im_descriptor_rare",
@@ -99,15 +99,15 @@
       "parameter_prompt": "Specify rare power descriptor (e.g., own powers, sibling's powers)",
       "parameter_type": "text",
       "description": "Immunity to a rare power descriptor.",
-      "page_ref": "DHH p.112"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_critical_hits",
       "name": "Critical Hits",
       "cost": 2,
       "category": "Combat Defenses",
-      "description": "Immunity to critical hits.",
-      "page_ref": "DHH p.113"
+      "description": "Immunity to critical hits (critical hits are treated as normal hits).",
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_suffocation_all",
@@ -115,7 +115,7 @@
       "cost": 2,
       "category": "Life Support Components",
       "description": "Immunity to all suffocation effects (no need to breathe).",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_descriptor_uncommon",
@@ -126,7 +126,7 @@
       "parameter_prompt": "Specify uncommon power descriptor (e.g., chemical, gravitic, necromantic)",
       "parameter_type": "text",
       "description": "Immunity to an uncommon power descriptor.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_alteration_effects",
@@ -134,18 +134,18 @@
       "cost": 5,
       "category": "Common Effects",
       "description": "Immunity to effects that alter your form or traits (e.g., Transform, Weaken Shape).",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_sensory_affliction",
-      "name": "Sensory Affliction Effects",
+      "name": "Sensory Affliction Effects (One Sense Group)",
       "cost": 5,
       "category": "Common Effects",
       "parameter_needed": true,
-      "parameter_prompt": "Specify sense or all (e.g., Visual, Auditory, All Sensory Afflictions)",
-      "parameter_type": "text_or_select_sense_group",
-      "description": "Immunity to Affliction effects targeting senses (choose one sense group or all sensory Afflictions for 5 ranks; specific individual sense might be less by GM call).",
-      "page_ref": "DHH p.113"
+      "parameter_prompt": "Specify sense group for immunity to Afflictions (e.g., Visual, Auditory, Mental)",
+      "parameter_type": "text", 
+      "description": "Immunity to Affliction effects targeting one sense group (e.g., all visual Afflictions, all auditory Afflictions). For immunity to all sensory Afflictions, this would need to be taken multiple times or be a broader, GM-priced immunity.",
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_emotion_effects",
@@ -153,15 +153,15 @@
       "cost": 5,
       "category": "Common Effects",
       "description": "Immunity to effects that control or manipulate emotions.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_entrapment_effects",
       "name": "Entrapment Effects",
       "cost": 5,
       "category": "Common Effects",
-      "description": "Immunity to effects that grab, snare, or bind.",
-      "page_ref": "DHH p.113"
+      "description": "Immunity to effects that grab, snare, or bind (e.g., from Affliction or Create).",
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_fatigue_effects",
@@ -169,7 +169,7 @@
       "cost": 5,
       "category": "Common Effects",
       "description": "Immunity to effects that cause fatigue.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_interaction_skills",
@@ -177,18 +177,18 @@
       "cost": 5,
       "category": "Common Effects",
       "description": "Immunity to being affected by interaction skills (Deception, Intimidation, Persuasion).",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
-      "id": "im_damage_descriptor_specific",
-      "name": "Damage (Specific Descriptor)",
+      "id": "im_damage_descriptor_specific_5cost",
+      "name": "Damage (Specific Descriptor - 5 points)",
       "cost": 5,
       "category": "Damage Types",
       "parameter_needed": true,
       "parameter_prompt": "Specify damage descriptor (e.g., Bullets, Cold, Electricity, Falling, Fire, Magic, Radiation, Sonic)",
       "parameter_type": "text",
-      "description": "Immunity to damage from a particular descriptor.",
-      "page_ref": "DHH p.113"
+      "description": "Immunity to damage from a particular descriptor (typically uncommon to common, like cold or fire).",
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_descriptor_common",
@@ -196,23 +196,23 @@
       "cost": 10,
       "category": "Power Descriptors",
       "parameter_needed": true,
-      "parameter_prompt": "Specify common power descriptor (e.g., All Cold, Electricity, Fire, Radiation, or Weather effects)",
+      "parameter_prompt": "Specify common power descriptor (e.g., All Cold effects, All Electricity, All Fire, All Radiation, or All Weather effects)",
       "parameter_type": "text",
       "description": "Immunity to all effects with a common power descriptor.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_life_support",
       "name": "Life Support",
       "cost": 10,
       "category": "Broad Immunities",
-      "description": "Immunity to disease, poison, all environmental conditions (cold, heat, high pressure, radiation, vacuum), suffocation (no need to breathe), and starvation and thirst.",
+      "description": "Immunity to disease, poison, all common environmental conditions (cold, heat, high pressure, radiation, vacuum), suffocation (no need to breathe), and starvation and thirst.",
       "includes": [
         "im_disease", "im_poison", "im_env_cold", "im_env_heat", 
         "im_env_pressure", "im_env_radiation", "im_env_vacuum", 
         "im_suffocation_all", "im_starvation_thirst"
       ],
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.134"
     },
     {
       "id": "im_descriptor_very_common",
@@ -220,10 +220,10 @@
       "cost": 20,
       "category": "Power Descriptors",
       "parameter_needed": true,
-      "parameter_prompt": "Specify very common power descriptor (e.g., Bludgeoning, Energy)",
+      "parameter_prompt": "Specify very common power descriptor (e.g., Bludgeoning Damage, Energy Effects)",
       "parameter_type": "text",
       "description": "Immunity to all effects with a very common power descriptor.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.135"
     },
     {
       "id": "im_fortitude_effects_all",
@@ -231,7 +231,7 @@
       "cost": 30,
       "category": "Broad Immunities",
       "description": "Immunity to all effects requiring a Fortitude resistance check.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.135"
     },
     {
       "id": "im_will_effects_all",
@@ -239,14 +239,14 @@
       "cost": 30,
       "category": "Broad Immunities",
       "description": "Immunity to all effects requiring a Will resistance check.",
-      "page_ref": "DHH p.113"
+      "page_ref": "DHH p.113, p.135"
     },
     {
       "id": "im_toughness_effects_all",
       "name": "All Toughness Effects",
       "cost": 80,
       "category": "Broad Immunities",
-      "description": "Immunity to all effects requiring a Toughness resistance check (equivalent to Impervious Toughness at Rank 40).",
-      "page_ref": "DHH p.113"
+      "description": "Immunity to all effects requiring a Toughness resistance check (equivalent to Impervious Toughness at a very high rank, essentially negating most damage).",
+      "page_ref": "DHH p.113, p.135"
     }
   ]

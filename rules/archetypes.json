@@ -1,257 +1,274 @@
 [
-    {
-      "id": "arch_paragon",
-      "name": "The Paragon",
-      "description": "A powerful flying hero, strong, tough, and a beacon of hope. Excels at direct confrontation and protecting others. (e.g., Superman, Captain Marvel)",
-      "page_ref": "DHH p.43 (conceptual basis)",
-      "template": {
-        "abilities": { "STR": 10, "STA": 10, "AGL": 2, "DEX": 2, "FGT": 6, "INT": 0, "AWE": 2, "PRE": 2 },
-        "defenses": { "Dodge": 4, "Parry": 2, "Fortitude": 0, "Will": 6, "Toughness": 0 },
-        "skills": { "Close Combat: Unarmed": 4, "Perception": 6, "Persuasion": 4, "Insight": 4 },
-        "advantages": [
-          {"id": "adv_interpose", "rank": 1},
-          {"id": "adv_power_attack", "rank": 1},
-          {"id": "adv_leadership", "rank": 1}
-        ],
-        "powers": [
-          {
-            "id": "arch_paragon_pwr_1",
-            "name": "Mighty Flight",
-            "baseEffectId": "eff_flight",
-            "rank": 8,
-            "modifiersConfig": []
-          },
-          {
-            "id": "arch_paragon_pwr_2",
-            "name": "Super-Strength",
-            "baseEffectId": "eff_enhanced_trait",
-            "rank": 5, "enhancementAmount": 5,
-            "enhancedTraitCategory": "Ability",
-            "enhancedTraitId": "STR",
-            "modifiersConfig": []
-          },
-          {
-            "id": "arch_paragon_pwr_3",
-            "name": "Invulnerability",
-            "baseEffectId": "eff_protection",
-            "rank": 4,
-            "modifiersConfig": [{"id": "mod_impervious", "rank": 8}] 
-          }
-        ]
-      }
-    },
-    {
-      "id": "arch_energy_projector",
-      "name": "Energy Projector",
-      "description": "Wields versatile energy blasts and defenses, often relying on ranged attacks and control. (e.g., Green Lantern, Cyclops)",
-      "page_ref": "DHH p.37 (conceptual basis)",
-      "template": {
-        "abilities": { "STR": 0, "STA": 3, "AGL": 2, "DEX": 5, "FGT": 2, "INT": 2, "AWE": 4, "PRE": 2 },
-        "defenses": { "Dodge": 6, "Parry": 4, "Fortitude": 3, "Will": 4, "Toughness": 0 },
-        "skills": { 
-          "Ranged Combat: Energy Powers": 5, // This assumes a generic skill or placeholder name
-          "Perception": 6, 
-          "Insight": 4, 
-          "Expertise: Energy Control": 4 
+  {
+    "id": "arch_paragon",
+    "name": "The Paragon",
+    "description": "A powerful flying hero, strong, tough, and a beacon of hope. Excels at direct confrontation and protecting others. (e.g., Superman, Captain Marvel)",
+    "page_ref": "DHH p.43 (conceptual basis)",
+    "template": {
+      "abilities": { "STR": 10, "STA": 10, "AGL": 2, "DEX": 2, "FGT": 6, "INT": 0, "AWE": 2, "PRE": 2 },
+      "defenses": { "Dodge": 4, "Parry": 2, "Fortitude": 0, "Will": 6, "Toughness": 0 },
+      "skills": { "skill_close_combat_unarmed": 4, "skill_perception": 6, "skill_persuasion": 4, "skill_insight": 4 },
+      "advantages": [
+        {"id": "adv_interpose", "rank": 1},
+        {"id": "adv_power_attack", "rank": 1},
+        {"id": "adv_leadership", "rank": 1}
+      ],
+      "powers": [
+        {
+          "id": "arch_paragon_pwr_flight",
+          "name": "Mighty Flight",
+          "baseEffectId": "eff_flight",
+          "rank": 8,
+          "modifiersConfig": []
         },
-        "advantages": [
-          {"id": "adv_precise_attack", "rank": 1, "params": {"detail": "Ranged, Cover"}},
-          {"id": "adv_power_attack", "rank": 1}
-        ],
-        "powers": [
-          {
-            "id": "arch_eproj_pwr_1",
-            "name": "Energy Blast",
-            "baseEffectId": "eff_damage",
-            "rank": 10,
-            "modifiersConfig": [ {"id": "mod_increased_range_ranged"} ],
-            "linkedCombatSkill": "Ranged Combat: Energy Powers"
-          },
-          {
-            "id": "arch_eproj_pwr_2",
-            "name": "Force Field",
-            "baseEffectId": "eff_protection",
-            "rank": 7,
-            "modifiersConfig": [ {"id": "mod_duration_sustained"} ]
-          },
-          {
-            "id": "arch_eproj_pwr_3",
-            "name": "Energy Detection",
-            "baseEffectId": "eff_senses",
-            "rank": 0, // Rank is nominal for Senses container
-            "sensesConfig": ["sense_detect_energy_ranged_acute_analytical"], // Assumes this ID exists in power_senses_config.json
-            "modifiersConfig": []
-          }
-        ]
-      }
-    },
-    {
-      "id": "arch_speedster",
-      "name": "The Speedster",
-      "description": "Moves at incredible velocities, a blur in combat, striking fast and often. (e.g., The Flash, Quicksilver)",
-      "page_ref": "DHH p.47 (conceptual basis)",
-      "template": {
-        "abilities": { "STR": 1, "STA": 3, "AGL": 7, "DEX": 3, "FGT": 3, "INT": 0, "AWE": 2, "PRE": 1 },
-        "defenses": { "Dodge": 7, "Parry": 7, "Fortitude": 3, "Will": 4, "Toughness": 0 },
-        "skills": { "Acrobatics": 8, "Close Combat: Unarmed": 5, "Perception": 4 },
-        "advantages": [
-          {"id": "adv_move_by_action", "rank": 1},
-          {"id": "adv_improved_initiative", "rank": 3},
-          {"id": "adv_evasion", "rank": 2},
-          {"id": "adv_agile_feint", "rank": 1}
-        ],
-        "powers": [
-          {
-            "id": "arch_speed_pwr_1",
-            "name": "Super-Speed",
-            "baseEffectId": "eff_speed",
-            "rank": 10
-          },
-          {
-            "id": "arch_speed_pwr_2",
-            "name": "Rapid Strikes", 
-            "baseEffectId": "eff_damage",
-            "rank": 3, 
-            "modifiersConfig": [
-              {"id": "mod_multiattack"}, // Assumes ID for Multiattack Extra
-              {"id": "mod_strength_based_damage"} // Assumes ID for Strength-based Damage Extra
-            ],
-            "linkedCombatSkill": "Close Combat: Unarmed"
-          },
-          {
-            "id": "arch_speed_pwr_3",
-            "name": "Quickness",
-            "baseEffectId": "eff_quickness",
-            "rank": 10 // Perform routine tasks much faster
-          }
-        ]
-      }
-    },
-    {
-      "id": "arch_gadgeteer",
-      "name": "The Gadgeteer",
-      "description": "Relies on intellect and an arsenal of high-tech devices and inventions. (e.g., Batman, Iron Man)",
-      "page_ref": "DHH p.38 (conceptual basis)",
-      "template": {
-        "abilities": { "STR": 1, "STA": 2, "AGL": 2, "DEX": 3, "FGT": 2, "INT": 8, "AWE": 3, "PRE": 1 },
-        "defenses": { "Dodge": 4, "Parry": 2, "Fortitude": 4, "Will": 5, "Toughness": 0 },
-        "skills": { 
-          "Technology": 10, 
-          "Investigation": 8, 
-          "Expertise: Engineering": 6, 
-          "Ranged Combat: Gadgets": 5 // Placeholder for specific gadget skills
+        {
+          "id": "arch_paragon_pwr_strength",
+          "name": "Super-Strength",
+          "baseEffectId": "eff_enhanced_trait",
+          "rank": 5, 
+          "enhancementAmount": 5,
+          "enhancedTraitCategory": "Ability",
+          "enhancedTraitId": "STR",
+          "modifiersConfig": []
         },
-        "advantages": [
-          {"id": "adv_inventor", "rank": 1, "params":{"skill_id": "Technology"}}, // Link to specific skill ID
-          {"id": "adv_improvised_tools", "rank": 1},
-          {"id": "adv_equipment", "rank": 5} // 25 EP for gear
-        ],
-        "powers": [
-          {
-            "id": "arch_gadget_pwr_1",
-            "name": "Utility Belt (Device - Array Base)",
-            "baseEffectId": "eff_variable", 
-            "rank": 4, // 4 * 5 = 20 point pool for tech effects
-            "variableDescriptors": "Technological Gadgets, Tools, Non-Lethal Weapons",
-            "modifiersConfig": [
-               // To make it a Device, add Removable Flaw. User can do this in advanced mode.
-               // For wizard, keep powers straightforward.
-            ],
-            "isArrayBase": True, // This makes it the head of an array that can hold AEs
-            "arrayId": "utility_belt_gadgets"
+        {
+          "id": "arch_paragon_pwr_invulnerability",
+          "name": "Invulnerability",
+          "baseEffectId": "eff_protection",
+          "rank": 4,
+          "modifiersConfig": [{"id": "mod_extra_impervious", "rank": 8}] 
+        }
+      ]
+    }
+  },
+  {
+    "id": "arch_energy_projector",
+    "name": "Energy Projector",
+    "description": "Wields versatile energy blasts and defenses, often relying on ranged attacks and control. (e.g., Green Lantern, Cyclops)",
+    "page_ref": "DHH p.37 (conceptual basis)",
+    "template": {
+      "abilities": { "STR": 0, "STA": 3, "AGL": 2, "DEX": 5, "FGT": 2, "INT": 2, "AWE": 4, "PRE": 2 },
+      "defenses": { "Dodge": 6, "Parry": 4, "Fortitude": 3, "Will": 4, "Toughness": 0 },
+      "skills": { 
+        "skill_ranged_combat_energy_powers": 5, 
+        "skill_perception": 6, 
+        "skill_insight": 4, 
+        "skill_expertise_energy_control": 4 
+      },
+      "advantages": [
+        {"id": "adv_precise_attack", "rank": 1, "params": {"selected_option": "Ranged, Cover"}}, // Parameter updated
+        {"id": "adv_power_attack", "rank": 1}
+      ],
+      "powers": [
+        {
+          "id": "arch_eproj_pwr_blast",
+          "name": "Energy Blast",
+          "baseEffectId": "eff_damage",
+          "rank": 10,
+          "modifiersConfig": [ {"id": "mod_extra_increased_range_ranged"} ],
+          "linkedCombatSkill": "skill_ranged_combat_energy_powers"
+        },
+        {
+          "id": "arch_eproj_pwr_shield",
+          "name": "Force Field",
+          "baseEffectId": "eff_protection",
+          "rank": 7,
+          "modifiersConfig": [ {"id": "mod_extra_increased_duration_sustained"} ] // Assuming 'mod_extra_increased_duration_sustained' makes it Sustained
+        },
+        {
+          "id": "arch_eproj_pwr_senses",
+          "name": "Energy Detection",
+          "baseEffectId": "eff_senses",
+          "rank": 0, 
+          "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_energy"], // Example specific sense ID for 'Detect Energy (Ranged, Acute, Analytical)'
+          "modifiersConfig": []
+        }
+      ]
+    }
+  },
+  {
+    "id": "arch_speedster",
+    "name": "The Speedster",
+    "description": "Moves at incredible velocities, a blur in combat, striking fast and often. (e.g., The Flash, Quicksilver)",
+    "page_ref": "DHH p.47 (conceptual basis)",
+    "template": {
+      "abilities": { "STR": 1, "STA": 3, "AGL": 7, "DEX": 3, "FGT": 3, "INT": 0, "AWE": 2, "PRE": 1 },
+      "defenses": { "Dodge": 7, "Parry": 7, "Fortitude": 3, "Will": 4, "Toughness": 0 },
+      "skills": { "skill_acrobatics": 8, "skill_close_combat_unarmed": 5, "skill_perception": 4 },
+      "advantages": [
+        {"id": "adv_move_by_action", "rank": 1},
+        {"id": "adv_improved_initiative", "rank": 3},
+        {"id": "adv_evasion", "rank": 2},
+        {"id": "adv_agile_feint", "rank": 1}
+      ],
+      "powers": [
+        {
+          "id": "arch_speed_pwr_speed",
+          "name": "Super-Speed",
+          "baseEffectId": "eff_speed",
+          "rank": 10
+        },
+        {
+          "id": "arch_speed_pwr_strikes",
+          "name": "Rapid Strikes", 
+          "baseEffectId": "eff_damage",
+          "rank": 3, 
+          "modifiersConfig": [
+            {"id": "mod_extra_multiattack"}, 
+            {"id": "mod_extra_strength_based_damage"} // Assumed ID for Strength-based Damage Extra
+          ],
+          "linkedCombatSkill": "skill_close_combat_unarmed"
+        },
+        {
+          "id": "arch_speed_pwr_quickness",
+          "name": "Quickness",
+          "baseEffectId": "eff_quickness",
+          "rank": 10 
+        }
+      ]
+    }
+  },
+  {
+    "id": "arch_gadgeteer",
+    "name": "The Gadgeteer",
+    "description": "Relies on intellect and an arsenal of high-tech devices and inventions. (e.g., Batman, Iron Man)",
+    "page_ref": "DHH p.38 (conceptual basis)",
+    "template": {
+      "abilities": { "STR": 1, "STA": 2, "AGL": 2, "DEX": 3, "FGT": 2, "INT": 8, "AWE": 3, "PRE": 1 },
+      "defenses": { "Dodge": 4, "Parry": 2, "Fortitude": 4, "Will": 5, "Toughness": 0 },
+      "skills": { 
+        "skill_technology": 10, 
+        "skill_investigation": 8, 
+        "skill_expertise_engineering": 6, 
+        "skill_ranged_combat_gadgets": 5 
+      },
+      "advantages": [
+        {"id": "adv_inventor", "rank": 1, "params":{"skill_id": "skill_technology"}}, 
+        {"id": "adv_improvised_tools", "rank": 1},
+        {"id": "adv_equipment", "rank": 5} 
+      ],
+      "powers": [
+        {
+          "id": "arch_gadget_pwr_utilitybelt", // Unique placeholder ID for this specific power instance
+          "name": "Utility Belt (Device Array)",
+          "baseEffectId": "eff_variable", // Typically Variable is used for versatile devices if points are reconfigurable
+                                         // Or, it's a main power with AEs if effects are fixed.
+                                         // The current setup seems to be a fixed array (Damage as most expensive, other as AEs)
+                                         // If it is an Array, the most expensive power is the base.
+                                         // Let's redefine Blaster Pistol as base, and utility belt as a "Feature" or "Equipment" that houses it.
+                                         // For simplicity of archetyping, we'll keep the Variable for "tech effects",
+                                         // and use "Removable" flaw to make it a device if desired later in advanced mode.
+          "rank": 4, 
+          "variableDescriptors": "Technological Gadgets, Tools, Non-Lethal Weapons",
+          "modifiersConfig": [
+             // {"id": "mod_flaw_removable_std"} // Example if it's a device; user adds this in advanced.
+          ],
+          "isArrayBase": true, 
+          "arrayId": "utility_belt_gadgets"
+          // "comment": "This Variable power represents a pool of points for various gadgets. Specific gadgets are AEs."
+        },
+        {
+          "id": "arch_gadget_pwr_blaster",
+          "name": "Blaster Pistol (AE)",
+          "baseEffectId": "eff_damage",
+          "rank": 6,
+          "modifiersConfig": [{"id": "mod_extra_increased_range_ranged"}],
+          "isAlternateEffectOf": "arch_gadget_pwr_utilitybelt", // This ID refers to the Variable power above
+          "arrayId": "utility_belt_gadgets",
+          "comment": "Alternate Effect of the Utility Belt's Variable pool."
+        },
+        {
+          "id": "arch_gadget_pwr_grapple",
+          "name": "Grapple Line (AE)",
+          "baseEffectId": "eff_movement", // Actually a Movement (Swinging) power
+          "rank": 2, 
+          "modifiersConfig": [{"id": "mod_extra_movement_type_swinging"}], // Assumed ID for Swinging
+          "isAlternateEffectOf": "arch_gadget_pwr_utilitybelt",
+          "arrayId": "utility_belt_gadgets",
+          "comment": "Alternate Effect of the Utility Belt's Variable pool."
+        },
+        {
+          "id": "arch_gadget_pwr_goggles",
+          "name": "Scanner Goggles",
+          "baseEffectId": "eff_senses",
+          "rank": 0,
+          "sensesConfig": ["sense_infravision", "sense_ultravision", "sense_detect_descriptor_ranged_acute_technology"], // Example ID for Detect Technology
+          "modifiersConfig": []
+        }
+      ]
+    }
+  },
+  {
+    "id": "arch_mystic",
+    "name": "The Mystic",
+    "description": "Draws upon magical energies for a wide array of spells and enchantments. (e.g., Doctor Strange, Zatanna)",
+    "page_ref": "DHH p.42 (conceptual basis)",
+    "template": {
+      "abilities": { "STR": 0, "STA": 1, "AGL": 1, "DEX": 1, "FGT": 1, "INT": 4, "AWE": 7, "PRE": 5 },
+      "defenses": { "Dodge": 5, "Parry": 3, "Fortitude": 3, "Will": 7, "Toughness": 0 },
+      "skills": { "skill_expertise_magic": 10, "skill_insight": 8, "skill_persuasion": 5, "skill_ranged_combat_magic": 6 },
+      "advantages": [
+        {"id": "adv_ritualist", "rank": 1, "params":{"skill_id": "skill_expertise_magic"}}, 
+        {"id": "adv_artificer", "rank": 1, "params":{"skill_id": "skill_expertise_magic"}},
+        {"id": "adv_well_informed", "rank": 1}
+      ],
+      "powers": [
+        {
+          "id": "arch_mystic_pwr_blasts_base",
+          "name": "Mystic Blasts (Magic Array Base)",
+          "baseEffectId": "eff_damage",
+          "rank": 8,
+          "modifiersConfig": [
+            {"id": "mod_extra_increased_range_ranged"},
+            {"id": "mod_extra_variable_descriptor", "rank": 2, "userInput":"Any Magical Energy"} // Assuming rank 2 of VarDesc for "any"
+          ],
+          "isArrayBase": true,
+          "arrayId": "magic_spells_array",
+          "linkedCombatSkill": "skill_ranged_combat_magic"
+        },
+        {
+          "id": "arch_mystic_pwr_shield_ae",
+          "name": "Mystic Shield (AE)",
+          "baseEffectId": "eff_protection",
+          "rank": 8,
+          "modifiersConfig": [
+            {"id": "mod_extra_increased_duration_sustained"},
+            {"id": "mod_extra_impervious", "rank": 4} 
+          ],
+          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base", 
+          "arrayId": "magic_spells_array",
+          "comment": "Alternate Effect of Mystic Blasts."
+        },
+        {
+          "id": "arch_mystic_pwr_binding_ae",
+          "name": "Binding Spell (AE)",
+          "baseEffectId": "eff_affliction", 
+          "rank": 7,
+          "modifiersConfig": [
+            {"id": "mod_extra_increased_range_ranged"},
+            {"id": "mod_extra_cumulative"} // Assumed ID for Cumulative Affliction
+          ],
+          "powerSpecificData": { // For Affliction details
+              "affliction_degrees": {
+                  "1": "Hindered and Vulnerable", 
+                  "2": "Defenseless and Immobile", 
+                  "3": "Paralyzed"
+              },
+              "affliction_resistance": "Dodge or Will" // Or just one if preferred
           },
-          {
-            "id": "arch_gadget_pwr_2",
-            "name": "Blaster Pistol (AE)",
-            "baseEffectId": "eff_damage",
-            "rank": 6,
-            "modifiersConfig": [{"id": "mod_increased_range_ranged"}],
-            "isAlternateEffectOf": "arch_gadget_pwr_1", // Placeholder, app.py resolves this to actual generated ID
-            "arrayId": "utility_belt_gadgets"
-          },
-          {
-            "id": "arch_gadget_pwr_3",
-            "name": "Grapple Line (AE)",
-            "baseEffectId": "eff_movement",
-            "rank": 2, // Rank 2 for Swinging (1 for speed, 1 for effect)
-            "modifiersConfig": [{"id":"mod_movement_swinging"}], // Assumes ID for Swinging movement type
-            "isAlternateEffectOf": "arch_gadget_pwr_1",
-            "arrayId": "utility_belt_gadgets"
-          },
-          {
-            "id": "arch_gadget_pwr_4",
-            "name": "Scanner Goggles",
+          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base", 
+          "arrayId": "magic_spells_array",
+          "comment": "Alternate Effect of Mystic Blasts."
+        },
+        {
+            "id": "arch_mystic_pwr_senses",
+            "name": "Mystic Senses",
             "baseEffectId": "eff_senses",
             "rank": 0,
-            "sensesConfig": ["sense_infravision", "sense_ultravision", "sense_detect_tech_ranged_acute"], // Example IDs
+            "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_magic", "sense_danger_sense_custom_magic"], // Example custom IDs
             "modifiersConfig": []
-          }
-        ]
-      }
-    },
-    {
-      "id": "arch_mystic",
-      "name": "The Mystic",
-      "description": "Draws upon magical energies for a wide array of spells and enchantments. (e.g., Doctor Strange, Zatanna)",
-      "page_ref": "DHH p.42 (conceptual basis)",
-      "template": {
-        "abilities": { "STR": 0, "STA": 1, "AGL": 1, "DEX": 1, "FGT": 1, "INT": 4, "AWE": 7, "PRE": 5 },
-        "defenses": { "Dodge": 5, "Parry": 3, "Fortitude": 3, "Will": 7, "Toughness": 0 },
-        "skills": { "Expertise: Magic": 10, "Insight": 8, "Persuasion": 5, "Ranged Combat: Magic": 6 },
-        "advantages": [
-          {"id": "adv_ritualist", "rank": 1, "params":{"skill_id": "Expertise: Magic"}}, // Link to skill ID
-          {"id": "adv_artificer", "rank": 1, "params":{"skill_id": "Expertise: Magic"}},
-          {"id": "adv_well_informed", "rank": 1}
-        ],
-        "powers": [
-          {
-            "id": "arch_mystic_pwr_1",
-            "name": "Mystic Blasts (Magic Array Base)",
-            "baseEffectId": "eff_damage",
-            "rank": 8,
-            "modifiersConfig": [
-              {"id": "mod_increased_range_ranged"},
-              {"id": "mod_variable_descriptor_2", "userInput":"Any Magical Energy"} // Example: 2 point Variable Descriptor
-            ],
-            "isArrayBase": true,
-            "arrayId": "magic_spells",
-            "linkedCombatSkill": "Ranged Combat: Magic"
-          },
-          {
-            "id": "arch_mystic_pwr_2",
-            "name": "Mystic Shield (AE)",
-            "baseEffectId": "eff_protection",
-            "rank": 8,
-            "modifiersConfig": [
-              {"id": "mod_duration_sustained"},
-              {"id": "mod_impervious", "rank": 4} // Impervious Protection 4
-            ],
-            "isAlternateEffectOf": "arch_mystic_pwr_1", // Placeholder for ID
-            "arrayId": "magic_spells"
-          },
-          {
-            "id": "arch_mystic_pwr_3",
-            "name": "Binding Spell (AE)",
-            "baseEffectId": "eff_affliction", // e.g., Hindered/Immobile/Paralyzed
-            "rank": 7,
-            "modifiersConfig": [
-              {"id": "mod_increased_range_ranged"},
-              {"id": "mod_cumulative_affliction"} // Example ID
-              // Define affliction degrees here or in a pre-built power referenced by id_ref
-            ],
-            "resistance": "Dodge or Will", // This needs to be part of power def
-            "isAlternateEffectOf": "arch_mystic_pwr_1", // Placeholder for ID
-            "arrayId": "magic_spells"
-          },
-          {
-              "id": "arch_mystic_pwr_4",
-              "name": "Mystic Senses",
-              "baseEffectId": "eff_senses",
-              "rank": 0,
-              "sensesConfig": ["sense_detect_magic_ranged_acute_analytical", "sense_danger_sense_magic"], // Example IDs
-              "modifiersConfig": []
-          }
-        ]
-      }
+        }
+      ]
     }
-  ]
+  }
+]

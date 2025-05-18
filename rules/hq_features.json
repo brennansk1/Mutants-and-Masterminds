@@ -1,338 +1,338 @@
 [
-    // --- HQ SIZE CATEGORIES (DHH p.178) ---
-    // EP cost for Size includes its base Toughness.
-    {
-      "id": "hq_size_diminutive",
-      "name": "Size: Diminutive",
-      "type": "Size",
-      "ep_cost": 0,
-      "base_toughness_provided": 4,
-      "size_rank_effect": -8,
-      "description": "Closet, cell (up to approx. 30 cubic feet). Cost is 0 if this is the *only* feature (effectively a Feature for 1 EP to have a tiny private space). If other features are added, its implied cost might be considered 1 EP by some GMs for calculation if not taking a larger size.",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_tiny",
-      "name": "Size: Tiny",
-      "type": "Size",
-      "ep_cost": 1,
-      "base_toughness_provided": 6,
-      "size_rank_effect": -4,
-      "description": "Large closet, van, motorcycle garage (up to approx. 250 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_small",
-      "name": "Size: Small",
-      "type": "Size",
-      "ep_cost": 2,
-      "base_toughness_provided": 8,
-      "size_rank_effect": -2,
-      "description": "Large room, apartment, office (up to approx. 1,000 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_medium",
-      "name": "Size: Medium",
-      "type": "Size",
-      "ep_cost": 3,
-      "base_toughness_provided": 10,
-      "size_rank_effect": 0,
-      "description": "House (up to approx. 4,000 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_large",
-      "name": "Size: Large",
-      "type": "Size",
-      "ep_cost": 4,
-      "base_toughness_provided": 12,
-      "size_rank_effect": 2,
-      "description": "Warehouse, large house, mansion (up to approx. 15,000 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_huge",
-      "name": "Size: Huge",
-      "type": "Size",
-      "ep_cost": 5,
-      "base_toughness_provided": 14,
-      "size_rank_effect": 4,
-      "description": "Large building, complex, bunker (up to approx. 60,000 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_gargantuan",
-      "name": "Size: Gargantuan",
-      "type": "Size",
-      "ep_cost": 6,
-      "base_toughness_provided": 16,
-      "size_rank_effect": 8,
-      "description": "Very large complex, small 'Statue of Liberty' size structure (up to approx. 250,000 cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_size_colossal",
-      "name": "Size: Colossal",
-      "type": "Size",
-      "ep_cost": 7,
-      "base_toughness_provided": 18,
-      "size_rank_effect": 12,
-      "description": "Skyscraper, giant 'Statue of Liberty' size structure (up to approx. 1 million cubic feet).",
-      "page_ref": "DHH p.178"
-    },
-  
-    // --- HQ TOUGHNESS INCREASE (DHH p.178) ---
-    {
-      "id": "hq_toughness_increase",
-      "name": "Toughness Increase",
-      "type": "ToughnessBoost",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 20, 
-      "description": "Increases HQ Toughness by +1 for each Equipment Point spent (added to base Toughness from Size).",
-      "page_ref": "DHH p.178"
-    },
-  
-    // --- STANDARD HQ FEATURES (DHH p.178-179) ---
-    {
-      "id": "hq_communications",
-      "name": "Communications",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Basic communications systems: telephones, computer network, short-range radio, satellite uplink, etc.",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_computer",
-      "name": "Computer",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Central computer system with multiple access terminals and database storage.",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_concealed",
-      "name": "Concealed",
-      "type": "Feature",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 4, 
-      "description": "Increases the DC to find the HQ by +5 per rank (base DC 10 to find an unlisted location). Max DC +20 (DC 30 total).",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_defense_system",
-      "name": "Defense System",
-      "type": "Feature",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 20, 
-      "parameter_needed": true,
-      "parameter_prompt": "Describe Defense System (e.g., Laser Turrets, Ranged Damage 8; or Sleep Gas Dispensers, Cloud Area Affliction 6)",
-      "parameter_type": "text_long",
-      "description": "Automated weapon systems or other defensive measures. The effect rank of the defenses equals the EP cost.",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_dock",
-      "name": "Dock",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "For docking water vehicles or small spacecraft.",
-      "page_ref": "DHH p.178"
-    },
-    {
-      "id": "hq_effect_feature",
-      "name": "Effect Feature",
-      "type": "Feature",
-      "ep_cost_per_rank": 1, 
-      "ranked": true,
-      "max_ranks": 20, 
-      "parameter_needed": true,
-      "parameter_prompt": "Describe Effect and its Rank (e.g., Nullify Magic 10, Environment Control (Cold) 5)",
-      "parameter_type": "text_long",
-      "description": "The HQ possesses a power effect, like those created using powers. The cost in EP for this feature equals the effect's rank.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_fire_prevention",
-      "name": "Fire Prevention System",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Automatic sprinklers, chemical extinguishers, etc.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_garage",
-      "name": "Garage",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "For ground vehicles, typically up to the HQ's own size.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_grounds",
-      "name": "Grounds",
-      "type": "Feature",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 5, 
-      "parameter_needed": true,
-      "parameter_prompt": "Describe size/nature of grounds (e.g., Rank 1: Small Yard up to Rank 5: Large Estate/Campus)",
-      "parameter_type": "text",
-      "description": "The area surrounding the HQ. Rank 1 is a small yard, rank 2 a large one, rank 3 is like several acres, rank 4 a large park or estate, rank 5 an entire campus or small island.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_gym",
-      "name": "Gym",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Training facilities, exercise equipment, perhaps a danger room simulator.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_hangar",
-      "name": "Hangar",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "For aircraft or small spacecraft.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_holding_cells",
-      "name": "Holding Cells",
-      "type": "Feature",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 20, 
-      "description": "Secure cells for prisoners. The Toughness of the cells equals points spent on this feature.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_infirmary",
-      "name": "Infirmary",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Medical facilities, providing a +5 circumstance bonus on Treatment checks made there.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_isolated",
-      "name": "Isolated",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "The HQ is in a remote or difficult to reach location, adding to its security.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_laboratory",
-      "name": "Laboratory",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify field of research (e.g., Chemistry, Genetics, Robotics, Magic)",
-      "parameter_type": "text",
-      "description": "Well-stocked facilities for research in a particular field, providing a +2 circumstance bonus to relevant Expertise or Technology checks.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_library",
-      "name": "Library",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify field of knowledge (e.g., Occult, History, Alien Civilizations, Law)",
-      "parameter_type": "text",
-      "description": "Comprehensive reference materials for a particular field, providing a +2 circumstance bonus to relevant Expertise or Investigation checks.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_living_space",
-      "name": "Living Space",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "Basic amenities (kitchen, bedrooms, bathrooms, common area) for a number of people appropriate to the HQ's size.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_personnel",
-      "name": "Personnel",
-      "type": "Feature",
-      "ep_cost": 1, 
-      "ranked": false, 
-      "description": "A small staff of generic Minions (total 15 PP worth) to maintain the HQ, provide security, or other duties. More or better staff cost more EP or are bought as Minions.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_pool",
-      "name": "Pool",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "A swimming pool, or similar large recreational feature (hot tub, sauna, basketball court, etc.).",
-      "page_ref": "DHH p.179 (Implied under Gym/Living Space concept)"
-    },
-    {
-      "id": "hq_power_system",
-      "name": "Power System",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "An independent power source for the HQ, like a generator or fusion reactor.",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_security_system",
-      "name": "Security System",
-      "type": "Feature",
-      "ep_cost_per_rank": 1,
-      "ranked": true,
-      "max_ranks": 4, 
-      "description": "Alarms, locks, sensors, etc. The DC to bypass the security (Technology or Sleight of Hand) is 10 + (Rank x 5).",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_trophy_room",
-      "name": "Trophy Room",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "A place to display mementos of past victories and accomplishments.",
-      "page_ref": "DHH p.179 (Commonly added feature)"
-    },
-    {
-      "id": "hq_variable_environment",
-      "name": "Variable Environment",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "description": "The HQ's interior can be configured for different environmental conditions (temperature, humidity, atmosphere, etc.).",
-      "page_ref": "DHH p.179"
-    },
-    {
-      "id": "hq_workshop",
-      "name": "Workshop",
-      "type": "Feature",
-      "ep_cost": 1,
-      "ranked": false,
-      "parameter_needed": true,
-      "parameter_prompt": "Specify field of work (e.g., Mechanics, Electronics, Armor Smithing, Gadgets)",
-      "parameter_type": "text",
-      "description": "Facilities for building and repairing items in a particular field, providing a +2 circumstance bonus to relevant Technology or Expertise checks.",
-      "page_ref": "DHH p.179"
-    }
-  ]
+  // --- HQ SIZE CATEGORIES (DHH p.178) ---
+  // EP cost for Size includes its base Toughness.
+  {
+    "id": "hq_size_diminutive",
+    "name": "Size: Diminutive",
+    "type": "Size",
+    "ep_cost": 0,
+    "base_toughness_provided": 4,
+    "size_rank_effect": -8,
+    "description": "Closet, cell (up to approx. 30 cubic feet). Cost is 0 if this is the *only* feature (effectively a Feature for 1 EP to have a tiny private space). If other features are added, its implied cost might be considered 1 EP by some GMs for calculation if not taking a larger size.",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_tiny",
+    "name": "Size: Tiny",
+    "type": "Size",
+    "ep_cost": 1,
+    "base_toughness_provided": 6,
+    "size_rank_effect": -4,
+    "description": "Large closet, van, motorcycle garage (up to approx. 250 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_small",
+    "name": "Size: Small",
+    "type": "Size",
+    "ep_cost": 2,
+    "base_toughness_provided": 8,
+    "size_rank_effect": -2,
+    "description": "Large room, apartment, office (up to approx. 1,000 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_medium",
+    "name": "Size: Medium",
+    "type": "Size",
+    "ep_cost": 3,
+    "base_toughness_provided": 10,
+    "size_rank_effect": 0,
+    "description": "House (up to approx. 4,000 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_large",
+    "name": "Size: Large",
+    "type": "Size",
+    "ep_cost": 4,
+    "base_toughness_provided": 12,
+    "size_rank_effect": 2,
+    "description": "Warehouse, large house, mansion (up to approx. 15,000 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_huge",
+    "name": "Size: Huge",
+    "type": "Size",
+    "ep_cost": 5,
+    "base_toughness_provided": 14,
+    "size_rank_effect": 4,
+    "description": "Large building, complex, bunker (up to approx. 60,000 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_gargantuan",
+    "name": "Size: Gargantuan",
+    "type": "Size",
+    "ep_cost": 6,
+    "base_toughness_provided": 16,
+    "size_rank_effect": 8,
+    "description": "Very large complex, small 'Statue of Liberty' size structure (up to approx. 250,000 cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_size_colossal",
+    "name": "Size: Colossal",
+    "type": "Size",
+    "ep_cost": 7,
+    "base_toughness_provided": 18,
+    "size_rank_effect": 12,
+    "description": "Skyscraper, giant 'Statue of Liberty' size structure (up to approx. 1 million cubic feet).",
+    "page_ref": "DHH p.178"
+  },
+
+  // --- HQ TOUGHNESS INCREASE (DHH p.178) ---
+  {
+    "id": "hq_toughness_increase",
+    "name": "Toughness Increase",
+    "type": "ToughnessBoost",
+    "ep_cost_per_rank": 1,
+    "ranked": true,
+    "max_ranks": 20, 
+    "description": "Increases HQ Toughness by +1 for each Equipment Point spent (added to base Toughness from Size).",
+    "page_ref": "DHH p.178"
+  },
+
+  // --- STANDARD HQ FEATURES (DHH p.178-179) ---
+  {
+    "id": "hq_communications",
+    "name": "Communications",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Basic communications systems: telephones, computer network, short-range radio, satellite uplink, etc.",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_computer",
+    "name": "Computer",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Central computer system with multiple access terminals and database storage.",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_concealed",
+    "name": "Concealed",
+    "type": "Feature",
+    "ep_cost_per_rank": 1,
+    "ranked": true,
+    "max_ranks": 4, 
+    "description": "Increases the DC to find the HQ by +5 per rank (base DC 10 to find an unlisted location). Max DC +20 (DC 30 total).",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_defense_system",
+    "name": "Defense System",
+    "type": "Feature",
+    "ep_cost_per_rank": 1, // Cost equals rank of the defensive effect
+    "ranked": true,
+    "max_ranks": 20, // Practical limit for effect rank
+    "parameter_needed": true,
+    "parameter_prompt": "Describe Defense System (e.g., Laser Turrets, Ranged Damage 8; or Sleep Gas Dispensers, Cloud Area Affliction 6). The EP cost for this feature will be the rank of the described effect.",
+    "parameter_type": "text_long",
+    "description": "Automated weapon systems or other defensive measures. The effect rank of the defenses equals the EP cost for this specific feature instance.",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_dock",
+    "name": "Dock",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "For docking water vehicles or small spacecraft.",
+    "page_ref": "DHH p.178"
+  },
+  {
+    "id": "hq_effect_feature",
+    "name": "Effect Feature",
+    "type": "Feature",
+    "ep_cost_per_rank": 1, // Cost equals rank of the HQ's power effect
+    "ranked": true,
+    "max_ranks": 20, // Practical limit for effect rank
+    "parameter_needed": true,
+    "parameter_prompt": "Describe Effect and its Rank (e.g., Nullify Magic 10, Environment Control (Cold) 5). The EP cost for this feature will be the rank of the described effect.",
+    "parameter_type": "text_long",
+    "description": "The HQ possesses a power effect, like those created using powers. The cost in EP for this feature instance equals the effect's rank.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_fire_prevention",
+    "name": "Fire Prevention System",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Automatic sprinklers, chemical extinguishers, etc.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_garage",
+    "name": "Garage",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "For ground vehicles, typically up to the HQ's own size.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_grounds",
+    "name": "Grounds",
+    "type": "Feature",
+    "ep_cost_per_rank": 1,
+    "ranked": true,
+    "max_ranks": 5, 
+    "parameter_needed": true, // Or make non-parameterized if ranks are fixed (e.g. Rank 1 = yard, Rank 2 = park etc)
+    "parameter_prompt": "Describe size/nature of grounds (e.g., Rank 1: Small Yard up to Rank 5: Large Estate/Campus)",
+    "parameter_type": "text", // Could also be select_from_options if ranks have predefined descriptions
+    "description": "The area surrounding the HQ. Rank 1 is a small yard, rank 2 a large one, rank 3 is like several acres, rank 4 a large park or estate, rank 5 an entire campus or small island.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_gym",
+    "name": "Gym",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Training facilities, exercise equipment, perhaps a danger room simulator.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_hangar",
+    "name": "Hangar",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "For aircraft or small spacecraft.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_holding_cells",
+    "name": "Holding Cells",
+    "type": "Feature",
+    "ep_cost_per_rank": 1, // Cost is per rank of cell Toughness
+    "ranked": true,
+    "max_ranks": 20, // Max cell Toughness
+    "description": "Secure cells for prisoners. The Toughness of the cells equals points spent on this feature.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_infirmary",
+    "name": "Infirmary",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Medical facilities, providing a +5 circumstance bonus on Treatment checks made there.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_isolated",
+    "name": "Isolated",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "The HQ is in a remote or difficult to reach location, adding to its security.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_laboratory",
+    "name": "Laboratory",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "parameter_needed": true,
+    "parameter_prompt": "Specify field of research (e.g., Chemistry, Genetics, Robotics, Magic)",
+    "parameter_type": "text",
+    "description": "Well-stocked facilities for research in a particular field, providing a +2 circumstance bonus to relevant Expertise or Technology checks.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_library",
+    "name": "Library",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "parameter_needed": true,
+    "parameter_prompt": "Specify field of knowledge (e.g., Occult, History, Alien Civilizations, Law)",
+    "parameter_type": "text",
+    "description": "Comprehensive reference materials for a particular field, providing a +2 circumstance bonus to relevant Expertise or Investigation checks.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_living_space",
+    "name": "Living Space",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "Basic amenities (kitchen, bedrooms, bathrooms, common area) for a number of people appropriate to the HQ's size.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_personnel",
+    "name": "Personnel",
+    "type": "Feature",
+    "ep_cost": 1, 
+    "ranked": false, 
+    "description": "A small staff of generic Minions (total 15 PP worth, as per DHH) to maintain the HQ, provide security, or other duties. More or better staff cost more EP or are bought as Minions advantage.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_pool",
+    "name": "Pool",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "A swimming pool, or similar large recreational feature (hot tub, sauna, basketball court, etc.).",
+    "page_ref": "DHH p.179 (Implied under Gym/Living Space concept)"
+  },
+  {
+    "id": "hq_power_system",
+    "name": "Power System",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "An independent power source for the HQ, like a generator or fusion reactor.",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_security_system",
+    "name": "Security System",
+    "type": "Feature",
+    "ep_cost_per_rank": 1,
+    "ranked": true,
+    "max_ranks": 4, // DC to bypass = 10 + (Rank x 5). Rank 4 = DC 30.
+    "description": "Alarms, locks, sensors, etc. The DC to bypass the security (Technology or Sleight of Hand) is 10 + (Rank x 5).",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_trophy_room",
+    "name": "Trophy Room",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "A place to display mementos of past victories and accomplishments.",
+    "page_ref": "DHH p.179 (Commonly added feature)"
+  },
+  {
+    "id": "hq_variable_environment",
+    "name": "Variable Environment",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "description": "The HQ's interior can be configured for different environmental conditions (temperature, humidity, atmosphere, etc.).",
+    "page_ref": "DHH p.179"
+  },
+  {
+    "id": "hq_workshop",
+    "name": "Workshop",
+    "type": "Feature",
+    "ep_cost": 1,
+    "ranked": false,
+    "parameter_needed": true,
+    "parameter_prompt": "Specify field of work (e.g., Mechanics, Electronics, Armor Smithing, Gadgets)",
+    "parameter_type": "text",
+    "description": "Facilities for building and repairing items in a particular field, providing a +2 circumstance bonus to relevant Technology or Expertise checks.",
+    "page_ref": "DHH p.179"
+  }
+]
