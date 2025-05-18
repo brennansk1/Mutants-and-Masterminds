@@ -1,5 +1,5 @@
 # app.py for HeroForge M&M (Streamlit Edition)
-# Version: V1.0 "All Features" Fully Developed
+# Version: V1.1 "FPDF Export & Refinements"
 
 import streamlit as st
 import json
@@ -10,14 +10,16 @@ import uuid # For unique IDs
 from typing import Dict, List, Any, Optional, Callable
 
 # --- Core Application Logic and Data ---
-# Ensure these type hints are available if your core_engine defines them clearly
 from core_engine import CoreEngine, CharacterState, PowerDefinition, AdvantageDefinition, EquipmentDefinition, HQDefinition, VehicleDefinition, AllyDefinition
+# Import for WeasyPrint PDF generation (original)
 from pdf_utils import generate_pdf_bytes 
+# Import for FPDF PDF generation (new - assuming it will be added to pdf_utils.py or a new fpdf_utils.py)
+# If in a new fpdf_utils.py, the import would be: from fpdf_utils import generate_fpdf_character_sheet
+# For now, let's assume it's added to pdf_utils.py for simplicity in this step.
+from pdf_utils import generate_fpdf_character_sheet 
+
 
 # --- UI Section Imports ---
-# These imports assume your project structure has ui_sections at the same level as app.py,
-# or your PYTHONPATH is set up accordingly. If app.py is in the root and ui_sections is a subdir,
-# the imports would be like: from ui_sections.wizard_steps import ...
 from ui_sections.wizard_steps import (
     render_wizard_step1_basics,
     render_wizard_step2_archetype,
@@ -39,11 +41,11 @@ from ui_sections.power_builder_ui import get_default_power_form_state
 # --- Page Configuration (do this first) ---
 st.set_page_config(
     page_title="HeroForge M&M",
-    page_icon="assets/icon.png", # Create this image file in assets/
+    page_icon="assets/icon.png", 
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'Get Help': 'https://www.d20herosrd.com/mutants-masterminds-3e-srd/', # Link to M&M SRD
+        'Get Help': 'https://www.d20herosrd.com/mutants-masterminds-3e-srd/', 
         'Report a bug': "https://github.com/your_username/your_project_repo/issues", # Replace with your repo
         'About': "# HeroForge M&M Character Creator\nThis is a tool to help create characters for Mutants & Masterminds 3rd Edition."
     }
@@ -56,13 +58,11 @@ def load_core_resources():
     print("Loading Core Engine and Rule Data...")
     try:
         engine_instance = CoreEngine(rule_dir="rules")
-        # CoreEngine now loads all rule files internally. Access via engine_instance.rule_data
         if not engine_instance.rule_data or not all(k in engine_instance.rule_data for k in [
             'abilities', 'skills', 'advantages_v1', 'power_effects', 
             'power_modifiers', 'power_senses_config', 'power_immunities_config',
             'equipment_items', 'hq_features', 'vehicle_features', 
             'vehicle_size_stats', 'archetypes', 'measurements_table'
-            # Add 'prebuilt_powers_v1' if your archetypes rely on it and it's loaded by CoreEngine
         ]):
             st.error("Fatal Error: Core rule data files are missing or incomplete. Ensure all JSON files are present in the 'rules' directory and loaded by CoreEngine. Application cannot proceed.")
             st.stop()
@@ -70,22 +70,28 @@ def load_core_resources():
         print("Core Engine and Rule Data loaded successfully.")
         return engine_instance, engine_instance.rule_data 
     except Exception as e:
-        st.error(f"Fatal Error initializing Core Engine: {e}. Check console and 'rules' directory structure/content.")
+        st.error(f"Fatal Error initializing Core Engine: {e}. Check console and 'rules' directory structure/content. Ensure rule files are correctly formatted JSON.")
         st.stop()
 
 engine, rule_data_app = load_core_resources() 
+
+# --- Unique Key Helper (local to app.py) ---
+def _uk(base: str, *args: Any) -> str:
+    """Creates a unique key for Streamlit widgets, sanitized for app.py contexts."""
+    str_args = [str(a).replace(":", "_").replace(" ", "_").replace("[", "_").replace("]", "_").replace("(", "_").replace(")", "_").replace("/", "_") for a in args if a is not None]
+    return f"app_{base}_{'_'.join(str_args)}"
 
 # --- Session State Initialization ---
 def initialize_session_state():
     """Initializes all necessary session state variables if they don't exist."""
     default_char_state = engine.get_default_character_state()
 
+    # Initialize or ensure all default keys for 'character' state
     if 'character' not in st.session_state:
         st.session_state.character = copy.deepcopy(default_char_state)
-    else: 
+    else:
         for key, value in default_char_state.items():
-            if key not in st.session_state.character:
-                st.session_state.character[key] = copy.deepcopy(value)
+            st.session_state.character.setdefault(key, copy.deepcopy(value))
 
     if 'current_view' not in st.session_state:
         st.session_state.current_view = 'Abilities' 
@@ -94,12 +100,13 @@ def initialize_session_state():
         st.session_state.in_wizard_mode = True 
     if 'wizard_step' not in st.session_state:
         st.session_state.wizard_step = 1
+    
+    # Initialize or ensure all default keys for 'wizard_character_state'
     if 'wizard_character_state' not in st.session_state:
         st.session_state.wizard_character_state = copy.deepcopy(default_char_state)
-    else: 
+    else:
         for key, value in default_char_state.items():
-            if key not in st.session_state.wizard_character_state:
-                st.session_state.wizard_character_state[key] = copy.deepcopy(value)
+            st.session_state.wizard_character_state.setdefault(key, copy.deepcopy(value))
 
     # Editor/Form States for Advanced Mode
     if 'power_form_state' not in st.session_state:
@@ -140,15 +147,23 @@ def update_char_value(key_path: List[str], value: Any, target_state_key: str = '
             if i == len(key_path) - 1:
                 current_level[k_part] = value
             else:
-                if not isinstance(current_level.get(k_part), dict):
-                    current_level[k_part] = {} # Ensure path exists
+                if not isinstance(current_level.get(k_part), dict): # Ensure path exists if creating nested
+                    current_level[k_part] = {} 
                 current_level = current_level[k_part]
     except TypeError as e:
-        st.error(f"Error updating character state at path {key_path}: {e}. Current level was not a dictionary.")
+        st.error(f"Error updating character state at path {key_path}: {e}. Current level was not a dictionary or key path issue.")
         return
-    
+    except KeyError as e:
+        st.error(f"Error accessing key during character state update at path {key_path}: {e}. Check if path parts are correct.")
+        return
+
     if do_recalc:
-        st.session_state[target_state_key] = engine.recalculate(char_obj_ref)
+        try:
+            st.session_state[target_state_key] = engine.recalculate(char_obj_ref)
+        except Exception as e_recalc:
+            st.error(f"Error during recalculation after update to {key_path}: {e_recalc}")
+            # Optionally, revert to a previous state or handle more gracefully
+            # For now, the corrupted state might persist until next successful recalc.
 
 # --- Wizard Mode Callbacks ---
 def update_char_value_wiz(key_path: List[str], value: Any, do_recalc: bool = True):
@@ -157,14 +172,12 @@ def update_char_value_wiz(key_path: List[str], value: Any, do_recalc: bool = Tru
 def apply_archetype_to_wizard_state_callback(archetype_id: str):
     if not archetype_id: # "Start from Scratch" selected
         current_pl = st.session_state.wizard_character_state.get('powerLevel', 10)
-        # Preserve name, concept, PL if user entered them before choosing scratch
         name = st.session_state.wizard_character_state.get('name', 'New Hero')
         concept = st.session_state.wizard_character_state.get('concept', '')
         st.session_state.wizard_character_state = engine.get_default_character_state(pl=current_pl)
         st.session_state.wizard_character_state['name'] = name
         st.session_state.wizard_character_state['concept'] = concept
         st.session_state.wizard_character_state = engine.recalculate(st.session_state.wizard_character_state)
-
     else:
         archetype_rule = next((arch for arch in rule_data_app.get('archetypes', []) if arch['id'] == archetype_id), None)
         if not archetype_rule: 
@@ -182,24 +195,19 @@ def apply_archetype_to_wizard_state_callback(archetype_id: str):
         new_state['defenses'].update(template.get('defenses', {}))
         
         base_skill_rules_list = rule_data_app.get('skills',{}).get('list',[])
+        
         for skill_id_template, rank in template.get('skills', {}).items():
-            # Check if it's a base skill or a known specialized skill pattern
-            is_valid_skill = False
-            base_skill_of_template = None
-            for base_skill_def in base_skill_rules_list:
-                if skill_id_template == base_skill_def['id'] or \
-                   (base_skill_def.get('specialization_possible') and skill_id_template.startswith(base_skill_def['id'] + "_")):
-                    is_valid_skill = True
-                    base_skill_of_template = base_skill_def
-                    break
-            if is_valid_skill:
+            skill_rule_for_template = engine.get_skill_rule(skill_id_template) # Use engine's helper
+            
+            if skill_rule_for_template: # If it's a known base skill or a valid specialized form
                  new_state['skills'][skill_id_template] = rank
             else:
-                st.warning(f"Skill '{skill_id_template}' from archetype not directly mapped. Ensure it's a valid base or specialized skill ID.")
+                # This warning should now be more accurate
+                st.warning(f"Skill '{skill_id_template}' from archetype '{archetype_rule.get('name')}' is not a recognized base skill ID or a valid specialized skill format. It will be skipped.")
 
         new_state['advantages'] = copy.deepcopy(template.get('advantages', []))
         for adv in new_state['advantages']:
-            if 'instance_id' not in adv: # Ensure unique instance ID for each advantage
+            if 'instance_id' not in adv: 
                 adv['instance_id'] = generate_unique_id(f"adv_{adv.get('id','unknown')}_arch_")
 
         template_powers = template.get('powers', [])
@@ -220,7 +228,7 @@ def apply_archetype_to_wizard_state_callback(archetype_id: str):
                 'modifiersConfig': copy.deepcopy(p_template.get('modifiersConfig', [])),
                 'sensesConfig': copy.deepcopy(p_template.get('sensesConfig', [])),
                 'immunityConfig': copy.deepcopy(p_template.get('immunityConfig', [])),
-                'powerSpecificData': copy.deepcopy(p_template.get('powerSpecificData', {})), # For Affliction degrees etc.
+                'powerSpecificData': copy.deepcopy(p_template.get('powerSpecificData', {})),
                 'linkedCombatSkill': p_template.get('linkedCombatSkill'),
                 'arrayId': p_template.get('arrayId'),
                 'isArrayBase': p_template.get('isArrayBase', False),
@@ -231,7 +239,7 @@ def apply_archetype_to_wizard_state_callback(archetype_id: str):
                     mod_conf['instance_id'] = generate_unique_id("mod_arch_")
             constructed_powers.append(power_entry)
 
-        for pwr in constructed_powers: # Resolve AE links
+        for pwr in constructed_powers: 
             template_ae_base_id = next((pt['isAlternateEffectOf'] for pt_idx, pt in enumerate(template_powers) if archetype_power_id_map.get(pt.get('id',''),f"none_{pt_idx}") == pwr['id'] and pt.get('isAlternateEffectOf')), None)
             if template_ae_base_id and template_ae_base_id in archetype_power_id_map:
                 pwr['isAlternateEffectOf'] = archetype_power_id_map[template_ae_base_id]
@@ -254,7 +262,7 @@ def finish_wizard_callback():
 def render_sidebar():
     with st.sidebar:
         st.title("HeroForge M&M")
-        st.caption(f"v1.0 - M&M 3e Character Creator")
+        st.caption(f"v1.1 - M&M 3e Character Creator")
         st.markdown("---")
 
         active_char_state_key = 'wizard_character_state' if st.session_state.in_wizard_mode else 'character'
@@ -266,8 +274,8 @@ def render_sidebar():
         st.markdown(f"**PP:** {active_char_state.get('spentPowerPoints',0)} / {active_char_state.get('totalPowerPoints',0)}")
         
         remaining_pp = active_char_state.get('totalPowerPoints',0) - active_char_state.get('spentPowerPoints',0)
-        pp_color = "error" if remaining_pp < 0 else "success"
-        st.markdown(f"<span style='color:{'red' if pp_color=='error' else 'green'};'>Remaining PP: {remaining_pp}</span>", unsafe_allow_html=True)
+        pp_color_style = "color: red;" if remaining_pp < 0 else "color: green;"
+        st.markdown(f"<span style='{pp_color_style}'>Remaining PP: {remaining_pp}</span>", unsafe_allow_html=True)
         st.markdown("---")
 
         if st.session_state.in_wizard_mode:
@@ -313,32 +321,78 @@ def render_sidebar():
             st.success("New character started."); st.rerun()
 
         char_json_data = json.dumps(st.session_state.character, indent=4)
-        char_name_for_file = "".join(c for c in st.session_state.character.get('name', 'M_M_Hero') if c.isalnum() or c in (' ', '_')).rstrip()
+        char_name_for_file = "".join(c for c in st.session_state.character.get('name', 'M_M_Hero') if c.isalnum() or c in (' ', '_')).rstrip().replace(" ", "_")
         st.download_button(label="💾 Save Character (JSON)", data=char_json_data, file_name=f"{char_name_for_file}.json", mime="application/json", key="save_char_json_sidebar_btn", use_container_width=True)
 
         uploaded_file = st.file_uploader("📂 Load Character (JSON)", type=["json"], key="load_char_json_sidebar_uploader")
         if uploaded_file is not None:
             try:
                 loaded_data = json.load(uploaded_file)
-                if 'powerLevel' in loaded_data and 'abilities' in loaded_data:
+                if 'powerLevel' in loaded_data and 'abilities' in loaded_data: # Basic check
                     default_for_load = engine.get_default_character_state(loaded_data.get('powerLevel',10))
-                    merged_char_state = default_for_load
-                    merged_char_state.update(loaded_data) 
+                    # Deep merge loaded data onto default to ensure all keys are present
+                    # A simple update might miss nested structures if default is more complex later
+                    merged_char_state = copy.deepcopy(default_for_load)
+                    
+                    # Helper for deep update
+                    def deep_update(target_dict, source_dict):
+                        for key, value in source_dict.items():
+                            if isinstance(value, dict) and key in target_dict and isinstance(target_dict[key], dict):
+                                deep_update(target_dict[key], value)
+                            else:
+                                target_dict[key] = value
+                        return target_dict
+
+                    merged_char_state = deep_update(merged_char_state, loaded_data)
+                                     
                     st.session_state.character = engine.recalculate(merged_char_state)
                     st.session_state.in_wizard_mode = False 
                     st.session_state.current_view = 'Character Sheet'
                     st.success(f"Character '{st.session_state.character.get('name')}' loaded successfully!"); st.rerun()
-                else: st.error("Invalid character file format.")
+                else: st.error("Invalid character file format: Missing essential keys like 'powerLevel' or 'abilities'.")
+            except json.JSONDecodeError:
+                st.error("Error decoding JSON. Please ensure the file is a valid JSON character file.")
             except Exception as e: st.error(f"Error loading character: {e}")
         
-        if st.button("📄 Export to PDF", key="export_pdf_sidebar_btn", use_container_width=True):
-            pdf_char_state = st.session_state.character # Use the main character state for PDF
-            with st.spinner("Generating PDF..."):
-                pdf_bytes = generate_pdf_bytes(pdf_char_state, rule_data_app, engine)
-                if pdf_bytes:
-                    st.download_button(label="📥 Download PDF Sheet", data=pdf_bytes, file_name=f"{pdf_char_state.get('name', 'M_M_Hero')}_Sheet.pdf", mime="application/pdf", key="download_pdf_final_sidebar_btn", use_container_width=True)
-                    # st.success("PDF ready for download!") # Button itself is the call to action
-                else: st.error("Failed to generate PDF.")
+        # WeasyPrint PDF Export (Original)
+        if st.button("📄 Export to PDF (WeasyPrint)", key="export_pdf_weasy_sidebar_btn", use_container_width=True):
+            pdf_char_state_weasy = st.session_state.character 
+            with st.spinner("Generating PDF (WeasyPrint)..."):
+                pdf_bytes_weasy = generate_pdf_bytes(pdf_char_state_weasy, rule_data_app, engine) # Original function
+                if pdf_bytes_weasy:
+                    st.download_button(
+                        label="📥 Download PDF (WeasyPrint)", 
+                        data=pdf_bytes_weasy, # generate_pdf_bytes returns BytesIO, .getvalue() not needed if target=None
+                        file_name=f"{pdf_char_state_weasy.get('name', 'M_M_Hero')}_Sheet_Weasy.pdf", 
+                        mime="application/pdf", 
+                        key="download_pdf_weasy_final_sidebar_btn", 
+                        use_container_width=True
+                    )
+                else: st.error("Failed to generate PDF using WeasyPrint.")
+
+        # FPDF PDF Export (New)
+        if st.button("📄 Export to PDF (FPDF)", key="export_pdf_fpdf_sidebar_btn", use_container_width=True):
+            pdf_char_state_fpdf = st.session_state.character
+            with st.spinner("Generating PDF (FPDF)..."):
+                try:
+                    # Assuming generate_fpdf_character_sheet returns a BytesIO object
+                    pdf_bytes_io_fpdf = generate_fpdf_character_sheet(pdf_char_state_fpdf, rule_data_app, engine)
+                    if pdf_bytes_io_fpdf:
+                        st.download_button(
+                            label="📥 Download PDF Sheet (FPDF)",
+                            data=pdf_bytes_io_fpdf.getvalue(), # Use .getvalue() for BytesIO
+                            file_name=f"{pdf_char_state_fpdf.get('name', 'M_M_Hero')}_Sheet_FPDF.pdf",
+                            mime="application/pdf",
+                            key="download_fpdf_final_sidebar_btn", 
+                            use_container_width=True
+                        )
+                    else:
+                        st.error("Failed to generate PDF data using FPDF.")
+                except NotImplementedError: # Catch if the function isn't implemented yet
+                    st.error("FPDF generation is not yet implemented in pdf_utils.py.")
+                except Exception as e_fpdf:
+                    st.error(f"Error during FPDF PDF generation: {e_fpdf}")
+
         st.markdown("---")
 
         st.subheader("Validation Status")
@@ -348,12 +402,17 @@ def render_sidebar():
         else:
             st.error(f"⚠️ {len(validation_errors)} Validation Issue(s) Found:")
             for err_idx, error_msg in enumerate(validation_errors):
-                st.markdown(f"- {error_msg}", key=_uk("sidebar_validation_error_disp", err_idx)) # Unique key
+                # Using the local _uk function defined in app.py
+                st.markdown(f"- {error_msg}", key=_uk("sidebar_validation_error_disp", err_idx))
         st.markdown("---")
         
         if st.button("🔄 Force Full Recalculate", key="force_recalc_sidebar_btn", use_container_width=True):
-            st.session_state[active_char_state_key] = engine.recalculate(active_char_state)
-            st.success("Character data recalculated."); st.rerun()
+            try:
+                st.session_state[active_char_state_key] = engine.recalculate(active_char_state)
+                st.success("Character data recalculated."); st.rerun()
+            except Exception as e_recalc_force:
+                 st.error(f"Error during forced recalculation: {e_recalc_force}")
+
 
 # --- Main Application Flow ---
 def main():
@@ -372,23 +431,41 @@ def main():
                 "update_char_value_wiz": update_char_value_wiz
             }
             if st.session_state.wizard_step == 2: wizard_args["apply_archetype_to_wizard_state"] = apply_archetype_to_wizard_state_callback
-            if st.session_state.wizard_step == 5: wizard_args["generate_unique_id_func"] = generate_unique_id
+            if st.session_state.wizard_step == 5: wizard_args["generate_id_func"] = generate_unique_id # Changed from generate_unique_id_func
             if st.session_state.wizard_step == 6: wizard_args["finish_wizard_func"] = finish_wizard_callback
-            current_wizard_step_func(**wizard_args)
+            
+            try:
+                current_wizard_step_func(**wizard_args)
+            except Exception as e_wizard_step:
+                 st.error(f"Error rendering wizard step {st.session_state.wizard_step} ('{current_wizard_step_func.__name__}'): {e_wizard_step}")
+                 st.warning("Consider exiting the wizard or trying the previous/next step if the error persists.")
+
         else: st.error(f"Unknown wizard step: {st.session_state.wizard_step}")
     else: 
-        render_selected_advanced_view(
-            view_name=st.session_state.current_view, st_obj=st, 
-            char_state=st.session_state.character, rule_data=rule_data_app, 
-            engine=engine, update_char_value=update_char_value, 
-            generate_id_func=generate_unique_id,
-            power_form_state_ref=st.session_state.power_form_state,
-            advantage_editor_config_ref=st.session_state.advantage_editor_config,
-            equipment_editor_config_ref=st.session_state.equipment_editor_config,
-            hq_form_state_ref=st.session_state.hq_form_state,
-            vehicle_form_state_ref=st.session_state.vehicle_form_state,
-            ally_editor_config_ref=st.session_state.ally_editor_config
-        )
+        try:
+            render_selected_advanced_view(
+                view_name=st.session_state.current_view, st_obj=st, 
+                char_state=st.session_state.character, rule_data=rule_data_app, 
+                engine=engine, update_char_value=update_char_value, 
+                generate_id_func=generate_unique_id,
+                power_form_state_ref=st.session_state.power_form_state,
+                advantage_editor_config_ref=st.session_state.advantage_editor_config,
+                equipment_editor_config_ref=st.session_state.equipment_editor_config,
+                hq_form_state_ref=st.session_state.hq_form_state,
+                vehicle_form_state_ref=st.session_state.vehicle_form_state,
+                ally_editor_config_ref=st.session_state.ally_editor_config
+            )
+        except Exception as e_adv_view:
+            st.error(f"Error rendering advanced view '{st.session_state.current_view}': {e_adv_view}")
+            st.warning("Try selecting another section from the sidebar. If the error persists, you might need to reload the character or start a new one.")
+
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e_main:
+        st.error(f"A critical error occurred in the main application: {e_main}")
+        st.error("Please check the console for more details. You may need to restart the application or report this issue.")
+        # For more detailed debugging, you might want to log the full traceback
+        # import traceback
+        # print(traceback.format_exc())

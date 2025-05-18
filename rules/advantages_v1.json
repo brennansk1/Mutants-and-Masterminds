@@ -73,11 +73,11 @@
     "type": "General",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 10, // Max ranks often GM dependent; 10 allows for multiple distinct benefits
+    "maxRanks": 10,
     "parameter_needed": true,
     "parameter_prompt": "Specify the Benefit per rank (e.g., Wealth 1, Status: Police Lieutenant, Ambidexterity, Cipher, Diplomatic Immunity, Security Clearance Lvl 3)",
-    "parameter_name_singular": "Benefit Detail", // If ranked, UI might show multiple inputs
-    "parameter_type": "list_string_per_rank", // Special type: each rank requires a new string parameter
+    "parameter_name_singular": "Benefit Detail",
+    "parameter_type": "list_string_per_rank",
     "description": "Gain a significant prerequisite, fringe benefit, status, or resource, approved by the GM. Each rank provides a distinct benefit or enhances an existing one. Examples: Ambidexterity, Cipher, Diplomatic Immunity, Security Clearance, Status, Wealth.",
     "page_ref": "DHH p.109"
   },
@@ -96,7 +96,7 @@
     "type": "Combat",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 20, // Practical limit, can be PL dependent
+    "maxRanks": 20,
     "description": "Gain +1 bonus to close attack checks per rank.",
     "page_ref": "DHH p.110"
   },
@@ -127,7 +127,7 @@
     "name": "Daze",
     "type": "Skill",
     "costPerRank": 1,
-    "ranked": false, // Take multiple times for different skills
+    "ranked": false,
     "parameter_needed": true,
     "parameter_prompt": "Choose skill for Daze (Deception or Intimidation)",
     "parameter_type": "select_from_options",
@@ -153,7 +153,7 @@
     "type": "Combat",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks_source": "AGL", // Engine uses character's Agility rank as max
+    "maxRanks_source": "AGL", 
     "grants_conditional_trait": {"trait": "Toughness", "condition": "Not Vulnerable/Defenseless"},
     "description": "Adds rank to Toughness defense. This bonus is considered an active defense and is lost if flat-footed, vulnerable or defenseless. Max rank equals Agility.",
     "page_ref": "DHH p.110"
@@ -183,7 +183,7 @@
     "costPerRank": 1,
     "epPerRank": 5,
     "ranked": true,
-    "maxRanks": 50, // Practical limit, DHH implies unlimited
+    "maxRanks": 50, 
     "parameter_needed": true,
     "parameter_prompt": "Allocate Equipment Points (EP) in the Equipment, HQ, and Vehicles sections.",
     "parameter_type": "complex_config_note",
@@ -214,7 +214,7 @@
     "name": "Fascinate",
     "type": "Skill",
     "costPerRank": 1,
-    "ranked": false, // Take multiple times for different skills
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Choose skill for Fascinate (Deception, Intimidation, or Persuasion)",
     "parameter_type": "select_from_options",
@@ -240,7 +240,7 @@
     "name": "Favored Environment",
     "type": "Combat",
     "costPerRank": 1,
-    "ranked": false, // Take multiple times for different environments
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Specify Environment (e.g., Aquatic, Aerial, Urban, Zero-G, specific terrain)",
     "parameter_type": "text",
@@ -252,7 +252,7 @@
     "name": "Favored Opponent",
     "type": "Combat",
     "costPerRank": 1,
-    "ranked": false, // Take multiple times for different opponent types
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Specify Opponent Type (e.g., Robots, Undead, Magic Users, specific organization)",
     "parameter_type": "text_long",
@@ -309,11 +309,11 @@
     "name": "Improved Critical",
     "type": "Combat",
     "costPerRank": 1,
-    "ranked": true, // Ranks increase threat range. Max 4 ranks for a single attack type.
+    "ranked": true, 
     "maxRanks": 4,
     "parameter_needed": true,
     "parameter_prompt": "Specify Attack this applies to (e.g., Unarmed Strike, Energy Blast, Sword)",
-    "parameter_type": "select_attack_choice", // UI needs to populate this or allow text
+    "parameter_type": "select_attack_choice", 
     "description": "Increases the critical threat range of a specific attack by 1 per rank (e.g., Rank 1: 19-20, Rank 2: 18-20, up to Rank 4: 16-20). Take this advantage multiple times for different attacks.",
     "page_ref": "DHH p.112"
   },
@@ -359,7 +359,7 @@
     "type": "Combat",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 5, // Practical limit, DHH implies unlimited
+    "maxRanks": 5, 
     "description": "Gain +4 bonus to initiative checks per rank.",
     "page_ref": "DHH p.113"
   },
@@ -456,7 +456,7 @@
     "type": "General",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 10, // More than DHH's example 5, for super-linguists
+    "maxRanks": 10, 
     "languages_per_rank": 1,
     "parameter_needed": true,
     "parameter_prompt": "Specify languages known (1 per rank)",
@@ -480,7 +480,7 @@
     "type": "Fortune",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 5, // DHH suggests 1-3, PL/2 common; capping at 5 as a high default.
+    "maxRanks": 5, 
     "description": "Re-roll any die roll you make and take the better of the two rolls. You can use Luck a number of times per game session equal to your Luck rank. These are your 'Luck points'.",
     "page_ref": "DHH p.114"
   },
@@ -491,7 +491,7 @@
     "costPerRank": 1,
     "points_per_rank_for_ally": 15,
     "ranked": true,
-    "maxRanks": 10, // Practical limit, DHH implies unlimited
+    "maxRanks": 10, 
     "parameter_needed": true,
     "parameter_prompt": "Define Minion groups and their PP allocation in the Companions section. Each rank grants 15 PP for Minions.",
     "parameter_type": "complex_config_note",
@@ -521,7 +521,7 @@
     "name": "Precise Attack",
     "type": "Combat",
     "costPerRank": 1,
-    "ranked": false, // Taken multiple times for different scopes.
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Choose scope of Precise Attack",
     "parameter_type": "select_from_options",
@@ -558,7 +558,7 @@
     "type": "Combat",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 20, // Practical limit
+    "maxRanks": 20, 
     "description": "Gain +1 bonus to ranged attack checks per rank.",
     "page_ref": "DHH p.116"
   },
@@ -589,7 +589,7 @@
     "name": "Second Chance",
     "type": "Fortune",
     "costPerRank": 1,
-    "ranked": false, // Taken multiple times for different circumstances
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Specify Hazard or Circumstance (e.g., Resisting Mind Control, Dodge vs. Area Effects, Specific Skill Check)",
     "parameter_type": "text_long",
@@ -611,7 +611,7 @@
     "type": "Combat", 
     "costPerRank": 1,
     "ranked": true, 
-    "maxRanks": 5, // Max bonus of +5
+    "maxRanks": 5, 
     "description": "When you successfully use an interaction skill to aid another or create an advantage in combat, your ally gains a +1 circumstance bonus per rank of Setup you have (max +5).",
     "page_ref": "DHH p.117"
   },
@@ -622,7 +622,7 @@
     "costPerRank": 1,
     "points_per_rank_for_ally": 5,
     "ranked": true,
-    "maxRanks": 30, // Max 150 PP Sidekick (PL 10)
+    "maxRanks": 30, 
     "parameter_needed": true, 
     "parameter_prompt": "Define Sidekick details and PP allocation in the Companions section. Each rank grants 5 PP for a Sidekick.",
     "parameter_type": "complex_config_note",
@@ -634,7 +634,7 @@
     "name": "Skill Mastery",
     "type": "Skill",
     "costPerRank": 1,
-    "ranked": false, // Taken multiple times for different skills
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Choose Skill for Mastery",
     "parameter_type": "select_skill",
@@ -684,7 +684,7 @@
     "type": "Combat",
     "costPerRank": 1,
     "ranked": true,
-    "maxRanks": 5, // Typically capped at PL for damage bonus
+    "maxRanks": 5, 
     "description": "Add rank as a damage bonus to thrown weapons. This damage is ranged.",
     "page_ref": "DHH p.118"
   },
@@ -702,7 +702,7 @@
     "name": "Ultimate Effort",
     "type": "Fortune",
     "costPerRank": 1,
-    "ranked": false, // Taken multiple times for different efforts
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Choose Effort Type (e.g., Toughness Save, Attack Check with chosen attack, specific Skill Check)",
     "parameter_type": "text_long",
@@ -714,10 +714,10 @@
     "name": "Uncanny Dodge",
     "type": "Combat",
     "costPerRank": 1,
-    "ranked": false, // Taken multiple times for different senses
+    "ranked": false, 
     "parameter_needed": true,
     "parameter_prompt": "Choose Sense Type for Uncanny Dodge (e.g., Visual, Auditory, Mental, Danger Sense)",
-    "parameter_type": "select_sense_type", // UI needs to populate this from a list of senses
+    "parameter_type": "select_sense_type", 
     "description": "You are not vulnerable when surprised or attacked by opponents you cannot perceive with a chosen sense type. You can take this multiple times for different sense types.",
     "page_ref": "DHH p.119"
   },
