@@ -403,7 +403,7 @@ def render_sidebar():
             st.error(f"⚠️ {len(validation_errors)} Validation Issue(s) Found:")
             for err_idx, error_msg in enumerate(validation_errors):
                 # Using the local _uk function defined in app.py
-                st.markdown(f"- {error_msg}", key=_uk("sidebar_validation_error_disp", err_idx))
+                st.markdown(f"- {error_msg}")
         st.markdown("---")
         
         if st.button("🔄 Force Full Recalculate", key="force_recalc_sidebar_btn", use_container_width=True):
