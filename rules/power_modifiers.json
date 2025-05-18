@@ -107,7 +107,7 @@
       "name": "Alternate Resistance",
       "type": "Extra",
       "costType": "perRank", 
-      "costChangePerRank": 0, # Base cost change, actual determined by parameter_cost_options
+      "costChangePerRank": 0, 
       "parameter_needed": true,
       "parameter_prompt": "Select New Resistance and Cost Implication (GM's Call for 'Harder')",
       "parameter_type": "select_defense_or_dc_type", 
@@ -140,7 +140,7 @@
       "name": "Area (Cloud)",
       "type": "Extra",
       "costType": "perRank",
-      "costChangePerRank": 2, # DHH states Cloud is Burst (+1/rank) + it lingers (+1/rank) = +2/rank total
+      "costChangePerRank": 2,
       "ranked": true,
       "maxRanks_source": "powerRank",
       "changesRangeTo": "Area (Cloud)",
@@ -354,8 +354,7 @@
       "type": "Extra",
       "costType": "perRank",
       "costChangePerRank": 1,
-      "appliesToDuration": ["Concentration", "Instant"], # Can go from Instant to Sustained for +2/rank implicitly by taking this & Conc.
-      "changesDurationTo": "Sustained",
+      "appliesToDuration": ["Concentration", "Instant"], 
       "description": "Changes a Concentration duration effect to Sustained duration (+1 PP/rank). Requires a free action each round to maintain. (If from Instant, total +2 PP/rank for both steps).",
       "page_ref": "DHH p.153"
     },

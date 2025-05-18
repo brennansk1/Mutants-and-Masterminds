@@ -96,10 +96,11 @@
     "id": "eq_flashlight",
     "name": "Flashlight",
     "category": "Gear_Utility",
-    "ep_cost": 1, // DHH lists as 0 EP, but Feature 1 (Illumination) typically 1 EP. Let's make it 1 EP for consistency if it's useful.
+    "ep_cost": 1,
     "effects_text": "Provides illumination in a small area.",
     "description": "Standard portable light source.",
-    "page_ref": "DHH p.173 (cost adjusted for Feature)"
+    "page_ref": "DHH p.173",
+    "dev_comment": "DHH lists as 0 EP, but Feature 1 (Illumination) typically 1 EP. Made 1 EP for consistency if it's useful."
   },
   {
     "id": "eq_gas_mask",
@@ -128,14 +129,11 @@
     "description": "Contains basic medical supplies.",
     "page_ref": "DHH p.173 (as Toolkit)"
   },
-
-  // --- WEAPONS ---
-  // Close Combat Weapons (DHH p.174)
   {
     "id": "eq_brass_knuckles",
     "name": "Brass Knuckles",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 1, // Damage 1, Strength-based
+    "ep_cost": 1,
     "effects_text": "Damage 1 (Strength-based, Bludgeoning)",
     "description": "Metal knuckle dusters, add to unarmed damage.",
     "page_ref": "DHH p.174"
@@ -144,7 +142,7 @@
     "id": "eq_club",
     "name": "Club",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 2, // Damage 2, Strength-based
+    "ep_cost": 2,
     "effects_text": "Damage 2 (Strength-based, Bludgeoning)",
     "description": "A heavy stick or cudgel.",
     "page_ref": "DHH p.174"
@@ -153,25 +151,25 @@
     "id": "eq_knife",
     "name": "Knife",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 2, // Damage 1 (Str-based) + Crit 19-20 (1 EP feature)
+    "ep_cost": 2,
     "effects_text": "Damage 1 (Strength-based, Piercing/Slashing), Critical 19-20",
-    "description": "A bladed weapon, versatile for cutting or thrusting.",
+    "description": "A bladed weapon, versatile for cutting or thrusting. EP cost includes feature for Crit 19-20.",
     "page_ref": "DHH p.174"
   },
   {
     "id": "eq_sword",
     "name": "Sword",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 4, // Damage 3 (Str-based) + Crit 19-20 (1 EP feature)
+    "ep_cost": 4,
     "effects_text": "Damage 3 (Strength-based, Slashing/Piercing), Critical 19-20",
-    "description": "A long-bladed weapon.",
+    "description": "A long-bladed weapon. EP cost includes feature for Crit 19-20.",
     "page_ref": "DHH p.174"
   },
   {
     "id": "eq_warhammer",
     "name": "Warhammer",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 3, // Damage 3 (Str-based)
+    "ep_cost": 3,
     "effects_text": "Damage 3 (Strength-based, Bludgeoning)",
     "description": "A heavy, blunt-force weapon.",
     "page_ref": "DHH p.174"
@@ -180,18 +178,16 @@
     "id": "eq_spear",
     "name": "Spear",
     "category": "Weapon_Close_Melee",
-    "ep_cost": 3, // Damage 3 (Str-based), can be thrown
+    "ep_cost": 3,
     "effects_text": "Damage 3 (Strength-based, Piercing), Reach 1 (5 ft), Can be thrown (Range 25/50/100)",
     "description": "A pole weapon with a pointed tip, can be used in melee or thrown.",
     "page_ref": "DHH p.174"
   },
-
-  // Ranged Combat Weapons (DHH p.175)
   {
     "id": "eq_bow",
     "name": "Bow",
     "category": "Weapon_Ranged_Projectile",
-    "ep_cost": 6, // Ranged Damage 3
+    "ep_cost": 6,
     "effects_text": "Ranged Damage 3 (Piercing)",
     "description": "Standard bow and arrows.",
     "page_ref": "DHH p.175"
@@ -200,16 +196,16 @@
     "id": "eq_crossbow",
     "name": "Crossbow",
     "category": "Weapon_Ranged_Projectile",
-    "ep_cost": 7, // Ranged Damage 3 + Crit 19-20 (1 EP feature)
+    "ep_cost": 7,
     "effects_text": "Ranged Damage 3 (Piercing), Critical 19-20",
-    "description": "Mechanical bow, easier to use but slower to reload than a regular bow.",
+    "description": "Mechanical bow, easier to use but slower to reload than a regular bow. EP cost includes feature for Crit 19-20.",
     "page_ref": "DHH p.175"
   },
   {
     "id": "eq_pistol_light",
     "name": "Light Pistol",
     "category": "Weapon_Ranged_Firearm",
-    "ep_cost": 6, // Ranged Damage 3
+    "ep_cost": 6,
     "effects_text": "Ranged Damage 3 (Ballistic)",
     "description": "A small caliber handgun.",
     "page_ref": "DHH p.175"
@@ -218,7 +214,7 @@
     "id": "eq_pistol_heavy",
     "name": "Heavy Pistol",
     "category": "Weapon_Ranged_Firearm",
-    "ep_cost": 8, // Ranged Damage 4
+    "ep_cost": 8,
     "effects_text": "Ranged Damage 4 (Ballistic)",
     "description": "A large caliber handgun.",
     "page_ref": "DHH p.175"
@@ -227,7 +223,7 @@
     "id": "eq_rifle",
     "name": "Rifle",
     "category": "Weapon_Ranged_Firearm",
-    "ep_cost": 10, // Ranged Damage 5
+    "ep_cost": 10,
     "effects_text": "Ranged Damage 5 (Ballistic)",
     "description": "A long-barreled firearm designed for accuracy at range.",
     "page_ref": "DHH p.175"
@@ -236,7 +232,7 @@
     "id": "eq_shotgun",
     "name": "Shotgun",
     "category": "Weapon_Ranged_Firearm",
-    "ep_cost": 10, // Ranged Damage 5 (close range), or Ranged Damage 3 (short range)
+    "ep_cost": 10,
     "effects_text": "Ranged Damage 5 (Ballistic, limited to close range) or Ranged Damage 3 (Ballistic, short range)",
     "description": "Firearm that shoots a spread of pellets.",
     "page_ref": "DHH p.175"
@@ -245,85 +241,76 @@
     "id": "eq_submachine_gun_smg",
     "name": "Submachine Gun (SMG)",
     "category": "Weapon_Ranged_Firearm_Automatic",
-    "ep_cost": 9, // Ranged Damage 4, Multiattack extra (conceptual cost: Damage 4 = 8EP, Multiattack on Damage 4 is +4EP = 12 EP. DHH lists at 9 EP which is odd.)
-                  // For M&M, Multiattack extra costs +1 per rank of the effect. So Ranged Damage 4 (8EP) + Multiattack (4EP for +1/rank on Dmg 4) = 12 EP.
-                  // DHH prices SMG at 9EP (Damage 4, Multiattack). This implies Multiattack here costs +1 Flat EP. This is a known DHH inconsistency.
-                  // We will use DHH book cost.
+    "ep_cost": 9,
     "effects_text": "Ranged Damage 4 (Ballistic), Multiattack",
     "description": "Compact automatic firearm.",
-    "page_ref": "DHH p.175"
+    "page_ref": "DHH p.175",
+    "dev_comment": "DHH cost 9 EP. Built: Dmg 4 (8EP) + Multiattack (+4EP) = 12 EP. Using DHH book cost."
   },
   {
     "id": "eq_assault_rifle",
     "name": "Assault Rifle",
     "category": "Weapon_Ranged_Firearm_Automatic",
-    "ep_cost": 11, // Ranged Damage 5, Multiattack (Again, DHH cost is lower than explicit build: Dmg 5=10EP + Multiattack 5EP = 15 EP. DHH lists 11 EP)
+    "ep_cost": 11,
     "effects_text": "Ranged Damage 5 (Ballistic), Multiattack",
     "description": "Military-style automatic rifle.",
-    "page_ref": "DHH p.175"
+    "page_ref": "DHH p.175",
+    "dev_comment": "DHH cost 11 EP. Built: Dmg 5 (10EP) + Multiattack (+5EP) = 15 EP. Using DHH book cost."
   },
   {
     "id": "eq_sniper_rifle",
     "name": "Sniper Rifle",
     "category": "Weapon_Ranged_Firearm",
-    "ep_cost": 11, // Ranged Damage 5 + Crit 19-20 (1 EP feature)
+    "ep_cost": 11,
     "effects_text": "Ranged Damage 5 (Ballistic), Critical 19-20",
-    "description": "Rifle designed for long-range precision shooting.",
+    "description": "Rifle designed for long-range precision shooting. EP cost includes feature for Crit 19-20.",
     "page_ref": "DHH p.175"
   },
   {
     "id": "eq_grenade_fragmentation",
     "name": "Grenade (Fragmentation)",
     "category": "Weapon_Ranged_Explosive",
-    "ep_cost": 12, // Ranged Burst Area Damage 4 (Area +1/rank, Ranged +1/rank. Damage 4 base = 4 pts. Area= +4, Ranged= +4. Total 12.)
-                   // DHH lists as Ranged Area Damage 5 for 15 EP. Let's use that. Ranged Burst Area Damage 5
-                   // Dmg 5 (5 pts) + Ranged (+5 pts) + Burst Area (+5 pts) = 15 EP.
+    "ep_cost": 15,
     "effects_text": "Ranged Burst Area Damage 5 (Ballistic/Explosive)",
     "description": "Explosive device that scatters shrapnel over an area.",
-    "page_ref": "DHH p.175"
+    "page_ref": "DHH p.175",
+    "dev_comment": "DHH lists as Ranged Area Damage 5 for 15 EP. Built: Dmg 5 (5EP) + Ranged (+5EP) + Burst Area (+5EP) = 15 EP. This matches."
   },
   {
     "id": "eq_grenade_smoke",
     "name": "Grenade (Smoke)",
     "category": "Weapon_Ranged_Utility",
-    "ep_cost": 3, // Cloud Area Visual Concealment Attack 4 (15ft radius). Area +1/r. Concealment 4 (normal vision) is 4pts. Area = +4. Total 8 EP.
-                  // DHH lists as 3 EP. This often means the Concealment is less potent or has flaws not listed.
-                  // For 3 EP it might be a simple Visual Concealment 1 (2 EP) with Cloud Area (total 1 rank area for +1 EP)
+    "ep_cost": 3,
     "effects_text": "Cloud Area Visual Concealment 1 (Obscures Vision)",
     "description": "Creates a cloud of smoke to obscure vision.",
-    "page_ref": "DHH p.175"
+    "page_ref": "DHH p.175",
+    "dev_comment": "DHH lists as 3 EP. This often means the Concealment is less potent or has flaws. For 3 EP, suggests Concealment 1 (2EP for effect) + Cloud Area (1 rank for +1EP total)."
   },
   {
     "id": "eq_rocket_launcher_rpg",
     "name": "Rocket Launcher (RPG)",
     "category": "Weapon_Ranged_Explosive_Heavy",
-    "ep_cost": 21, // Ranged Burst Area Damage 7 (Dmg 7=7, Ranged=+7, Area=+7. Total 21)
-                   // DHH lists as Ranged Area Damage 10, Penetrating 5 for 25 EP. This is very high for EP.
-                   // Let's use the common RPG-7 equivalent from older books/interpretations: Ranged Burst Area Damage 7.
-    "effects_text": "Ranged Burst Area Damage 7 (Explosive), Penetrating 4", // DHH pg 175 RPG: Ranged Damage 8, Burst Area, Penetrating 4 = (8+8+8+4) = 28 EP.
-                                                                          // This is likely a Device, not Equipment.
-                                                                          // For basic equipment list, simpler RPG.
-                                                                          // Let's use a more typical equipment-level "Light Rocket Launcher"
-    "description": "Shoulder-fired anti-armor weapon. For a simpler equipment version: Ranged Damage 6 (Explosive), Burst Area. (6+6+6=18 EP)",
-    "page_ref": "DHH p.175 (Interpreted for standard equipment)"
+    "ep_cost": 18,
+    "effects_text": "Ranged Damage 6 (Explosive), Burst Area",
+    "description": "Shoulder-fired anti-armor weapon. This is a lighter equipment version.",
+    "page_ref": "DHH p.175 (Interpreted for standard equipment)",
+    "dev_comment": "DHH RPG (Damage 8, Burst Area, Penetrating 4) costs 28 EP, likely a Device. This is Ranged Dmg 6, Burst Area (6+6+6=18 EP)."
   },
   {
     "id": "eq_flamethrower",
     "name": "Flamethrower",
     "category": "Weapon_Ranged_Incendiary",
-    "ep_cost": 12, // Line Area Damage 4 (Secondary Effect for burning). Dmg 4 + Area + Sec.Effect = 4+4+4=12.
-                   // DHH lists: Damage 5, Line Area, Secondary Effect = (5+5+5) = 15 EP.
+    "ep_cost": 15,
     "effects_text": "Line Area Damage 5 (Fire), Secondary Effect",
     "description": "Projects a stream of burning fuel.",
-    "page_ref": "DHH p.175"
+    "page_ref": "DHH p.175",
+    "dev_comment": "DHH lists: Damage 5, Line Area, Secondary Effect. Built: Dmg 5 (5EP) + Line Area (+5EP) + Secondary Effect (+5EP) = 15 EP. This matches."
   },
-
-  // Armor (DHH p.176)
   {
     "id": "eq_armor_leather_jacket",
     "name": "Leather Jacket (Armor)",
     "category": "Armor_Personal_Light",
-    "ep_cost": 1, // Protection 1
+    "ep_cost": 1,
     "effects_text": "Protection 1 (Toughness +1)",
     "description": "Basic protection, like a heavy leather jacket.",
     "page_ref": "DHH p.176"
@@ -332,27 +319,25 @@
     "id": "eq_armor_kevlar_vest",
     "name": "Kevlar Vest (Armor)",
     "category": "Armor_Personal_Ballistic",
-    "ep_cost": 4, // Protection 3 + Subtle 1 (feature)
+    "ep_cost": 4,
     "effects_text": "Protection 3 (Toughness +3), Subtle 1",
-    "description": "Bulletproof vest, concealable under clothing.",
+    "description": "Bulletproof vest, concealable under clothing. Cost includes Subtle feature.",
     "page_ref": "DHH p.176"
   },
   {
     "id": "eq_armor_full_plate",
     "name": "Full Plate (Armor)",
     "category": "Armor_Personal_Heavy",
-    "ep_cost": 5, // Protection 5
+    "ep_cost": 5,
     "effects_text": "Protection 5 (Toughness +5)",
     "description": "Heavy, articulated metal plate armor. Noticeable.",
     "page_ref": "DHH p.176"
   },
-
-  // Shields (DHH p.176)
   {
     "id": "eq_shield_small",
     "name": "Small Shield",
     "category": "Shield",
-    "ep_cost": 2, // +1 Dodge, +1 Parry (Effectively Enhanced Dodge 1 & Enhanced Parry 1 as equipment Features)
+    "ep_cost": 2,
     "effects_text": "Provides +1 Active Defenses (+1 Dodge, +1 Parry)",
     "description": "A small buckler or similar shield.",
     "page_ref": "DHH p.176"
@@ -361,7 +346,7 @@
     "id": "eq_shield_large",
     "name": "Large Shield",
     "category": "Shield",
-    "ep_cost": 4, // +2 Dodge, +2 Parry
+    "ep_cost": 4,
     "effects_text": "Provides +2 Active Defenses (+2 Dodge, +2 Parry)",
     "description": "A medium or large shield providing substantial protection.",
     "page_ref": "DHH p.176"

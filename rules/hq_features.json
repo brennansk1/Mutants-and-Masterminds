@@ -1,6 +1,4 @@
 [
-  // --- HQ SIZE CATEGORIES (DHH p.178) ---
-  // EP cost for Size includes its base Toughness.
   {
     "id": "hq_size_diminutive",
     "name": "Size: Diminutive",
@@ -8,8 +6,9 @@
     "ep_cost": 0,
     "base_toughness_provided": 4,
     "size_rank_effect": -8,
-    "description": "Closet, cell (up to approx. 30 cubic feet). Cost is 0 if this is the *only* feature (effectively a Feature for 1 EP to have a tiny private space). If other features are added, its implied cost might be considered 1 EP by some GMs for calculation if not taking a larger size.",
-    "page_ref": "DHH p.178"
+    "description": "Closet, cell (up to approx. 30 cubic feet). Cost is 0 if this is the only feature (effectively a Feature for 1 EP to have a tiny private space). If other features are added, its implied cost might be considered 1 EP by some GMs for calculation if not taking a larger size.",
+    "page_ref": "DHH p.178",
+    "dev_comment": "EP cost for Size includes its base Toughness. Initial comment was about conceptual cost if it's the only feature."
   },
   {
     "id": "hq_size_tiny",
@@ -81,20 +80,17 @@
     "description": "Skyscraper, giant 'Statue of Liberty' size structure (up to approx. 1 million cubic feet).",
     "page_ref": "DHH p.178"
   },
-
-  // --- HQ TOUGHNESS INCREASE (DHH p.178) ---
   {
     "id": "hq_toughness_increase",
     "name": "Toughness Increase",
     "type": "ToughnessBoost",
     "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 20, 
+    "max_ranks": 20,
     "description": "Increases HQ Toughness by +1 for each Equipment Point spent (added to base Toughness from Size).",
-    "page_ref": "DHH p.178"
+    "page_ref": "DHH p.178",
+    "dev_comment": "Original comment: HQ TOUGHNESS INCREASE (DHH p.178)"
   },
-
-  // --- STANDARD HQ FEATURES (DHH p.178-179) ---
   {
     "id": "hq_communications",
     "name": "Communications",
@@ -102,7 +98,8 @@
     "ep_cost": 1,
     "ranked": false,
     "description": "Basic communications systems: telephones, computer network, short-range radio, satellite uplink, etc.",
-    "page_ref": "DHH p.178"
+    "page_ref": "DHH p.178",
+    "dev_comment": "STANDARD HQ FEATURES (DHH p.178-179)"
   },
   {
     "id": "hq_computer",
@@ -119,7 +116,7 @@
     "type": "Feature",
     "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 4, 
+    "max_ranks": 4,
     "description": "Increases the DC to find the HQ by +5 per rank (base DC 10 to find an unlisted location). Max DC +20 (DC 30 total).",
     "page_ref": "DHH p.178"
   },
@@ -127,14 +124,15 @@
     "id": "hq_defense_system",
     "name": "Defense System",
     "type": "Feature",
-    "ep_cost_per_rank": 1, // Cost equals rank of the defensive effect
+    "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 20, // Practical limit for effect rank
+    "max_ranks": 20,
     "parameter_needed": true,
     "parameter_prompt": "Describe Defense System (e.g., Laser Turrets, Ranged Damage 8; or Sleep Gas Dispensers, Cloud Area Affliction 6). The EP cost for this feature will be the rank of the described effect.",
     "parameter_type": "text_long",
     "description": "Automated weapon systems or other defensive measures. The effect rank of the defenses equals the EP cost for this specific feature instance.",
-    "page_ref": "DHH p.178"
+    "page_ref": "DHH p.178",
+    "dev_comment": "Cost equals rank of the defensive effect. Practical limit for effect rank."
   },
   {
     "id": "hq_dock",
@@ -149,14 +147,15 @@
     "id": "hq_effect_feature",
     "name": "Effect Feature",
     "type": "Feature",
-    "ep_cost_per_rank": 1, // Cost equals rank of the HQ's power effect
+    "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 20, // Practical limit for effect rank
+    "max_ranks": 20,
     "parameter_needed": true,
     "parameter_prompt": "Describe Effect and its Rank (e.g., Nullify Magic 10, Environment Control (Cold) 5). The EP cost for this feature will be the rank of the described effect.",
     "parameter_type": "text_long",
     "description": "The HQ possesses a power effect, like those created using powers. The cost in EP for this feature instance equals the effect's rank.",
-    "page_ref": "DHH p.179"
+    "page_ref": "DHH p.179",
+    "dev_comment": "Cost equals rank of the HQ's power effect. Practical limit for effect rank."
   },
   {
     "id": "hq_fire_prevention",
@@ -182,12 +181,13 @@
     "type": "Feature",
     "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 5, 
-    "parameter_needed": true, // Or make non-parameterized if ranks are fixed (e.g. Rank 1 = yard, Rank 2 = park etc)
+    "max_ranks": 5,
+    "parameter_needed": true,
     "parameter_prompt": "Describe size/nature of grounds (e.g., Rank 1: Small Yard up to Rank 5: Large Estate/Campus)",
-    "parameter_type": "text", // Could also be select_from_options if ranks have predefined descriptions
+    "parameter_type": "text",
     "description": "The area surrounding the HQ. Rank 1 is a small yard, rank 2 a large one, rank 3 is like several acres, rank 4 a large park or estate, rank 5 an entire campus or small island.",
-    "page_ref": "DHH p.179"
+    "page_ref": "DHH p.179",
+    "dev_comment": "Parameter can be text or select_from_options if ranks have predefined descriptions."
   },
   {
     "id": "hq_gym",
@@ -211,11 +211,12 @@
     "id": "hq_holding_cells",
     "name": "Holding Cells",
     "type": "Feature",
-    "ep_cost_per_rank": 1, // Cost is per rank of cell Toughness
+    "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 20, // Max cell Toughness
+    "max_ranks": 20,
     "description": "Secure cells for prisoners. The Toughness of the cells equals points spent on this feature.",
-    "page_ref": "DHH p.179"
+    "page_ref": "DHH p.179",
+    "dev_comment": "Cost is per rank of cell Toughness. Max cell Toughness."
   },
   {
     "id": "hq_infirmary",
@@ -272,8 +273,8 @@
     "id": "hq_personnel",
     "name": "Personnel",
     "type": "Feature",
-    "ep_cost": 1, 
-    "ranked": false, 
+    "ep_cost": 1,
+    "ranked": false,
     "description": "A small staff of generic Minions (total 15 PP worth, as per DHH) to maintain the HQ, provide security, or other duties. More or better staff cost more EP or are bought as Minions advantage.",
     "page_ref": "DHH p.179"
   },
@@ -301,9 +302,10 @@
     "type": "Feature",
     "ep_cost_per_rank": 1,
     "ranked": true,
-    "max_ranks": 4, // DC to bypass = 10 + (Rank x 5). Rank 4 = DC 30.
+    "max_ranks": 4,
     "description": "Alarms, locks, sensors, etc. The DC to bypass the security (Technology or Sleight of Hand) is 10 + (Rank x 5).",
-    "page_ref": "DHH p.179"
+    "page_ref": "DHH p.179",
+    "dev_comment": "DC to bypass = 10 + (Rank x 5). Rank 4 = DC 30."
   },
   {
     "id": "hq_trophy_room",

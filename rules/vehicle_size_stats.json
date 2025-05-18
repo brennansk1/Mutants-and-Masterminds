@@ -80,7 +80,7 @@
       "size_rank_value": 12,
       "size_name": "Colossal",
       "example_vehicle": "Aircraft Carrier, Supertanker, Giant Robot",
-      "base_str": 20, // Max Str from size as per DHH
+      "base_str": 20, 
       "base_spd": 2,
       "base_def": 2,   
       "base_tou": 16,
@@ -93,18 +93,18 @@
       "example_vehicle": "Mobile Fortress, Small Space Station, Larger Giant Robot",
       "base_str": 20, 
       "base_spd": 1,
-      "base_def": -2,  // 10 + (-12) 
+      "base_def": -2, 
       "base_tou": 18,
       "base_ep_cost": 18,
       "page_ref": "DHH p.182 (extrapolated)"
     },
     {
       "size_rank_value": 20,
-      "size_name": "Titanic", // Renamed from "Kaiju/Titanic" for consistency
+      "size_name": "Titanic", 
       "example_vehicle": "Massive Starship, City-sized Construct, Kaiju-scale Vehicle",
       "base_str": 20, 
       "base_spd": 0,  
-      "base_def": -6,  // 10 + (-16)
+      "base_def": -6, 
       "base_tou": 20, 
       "base_ep_cost": 20, 
       "page_ref": "DHH p.182 (extrapolated)"

@@ -295,7 +295,7 @@
       "id": "sense_radius",
       "name": "Radius (Sense)",
       "cost": 1, 
-      "ranked": false, // Take once per sense it applies to
+      "ranked": false, 
       "sense_type_group": "Sense Modifications",
       "parameter_needed": true,
       "parameter_prompt": "Specify sense to make Radius (e.g., Vision, Hearing, Detect X)",
@@ -318,7 +318,7 @@
       "name": "Rapid Vision",
       "cost": 1, 
       "ranked": true,
-      "maxRanks": 3, // Max -10 time penalty reduction (x1,000,000,000 speed)
+      "maxRanks": 3, 
       "sense_type_group": "Visual Senses",
       "description": "Process visual information faster. Each rank reduces time penalty for observing fast events or large amounts of visual data by 1 (x10 speed). Cost 1 PP per rank.",
       "page_ref": "DHH p.127"
@@ -336,12 +336,12 @@
     {
       "id": "sense_detect_descriptor_base",
       "name": "Detect (Descriptor)",
-      "cost": 1, // Base for uncommon/limited. Common/broad is 2 PP.
-      "ranked": false, // This is the base Detect. Acute, Ranged etc. are separate sense abilities applied to it.
+      "cost": 1, 
+      "ranked": false, 
       "sense_type_group": "Special Senses",
       "parameter_needed": true,
       "parameter_prompt": "What is detected and its commonality? (e.g., 'Minds (Common, 2PP)', 'Undead (Uncommon, 1PP)', 'Specific Person (Rare, 1PP)')",
-      "parameter_type": "text_long_with_cost_note", // UI should guide user on 1 vs 2 PP base cost
+      "parameter_type": "text_long_with_cost_note", 
       "description": "Sense specific things as a distinct sense. Cost 2 PP for a common, broad type; 1 PP for an uncommon or rare, limited type. This sense can then be modified by Acute, Analytical, Ranged, Radius, Tracking as separate sense abilities.",
       "page_ref": "DHH p.126 (under 'Senses' description)"
     },

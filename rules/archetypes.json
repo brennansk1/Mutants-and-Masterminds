@@ -25,7 +25,7 @@
           "id": "arch_paragon_pwr_strength",
           "name": "Super-Strength",
           "baseEffectId": "eff_enhanced_trait",
-          "rank": 5, 
+          "rank": 5,
           "enhancementAmount": 5,
           "enhancedTraitCategory": "Ability",
           "enhancedTraitId": "STR",
@@ -36,7 +36,7 @@
           "name": "Invulnerability",
           "baseEffectId": "eff_protection",
           "rank": 4,
-          "modifiersConfig": [{"id": "mod_extra_impervious", "rank": 8}] 
+          "modifiersConfig": [{"id": "mod_extra_impervious", "rank": 8}]
         }
       ]
     }
@@ -49,14 +49,14 @@
     "template": {
       "abilities": { "STR": 0, "STA": 3, "AGL": 2, "DEX": 5, "FGT": 2, "INT": 2, "AWE": 4, "PRE": 2 },
       "defenses": { "Dodge": 6, "Parry": 4, "Fortitude": 3, "Will": 4, "Toughness": 0 },
-      "skills": { 
-        "skill_ranged_combat_energy_powers": 5, 
-        "skill_perception": 6, 
-        "skill_insight": 4, 
-        "skill_expertise_energy_control": 4 
+      "skills": {
+        "skill_ranged_combat_energy_powers": 5,
+        "skill_perception": 6,
+        "skill_insight": 4,
+        "skill_expertise_energy_control": 4
       },
       "advantages": [
-        {"id": "adv_precise_attack", "rank": 1, "params": {"selected_option": "Ranged, Cover"}}, // Parameter updated
+        {"id": "adv_precise_attack", "rank": 1, "params": {"selected_option": "Ranged, Cover"}},
         {"id": "adv_power_attack", "rank": 1}
       ],
       "powers": [
@@ -73,14 +73,14 @@
           "name": "Force Field",
           "baseEffectId": "eff_protection",
           "rank": 7,
-          "modifiersConfig": [ {"id": "mod_extra_increased_duration_sustained"} ] // Assuming 'mod_extra_increased_duration_sustained' makes it Sustained
+          "modifiersConfig": [ {"id": "mod_extra_increased_duration_sustained"} ]
         },
         {
           "id": "arch_eproj_pwr_senses",
           "name": "Energy Detection",
           "baseEffectId": "eff_senses",
-          "rank": 0, 
-          "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_energy"], // Example specific sense ID for 'Detect Energy (Ranged, Acute, Analytical)'
+          "rank": 0,
+          "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_energy"],
           "modifiersConfig": []
         }
       ]
@@ -110,12 +110,12 @@
         },
         {
           "id": "arch_speed_pwr_strikes",
-          "name": "Rapid Strikes", 
+          "name": "Rapid Strikes",
           "baseEffectId": "eff_damage",
-          "rank": 3, 
+          "rank": 3,
           "modifiersConfig": [
-            {"id": "mod_extra_multiattack"}, 
-            {"id": "mod_extra_strength_based_damage"} // Assumed ID for Strength-based Damage Extra
+            {"id": "mod_extra_multiattack"},
+            {"id": "mod_extra_strength_based_damage"}
           ],
           "linkedCombatSkill": "skill_close_combat_unarmed"
         },
@@ -123,7 +123,7 @@
           "id": "arch_speed_pwr_quickness",
           "name": "Quickness",
           "baseEffectId": "eff_quickness",
-          "rank": 10 
+          "rank": 10
         }
       ]
     }
@@ -136,36 +136,28 @@
     "template": {
       "abilities": { "STR": 1, "STA": 2, "AGL": 2, "DEX": 3, "FGT": 2, "INT": 8, "AWE": 3, "PRE": 1 },
       "defenses": { "Dodge": 4, "Parry": 2, "Fortitude": 4, "Will": 5, "Toughness": 0 },
-      "skills": { 
-        "skill_technology": 10, 
-        "skill_investigation": 8, 
-        "skill_expertise_engineering": 6, 
-        "skill_ranged_combat_gadgets": 5 
+      "skills": {
+        "skill_technology": 10,
+        "skill_investigation": 8,
+        "skill_expertise_engineering": 6,
+        "skill_ranged_combat_gadgets": 5
       },
       "advantages": [
-        {"id": "adv_inventor", "rank": 1, "params":{"skill_id": "skill_technology"}}, 
+        {"id": "adv_inventor", "rank": 1, "params":{"skill_id": "skill_technology"}},
         {"id": "adv_improvised_tools", "rank": 1},
-        {"id": "adv_equipment", "rank": 5} 
+        {"id": "adv_equipment", "rank": 5}
       ],
       "powers": [
         {
-          "id": "arch_gadget_pwr_utilitybelt", // Unique placeholder ID for this specific power instance
+          "id": "arch_gadget_pwr_utilitybelt",
           "name": "Utility Belt (Device Array)",
-          "baseEffectId": "eff_variable", // Typically Variable is used for versatile devices if points are reconfigurable
-                                         // Or, it's a main power with AEs if effects are fixed.
-                                         // The current setup seems to be a fixed array (Damage as most expensive, other as AEs)
-                                         // If it is an Array, the most expensive power is the base.
-                                         // Let's redefine Blaster Pistol as base, and utility belt as a "Feature" or "Equipment" that houses it.
-                                         // For simplicity of archetyping, we'll keep the Variable for "tech effects",
-                                         // and use "Removable" flaw to make it a device if desired later in advanced mode.
-          "rank": 4, 
+          "baseEffectId": "eff_variable",
+          "rank": 4,
           "variableDescriptors": "Technological Gadgets, Tools, Non-Lethal Weapons",
-          "modifiersConfig": [
-             // {"id": "mod_flaw_removable_std"} // Example if it's a device; user adds this in advanced.
-          ],
-          "isArrayBase": true, 
-          "arrayId": "utility_belt_gadgets"
-          // "comment": "This Variable power represents a pool of points for various gadgets. Specific gadgets are AEs."
+          "modifiersConfig": [],
+          "isArrayBase": true,
+          "arrayId": "utility_belt_gadgets",
+          "comment_field": "This Variable power represents a pool of points for various gadgets. Specific gadgets are AEs."
         },
         {
           "id": "arch_gadget_pwr_blaster",
@@ -173,26 +165,26 @@
           "baseEffectId": "eff_damage",
           "rank": 6,
           "modifiersConfig": [{"id": "mod_extra_increased_range_ranged"}],
-          "isAlternateEffectOf": "arch_gadget_pwr_utilitybelt", // This ID refers to the Variable power above
+          "isAlternateEffectOf": "arch_gadget_pwr_utilitybelt",
           "arrayId": "utility_belt_gadgets",
-          "comment": "Alternate Effect of the Utility Belt's Variable pool."
+          "comment_field": "Alternate Effect of the Utility Belt's Variable pool."
         },
         {
           "id": "arch_gadget_pwr_grapple",
           "name": "Grapple Line (AE)",
-          "baseEffectId": "eff_movement", // Actually a Movement (Swinging) power
-          "rank": 2, 
-          "modifiersConfig": [{"id": "mod_extra_movement_type_swinging"}], // Assumed ID for Swinging
+          "baseEffectId": "eff_movement",
+          "rank": 2,
+          "modifiersConfig": [{"id": "mod_extra_movement_type_swinging"}],
           "isAlternateEffectOf": "arch_gadget_pwr_utilitybelt",
           "arrayId": "utility_belt_gadgets",
-          "comment": "Alternate Effect of the Utility Belt's Variable pool."
+          "comment_field": "Alternate Effect of the Utility Belt's Variable pool."
         },
         {
           "id": "arch_gadget_pwr_goggles",
           "name": "Scanner Goggles",
           "baseEffectId": "eff_senses",
           "rank": 0,
-          "sensesConfig": ["sense_infravision", "sense_ultravision", "sense_detect_descriptor_ranged_acute_technology"], // Example ID for Detect Technology
+          "sensesConfig": ["sense_infravision", "sense_ultravision", "sense_detect_descriptor_ranged_acute_technology"],
           "modifiersConfig": []
         }
       ]
@@ -208,7 +200,7 @@
       "defenses": { "Dodge": 5, "Parry": 3, "Fortitude": 3, "Will": 7, "Toughness": 0 },
       "skills": { "skill_expertise_magic": 10, "skill_insight": 8, "skill_persuasion": 5, "skill_ranged_combat_magic": 6 },
       "advantages": [
-        {"id": "adv_ritualist", "rank": 1, "params":{"skill_id": "skill_expertise_magic"}}, 
+        {"id": "adv_ritualist", "rank": 1, "params":{"skill_id": "skill_expertise_magic"}},
         {"id": "adv_artificer", "rank": 1, "params":{"skill_id": "skill_expertise_magic"}},
         {"id": "adv_well_informed", "rank": 1}
       ],
@@ -220,7 +212,7 @@
           "rank": 8,
           "modifiersConfig": [
             {"id": "mod_extra_increased_range_ranged"},
-            {"id": "mod_extra_variable_descriptor", "rank": 2, "userInput":"Any Magical Energy"} // Assuming rank 2 of VarDesc for "any"
+            {"id": "mod_extra_variable_descriptor", "rank": 2, "userInput":"Any Magical Energy"}
           ],
           "isArrayBase": true,
           "arrayId": "magic_spells_array",
@@ -233,39 +225,39 @@
           "rank": 8,
           "modifiersConfig": [
             {"id": "mod_extra_increased_duration_sustained"},
-            {"id": "mod_extra_impervious", "rank": 4} 
+            {"id": "mod_extra_impervious", "rank": 4}
           ],
-          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base", 
+          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base",
           "arrayId": "magic_spells_array",
-          "comment": "Alternate Effect of Mystic Blasts."
+          "comment_field": "Alternate Effect of Mystic Blasts."
         },
         {
           "id": "arch_mystic_pwr_binding_ae",
           "name": "Binding Spell (AE)",
-          "baseEffectId": "eff_affliction", 
+          "baseEffectId": "eff_affliction",
           "rank": 7,
           "modifiersConfig": [
             {"id": "mod_extra_increased_range_ranged"},
-            {"id": "mod_extra_cumulative"} // Assumed ID for Cumulative Affliction
+            {"id": "mod_extra_cumulative"}
           ],
-          "powerSpecificData": { // For Affliction details
+          "powerSpecificData": {
               "affliction_degrees": {
-                  "1": "Hindered and Vulnerable", 
-                  "2": "Defenseless and Immobile", 
+                  "1": "Hindered and Vulnerable",
+                  "2": "Defenseless and Immobile",
                   "3": "Paralyzed"
               },
-              "affliction_resistance": "Dodge or Will" // Or just one if preferred
+              "affliction_resistance": "Dodge or Will"
           },
-          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base", 
+          "isAlternateEffectOf": "arch_mystic_pwr_blasts_base",
           "arrayId": "magic_spells_array",
-          "comment": "Alternate Effect of Mystic Blasts."
+          "comment_field": "Alternate Effect of Mystic Blasts."
         },
         {
             "id": "arch_mystic_pwr_senses",
             "name": "Mystic Senses",
             "baseEffectId": "eff_senses",
             "rank": 0,
-            "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_magic", "sense_danger_sense_custom_magic"], // Example custom IDs
+            "sensesConfig": ["sense_detect_descriptor_ranged_acute_analytical_magic", "sense_danger_sense_custom_magic"],
             "modifiersConfig": []
         }
       ]

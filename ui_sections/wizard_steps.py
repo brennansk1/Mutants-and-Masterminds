@@ -328,7 +328,7 @@ def render_wizard_step5_powers_guided(
     for idx, pwr_entry in enumerate(current_powers_wiz):
         pwr_id_for_key = pwr_entry.get('id', f"pwr_idx_{idx}") # Use actual ID if present
         p_cols = st_obj.columns([0.6, 0.2, 0.1, 0.1]) 
-        p_cols[0].markdown(f"**{pwr_entry.get('name', 'Unnamed')}**", key=_uk_wiz("pwr_disp_name", pwr_id_for_key))
+        p_cols[0].markdown(f"**{pwr_entry.get('name', 'Unnamed')}**")
         p_cols[1].caption(f"Rank {pwr_entry.get('rank',0)}", key=_uk_wiz("pwr_disp_rank", pwr_id_for_key))
         
         temp_power_cost_details = engine.calculate_individual_power_cost(pwr_entry, current_powers_wiz)
@@ -339,7 +339,7 @@ def render_wizard_step5_powers_guided(
         
         measurement_display = engine.get_power_measurement_details(pwr_entry, rule_data)
         if measurement_display: st_obj.caption(f"└─ {measurement_display}", key=_uk_wiz("pwr_measure_disp", pwr_id_for_key))
-        st_obj.markdown("---", key=_uk_wiz("pwr_disp_sep", pwr_id_for_key))
+        st_obj.markdown("---")
 
     if len(powers_to_keep) != len(current_powers_wiz):
         update_char_value_wiz(['powers'], powers_to_keep); st.rerun()
@@ -464,27 +464,27 @@ def render_wizard_step6_complreview_final(
         st_obj.write("**Abilities:**"); ability_rules_list_review = rule_data.get('abilities',{}).get('list',[])
         for ab_id, ab_rank in recalculated_wiz_state.get('abilities', {}).items():
             ab_rule_rev = next((r for r in ability_rules_list_review if r['id'] == ab_id), None); ab_name_rev = ab_rule_rev['name'] if ab_rule_rev else ab_id
-            st_obj.markdown(f"- {ab_name_rev}: {ab_rank} (Mod: {engine.get_ability_modifier(ab_rank):+})", key=_uk_wiz("rev_ab",ab_id))
+            st_obj.markdown(f"- {ab_name_rev}: {ab_rank} (Mod: {engine.get_ability_modifier(ab_rank):+})")
         st_obj.write("**Defenses (Totals):**"); defense_configs_wiz_rev = [{"id":"Dodge","base_ability_id":"AGL"},{"id":"Parry","base_ability_id":"FGT"},{"id":"Toughness","base_ability_id":"STA"},{"id":"Fortitude","base_ability_id":"STA"},{"id":"Will","base_ability_id":"AWE"}]
         for def_conf_rev in defense_configs_wiz_rev:
-            st_obj.markdown(f"- {def_conf_rev['id']}: {engine.get_total_defense(recalculated_wiz_state, def_conf_rev['id'], def_conf_rev['base_ability_id'])}", key=_uk_wiz("rev_def",def_conf_rev['id']))
+            st_obj.markdown(f"- {def_conf_rev['id']}: {engine.get_total_defense(recalculated_wiz_state, def_conf_rev['id'], def_conf_rev['base_ability_id'])}")
         st_obj.write("**Key Skills (Bonus > 0):**"); has_skills_rev = False; skill_rules_list_rev = rule_data.get('skills',{}).get('list',[])
         for sk_id, sk_rank in recalculated_wiz_state.get('skills', {}).items():
             if sk_rank > 0:
                 has_skills_rev = True; sk_rule_rev = engine.get_skill_rule(sk_id, skill_rules_list_rev); sk_name_rev = engine.get_skill_name_by_id(sk_id, skill_rules_list_rev)
                 gov_ab_rev = sk_rule_rev['ability'] if sk_rule_rev else 'N/A'; ab_mod_rev = engine.get_ability_modifier(recalculated_wiz_state.get('abilities',{}).get(gov_ab_rev,0))
-                st_obj.markdown(f"- {sk_name_rev}: {ab_mod_rev + sk_rank:+}", key=_uk_wiz("rev_sk",sk_id))
+                st_obj.markdown(f"- {sk_name_rev}: {ab_mod_rev + sk_rank:+}")
         if not has_skills_rev: st_obj.caption("None with ranks > 0.")
         st_obj.write("**Advantages:**"); adv_rules_list_rev = rule_data.get('advantages_v1',[])
         if not recalculated_wiz_state.get('advantages'): st_obj.caption("None.")
         for adv_rev in recalculated_wiz_state.get('advantages',[]):
             adv_rule_rev = next((r for r in adv_rules_list_rev if r['id'] == adv_rev['id']), None); adv_name_disp_rev = adv_rule_rev['name'] if adv_rule_rev else adv_rev['id']
             adv_rank_disp_rev = f" (Rank {adv_rev['rank']})" if adv_rule_rev and adv_rule_rev.get('ranked') and adv_rev.get('rank',1) > 1 else ""
-            st_obj.markdown(f"- {adv_name_disp_rev}{adv_rank_disp_rev}", key=_uk_wiz("rev_adv", adv_rev.get('instance_id', adv_rev.get('id'))))
+            st_obj.markdown(f"- {adv_name_disp_rev}{adv_rank_disp_rev}")
         st_obj.write("**Powers:**")
         if not recalculated_wiz_state.get('powers'): st_obj.caption("None.")
         for pwr_rev in recalculated_wiz_state.get('powers',[]):
-            st_obj.markdown(f"- {pwr_rev.get('name','Unnamed Power')} (Rank {pwr_rev.get('rank',0)})", key=_uk_wiz("rev_pwr", pwr_rev.get('id','pwr')))
+           st_obj.markdown(f"- {pwr_rev.get('name','Unnamed Power')} (Rank {pwr_rev.get('rank',0)})")
 
     st_obj.markdown("---")
     final_errors_wiz = recalculated_wiz_state.get('validationErrors', [])

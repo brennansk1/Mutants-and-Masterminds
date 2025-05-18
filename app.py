@@ -12,7 +12,7 @@ from typing import Dict, List, Any, Optional, Callable
 # --- Core Application Logic and Data ---
 from core_engine import CoreEngine, CharacterState, PowerDefinition, AdvantageDefinition, EquipmentDefinition, HQDefinition, VehicleDefinition, AllyDefinition
 # Import for WeasyPrint PDF generation (original)
-from pdf_utils import generate_pdf_bytes 
+#from pdf_utils import generate_pdf_bytes 
 # Import for FPDF PDF generation (new - assuming it will be added to pdf_utils.py or a new fpdf_utils.py)
 # If in a new fpdf_utils.py, the import would be: from fpdf_utils import generate_fpdf_character_sheet
 # For now, let's assume it's added to pdf_utils.py for simplicity in this step.

@@ -1,508 +1,541 @@
 [
-    {
-      "id": "eff_affliction",
-      "name": "Affliction",
-      "costPerRank": 1,
-      "type": "Attack",
-      "defaultAction": "Standard",
-      "defaultRange": "Close",
-      "defaultDuration": "Instant",
-      "resistance": "Fortitude or Will",
-      "description": "Impose one or more limiting conditions on a target. Resistance and specific conditions are defined by the user, often involving degrees of success.",
-      "page_ref": "DHH p.121"
-    },
-    {
-      "id": "eff_communication",
-      "name": "Communication",
-      "costPerRank": 4,
-      "type": "Sensory",
-      "defaultAction": "Free",
-      "defaultRange": "Rank", // Distance Rank = Communication Rank
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "parameter_needed": true,
-      "parameter_prompt": "Type of Communication (e.g., Mental, Radio, Technological, specific Special Sense)",
-      "parameter_type": "select_from_options",
-      "parameter_options": [ // UI uses these options for selection
-        {"value": "Mental", "label": "Mental (4 PP/rank)"},
-        {"value": "Radio", "label": "Radio (4 PP/rank)"},
-        {"value": "Technological", "label": "Technological (4 PP/rank)"},
-        {"value": "SpecialSense", "label": "Via Special Sense (4 PP/rank)"},
-        {"value": "AnyOfType", "label": "Any of One Sense Type (e.g., any auditory) (5 PP/rank - requires engine to adjust cost based on this choice)"}
-      ],
-      "description": "Transmit information over a distance. Rank determines range. Base cost is 4 points/rank for one specific type (Mental, Radio, etc.). Cost can be 5 PP/rank to affect any of one sense type (e.g. all radio frequencies, all minds). Area, Dimensional, Subtle are common extras.",
-      "page_ref": "DHH p.123"
-    },
-    {
-      "id": "eff_comprehend",
-      "name": "Comprehend",
-      "costPerRank": 0, // Cost is sum of specific comprehensions taken (flat costs for each)
-      "type": "Sensory",
-      "defaultAction": "None", // Usually Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "isComprehendContainer": true, 
-      "description": "Understand things you otherwise could not. Each type of comprehension has a specific flat cost (e.g., Languages 2-6 PP, Animals 2 PP, Machines 2 PP, Spirits 2 PP). The 'rank' is nominal for this container; UI handles selection of sub-types from a separate config or DHH list.",
-      "page_ref": "DHH p.124"
-    },
-    {
-      "id": "eff_concealment",
-      "name": "Concealment",
-      "costPerRank": 2, // Base: 2 PP/rank per general sense type (Visual is 4 PP for normal sight = 2 ranks of this effect)
-      "type": "Sensory",
-      "defaultAction": "Free",
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "parameter_needed": true,
-      "parameter_prompt": "Sense(s) to conceal from, and degree (e.g., Normal Visual [4PP], All Auditory [10PP], Partial Mental [e.g., 5PP])",
-      "parameter_type": "multiselect_senses_for_concealment", // UI needs special handling to list senses and their costs
-      "description": "Become undetectable to one or more sense types. Cost is per sense type rank (Normal Vision is 2 ranks for 4 PP). All of one sense type is 5 ranks (10 PP). All senses is 10 ranks (20 PP). Attack version makes others concealed.",
-      "page_ref": "DHH p.125"
-    },
-    {
-      "id": "eff_create",
-      "name": "Create",
-      "costPerRank": 2,
-      "type": "General", 
-      "defaultAction": "Standard",
-      "defaultRange": "Close", // DHH p.126 explicitly states default is Close. Increased Range is common.
-      "defaultDuration": "Sustained",
-      "resistance": "Dodge (to avoid being trapped by object), Toughness (of created object)",
-      "isCreateEffect": true,
-      "description": "Create solid objects. Rank determines Toughness and Volume of created objects. Max Toughness & Volume Rank typically = Create Rank. Movable, Stationary, Continuous, Impervious are key extras.",
-      "page_ref": "DHH p.126"
-    },
-    {
-      "id": "eff_damage",
-      "name": "Damage",
-      "costPerRank": 1,
-      "type": "Attack",
-      "defaultAction": "Standard",
-      "defaultRange": "Close",
-      "defaultDuration": "Instant",
-      "resistance": "Toughness",
-      "description": "Inflict harm on a target, resisted by Toughness. Modifiers determine specific damage type and application (e.g., Ranged, Area, Multiattack).",
-      "page_ref": "DHH p.127"
-    },
-    {
-      "id": "eff_deflect",
-      "name": "Deflect",
-      "costPerRank": 1,
-      "type": "Defense",
-      "defaultAction": "Standard", // Specifically, the Defend action
-      "defaultRange": "Ranged", // Can deflect ranged attacks against yourself or others nearby
-      "defaultDuration": "Instant", // Per use of Defend action
-      "resistance": "None (uses Deflect rank vs attack check of incoming attack)",
-      "description": "Actively defend against attacks, potentially improving defense or reflecting attacks. Used with the Defend action. Can protect others. Rank cannot exceed PL.",
-      "page_ref": "DHH p.128"
-    },
-    {
-      "id": "eff_duplication",
-      "name": "Duplication",
-      "costPerRank": 3, // Cost for a single duplicate that's a standard Minion
-      "type": "General",
-      "defaultAction": "Standard",
-      "defaultRange": "Personal", // Duplicates appear near you
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "grantsAllyPointsFactor": 15, // Each duplicate is built on (Rank x 15) PP
-      "isAllyEffect": true,
-      "description": "Create one or more duplicates of yourself. Each duplicate is built on (Effect Rank x 15) Power Points. Modifiers like Heroic (+2/r), Horde (+1/r), Multiple Minions (+X/r), Survival (+1/r) apply to the cost per duplicate.",
-      "page_ref": "DHH p.128"
-    },
-    {
-      "id": "eff_enhanced_trait",
-      "name": "Enhanced Trait",
-      "costPerRank": 0, // Cost is "As Base Trait" - handled dynamically by engine
-      "type": "General",
-      "defaultAction": "None", 
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent", // Or Continuous if it can be turned off (via Sustained modifier)
-      "resistance": "None",
-      "isEnhancementEffect": true,
-      "enhancementTargetCategories": ["Ability", "Skill", "Defense", "Advantage", "PowerRank"],
-      "description": "Improve one of your existing traits (Ability, Skill, Advantage, Defense, or ranks in another Power). Cost equals the normal cost of the improved ranks for that trait. Usually Permanent, but can be Sustained.",
-      "page_ref": "DHH p.129"
-    },
-    {
-      "id": "eff_environment",
-      "name": "Environment",
-      "costPerRank": 1, // 1 PP/rank for one condition, 2 PP/rank for two conditions or one extreme condition
-      "type": "General", 
-      "defaultAction": "Standard",
-      "defaultRange": "Rank", // Radius Rank = Effect Rank - 2 (30ft at rank 2 of this effect)
-      "defaultDuration": "Sustained",
-      "resistance": "Varies (Dodge for some movement penalties, Fortitude for heat/cold)",
-      "parameter_needed": true,
-      "parameter_prompt": "Environmental Conditions and their intensity (e.g., Cold 2, Impede Movement 1, Visibility -2). Specify 1 or 2 conditions.",
-      "parameter_type": "text_long_environment_conditions", // UI Needs to allow multiple conditions and ranks
-      "description": "Alter environmental conditions in an area (e.g., Cold, Heat, Impede Movement, Visibility). 1 PP/rank for one condition, 2 PP/rank for two conditions, or one condition at double intensity (-5 penalty or 2 ranks of effect). Radius of effect is 30 feet at rank 2, doubles per rank thereafter.",
-      "page_ref": "DHH p.130"
-    },
-    {
-      "id": "eff_feature",
-      "name": "Feature",
-      "costPerRank": 1,
-      "type": "General",
-      "defaultAction": "None", // Usually Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "parameter_needed": true,
-      "parameter_prompt": "Describe the minor ability or benefit (1 PP per rank/feature)",
-      "parameter_type": "text_long",
-      "description": "A minor, unusual trait or capability costing 1 Power Point per rank (each rank is a distinct feature). Max ranks subject to GM approval.",
-      "page_ref": "DHH p.130"
-    },
-    {
-      "id": "eff_flight",
-      "name": "Flight",
-      "costPerRank": 2,
-      "type": "Movement",
-      "defaultAction": "Free", // Part of movement
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "description": "Fly at a speed rank equal to power rank. Modifiers: Aquatic, Subtle, Wings.",
-      "page_ref": "DHH p.131"
-    },
-    {
-      "id": "eff_growth",
-      "name": "Growth",
-      "costPerRank": 2, // For the package of benefits/penalties
-      "type": "General",
-      "defaultAction": "Free",
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // Permanent if innate (via Innate extra or as inherent trait)
-      "resistance": "None",
-      "isGrowthShrinkingPackage": true,
-      "description": "Increase size, gaining +1 STR & STA, +1 Intimidation, +1 Mass rank, -1 Stealth, -1 active defenses (Dodge/Parry) per 4 ranks of Growth. Density increases Strength and Mass but not size. Attack of Opportunity extra exists. Base speed rank can increase. Usually Sustained.",
-      "page_ref": "DHH p.132"
-    },
-    {
-      "id": "eff_healing",
-      "name": "Healing",
-      "costPerRank": 2,
-      "type": "General",
-      "defaultAction": "Standard",
-      "defaultRange": "Close", // Touch range
-      "defaultDuration": "Instant",
-      "resistance": "None (but Treatment skill check DC 10 + ranks in Healing may be needed, or it's automatic)",
-      "description": "Repair Damage conditions and aid recovery. Modifiers like Restorative (objects/others), Persistent (counter Incurable), Resurrection, Stabilize, Affects Objects, Energizing.",
-      "page_ref": "DHH p.133"
-    },
-    {
-      "id": "eff_illusion",
-      "name": "Illusion",
-      "costPerRank": 1, // Base for one non-visual/auditory sense type.
-      "type": "Sensory", 
-      "defaultAction": "Standard",
-      "defaultRange": "Perception", // Resisted by Will
-      "defaultDuration": "Sustained",
-      "resistance": "Will (DC 10 + Illusion rank to disbelieve)",
-      "costOptions": [ // UI uses this to determine actual cost per rank
-        {"choice_id": "illusion_one_sense_other", "label": "One Sense Type (Other - e.g. Tactile, Olfactory, Mental)", "costPerRank": 1},
-        {"choice_id": "illusion_auditory", "label": "Auditory Senses", "costPerRank": 1},
-        {"choice_id": "illusion_visual", "label": "Visual Senses", "costPerRank": 2},
-        {"choice_id": "illusion_two_senses", "label": "Two Sense Types (e.g., Auditory & Visual = 3PP/r)", "costPerRank": "Calculated based on choices"}, // Engine sums costs
-        {"choice_id": "illusion_three_senses", "label": "Three Sense Types", "costPerRank": "Calculated based on choices"},
-        {"choice_id": "illusion_four_senses", "label": "Four Sense Types", "costPerRank": "Calculated based on choices"},
-        {"choice_id": "illusion_all_senses", "label": "All Sense Types (Visual 2, Auditory 1, Tactile 1, Olfactory 1, Mental 1 = 6 total types for cost of 5PP/rank as per DHH rule grouping similar things)", "costPerRank": 5}
-      ],
-      "parameter_needed": true,
-      "parameter_prompt": "Senses Affected by Illusion and Scope (e.g., Visual + Auditory; No effect vs. Machines)",
-      "parameter_type": "select_illusion_scope_and_senses", // UI needs specific handler
-      "description": "Create false sensory impressions. Cost varies by number and type of senses affected (Visual 2/rank, Auditory 1/rank, Other 1/rank each; max 5/rank for all). Modifiers: Resistible (by Insight), Damaging, Independent, Selective.",
-      "page_ref": "DHH p.133"
-    },
-    {
-      "id": "eff_immortality",
-      "name": "Immortality",
-      "costPerRank": 2,
-      "type": "Defense",
-      "defaultAction": "None", // Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "description": "Return from death after a period determined by rank (Time Rank 19 - Immortality Rank). Rank 1 = 2 weeks, Rank 20 = 1 round. Limited extra if specific conditions required for return.",
-      "page_ref": "DHH p.134"
-    },
-    {
-      "id": "eff_immunity",
-      "name": "Immunity",
-      "costPerRank": 0, // Cost is fixed sum based on selections
-      "type": "Defense",
-      "defaultAction": "None", // Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "isImmunityContainer": true,
-      "description": "Become immune to certain effects. Cost is fixed based on type of immunity (e.g., Disease 1 PP, Life Support 10 PP, All Fortitude Effects 30 PP). UI presents list from power_immunities_config.json.",
-      "page_ref": "DHH p.134"
-    },
-    {
-      "id": "eff_insubstantial",
-      "name": "Insubstantial",
-      "costPerRank": 0, // Uses fixedCosts
-      "type": "General",
-      "defaultAction": "Free",
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "isFixedCostByRank": true, 
-      "fixedCosts": { "1": 5, "2": 10, "3": 15, "4": 20 }, // Total cost for ranks 1-4
-      "description": "Assume a less solid form. Rank 1 (Fluid, 5PP), Rank 2 (Gaseous, 10PP), Rank 3 (Energy, 15PP), Rank 4 (Incorporeal, 20PP). Modifiers: Affects Corporeal, Attack, Precise, Innate.",
-      "page_ref": "DHH p.135"
-    },
-    {
-      "id": "eff_leaping",
-      "name": "Leaping",
-      "costPerRank": 1,
-      "type": "Movement",
-      "defaultAction": "Move", // Part of movement
-      "defaultRange": "Personal",
-      "defaultDuration": "Instant", // For the leap itself
-      "resistance": "None",
-      "description": "Jump great distances. Distance rank equal to power rank. Horizontal distance = (Leaping rank x 5) feet from standing, or (Leaping rank x 10) feet with run. Vertical = (Leaping rank x 2) feet.",
-      "page_ref": "DHH p.137"
-    },
-    {
-      "id": "eff_mind_reading",
-      "name": "Mind Reading",
-      "costPerRank": 2,
-      "type": "Sensory",
-      "defaultAction": "Standard",
-      "defaultRange": "Perception", // Resisted by Will
-      "defaultDuration": "Sustained",
-      "resistance": "Will (opposed check: Mind Reading vs. target's Will or Deception)",
-      "description": "Discern the surface thoughts of a target. Modifiers: Cumulative, Effortless, Sensory Link, Subtle. Close range is a -1/rank flaw.",
-      "page_ref": "DHH p.137"
-    },
-    {
-      "id": "eff_morph",
-      "name": "Morph",
-      "costPerRank": 1, // Per rank for number of alternate forms of same mass/type
-      "type": "General",
-      "defaultAction": "Free", // Standard action to change form
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // For maintaining the morphed form
-      "resistance": "None (but Deception bonus for disguise; Fortitude if Attack to transform others)",
-      "parameter_needed": true,
-      "parameter_prompt": "Describe the forms or group of forms (e.g., 'Humanoids', 'Animals of similar mass', 'One specific person')",
-      "parameter_type": "text_long",
-      "description": "Change physical appearance. Rank determines range of forms (Rank 1 = one other form of same gender/type, Rank 2 = small group, Rank 3 = any of same type, Rank 4 = any of broad group). Metamorph extra allows changing traits (costs 5 PP/rank of Morph).",
-      "page_ref": "DHH p.138"
-    },
-    {
-      "id": "eff_move_object",
-      "name": "Move Object",
-      "costPerRank": 2,
-      "type": "General", 
-      "defaultAction": "Standard",
-      "defaultRange": "Ranged",
-      "defaultDuration": "Sustained",
-      "resistance": "Strength or Dodge (to avoid being grabbed/hit by object)",
-      "description": "Telekinetically lift and move objects. Effective Strength equal to rank for lifting/throwing. Modifiers: Damaging, Perception Range, Precise, Subtle.",
-      "page_ref": "DHH p.138"
-    },
-    {
-      "id": "eff_movement",
-      "name": "Movement",
-      "costPerRank": 2, // Base cost for most movement types listed under this effect (1 or 2 PP per rank in the type)
-      "type": "Movement",
-      "defaultAction": "Move", // Or Free if part of normal movement
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // Or Permanent if innate
-      "resistance": "None",
-      "parameter_needed": true,
-      "parameter_prompt": "Specific Movement Type (e.g., Dimensional Travel, Permeate, Slithering, Wall-Crawling, Water-Walking, Sure-Footed, Swinging, Trackless, Special)",
-      "parameter_type": "select_movement_type_with_ranks", // UI needs a list of these specific movement types with their ranks cost per rank of *this effect*
-      "description": "Various modes of movement. Each rank of this effect buys ranks in chosen movement types (e.g., Wall-Crawling 1 costs 1 PP for 1 rank of this effect, Dimensional Travel 1 costs 2 PP for 1 rank of this effect).",
-      "page_ref": "DHH p.138"
-    },
-    {
-      "id": "eff_nullify",
-      "name": "Nullify",
-      "costPerRank": 1, // Base for specific descriptor. Broad (+1/r) or Simultaneous (+1/r) extras increase cost.
-      "type": "Attack", // Can also be General if Personal and nullifies effects on self.
-      "defaultAction": "Standard",
-      "defaultRange": "Ranged",
-      "defaultDuration": "Instant",
-      "resistance": "Opposed Check (Nullify Rank vs. Effect Rank or Will of target if power is Resisted by Will)",
-      "parameter_needed": true,
-      "parameter_prompt": "Descriptor(s) of powers to Nullify (e.g., Fire, Magic, specific power name). Use Broad extra for categories.",
-      "parameter_type": "text_target_descriptor_or_trait",
-      "description": "Counter or dispel another effect. Opposed check using your Nullify rank vs. target effect's rank. Modifiers: Broad, Effortless, Precise, Simultaneous, Sustained (for counter-field).",
-      "page_ref": "DHH p.139"
-    },
-    {
-      "id": "eff_protection",
-      "name": "Protection",
-      "costPerRank": 1,
-      "type": "Defense",
-      "defaultAction": "None", // Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "description": "Grants bonus to Toughness defense. Often Sustained via modifier if a Force Field (effectively +0 cost modifier). Impervious extra common.",
-      "page_ref": "DHH p.140"
-    },
-    {
-      "id": "eff_quickness",
-      "name": "Quickness",
-      "costPerRank": 0.5, // 1 PP for 2 ranks
-      "type": "General",
-      "defaultAction": "Free", // Enhances speed of other actions
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // Or Permanent
-      "resistance": "None",
-      "description": "Perform routine tasks faster. Time rank for tasks = normal time rank - Quickness rank. E.g., Quickness 5 means a 1-minute task (Time Rank 3) takes 1 round (Time Rank 0) if 3-5 = -2 or less (round to 0). Limited to specific tasks (Mental, Physical) is a flaw.",
-      "page_ref": "DHH p.140"
-    },
-    {
-      "id": "eff_regeneration",
-      "name": "Regeneration",
-      "costPerRank": 1,
-      "type": "Defense",
-      "defaultAction": "None", // Permanent
-      "defaultRange": "Personal",
-      "defaultDuration": "Permanent",
-      "resistance": "None",
-      "description": "Recover from damage faster. Rank determines recovery bonus (e.g., +1 per rank) and rate for conditions (see DHH p.157 table: Regen 1 = recover 1/10 rounds, Regen 10 = recover each round, Regen 20 = recover all damage conditions each round). Persistent extra for regenerating limbs/Incurable effects.",
-      "page_ref": "DHH p.140"
-    },
-    {
-      "id": "eff_remote_sensing",
-      "name": "Remote Sensing",
-      "costPerRank": 1, // Per rank for one non-visual/auditory sense type. Visual is 2/rank. Auditory 1/rank.
-      "type": "Sensory",
-      "defaultAction": "Standard", // To activate/change sensor location
-      "defaultRange": "Rank", // Distance rank for the sensor
-      "defaultDuration": "Sustained",
-      "resistance": "Insight (DC 10 + rank to detect sensor)",
-      "parameter_needed": true,
-      "parameter_prompt": "Sense Types (Visual counts as 2 PP/rank, Auditory as 1 PP/rank, Others 1 PP/rank). Total cost is sum of chosen sense costs per rank of Remote Sensing effect.",
-      "parameter_type": "multiselect_senses_for_remote_sensing", // UI needs specific handling
-      "description": "Project senses to a distant location. Cost 1 PP/rank for one non-visual/auditory sense type, +1 PP/rank for Auditory, +2 PP/rank for Visual. Simultaneous extra to use multiple chosen senses. Dimensional extra possible. Flaws: Feedback, Medium.",
-      "page_ref": "DHH p.141"
-    },
-    {
-      "id": "eff_shrinking",
-      "name": "Shrinking",
-      "costPerRank": 2, // For the package of benefits/penalties
-      "type": "General",
-      "defaultAction": "Free",
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // Permanent if innate
-      "resistance": "None",
-      "isGrowthShrinkingPackage": true,
-      "description": "Decrease size, gaining +1 Stealth and +1 active defenses (Dodge/Parry) per 4 ranks of Shrinking. Strength decreases. Attack of Opportunity extra exists. Usually Sustained. Atomic Size is 20 ranks.",
-      "page_ref": "DHH p.142"
-    },
-    {
-      "id": "eff_speed",
-      "name": "Speed",
-      "costPerRank": 1,
-      "type": "Movement",
-      "defaultAction": "Free", // Part of movement
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "description": "Move at high speed on ground. Ground speed rank = power rank.",
-      "page_ref": "DHH p.143"
-    },
-    {
-      "id": "eff_summon",
-      "name": "Summon",
-      "costPerRank": 2, // Base for minion-like summon controlled by summoner
-      "type": "General", 
-      "defaultAction": "Standard",
-      "defaultRange": "Close", // Creature appears nearby; Perception range is an Extra
-      "defaultDuration": "Sustained",
-      "resistance": "None (for summoning act itself)",
-      "grantsAllyPointsFactor": 15, // Summoned creature is built on (Effect Rank x 15) Power Points
-      "isAllyEffect": true,
-      "parameter_needed": true, 
-      "parameter_prompt": "Describe creature(s) summoned and any special modifiers (Heroic, Horde, Variable Type, etc.)",
-      "parameter_type": "text_long_summon_details",
-      "description": "Call a creature to aid you. Summoned creature is built on (Effect Rank x 15) Power Points. Modifiers: Heroic (+2/r), Horde (+1/r), Multiple Minions (+X/r), Variable Type (+1 or +2 flat), Attitude, Controlled, Mental Link, Sacrifice.",
-      "page_ref": "DHH p.143"
-    },
-    {
-      "id": "eff_swimming",
-      "name": "Swimming",
-      "costPerRank": 0.5, // 1 PP for 2 ranks
-      "type": "Movement",
-      "defaultAction": "Free", // Part of movement
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained",
-      "resistance": "None",
-      "description": "Swim at high speed. Water speed rank = power rank.",
-      "page_ref": "DHH p.143"
-    },
-    {
-      "id": "eff_teleport",
-      "name": "Teleport",
-      "costPerRank": 2,
-      "type": "Movement",
-      "defaultAction": "Move",
-      "defaultRange": "Rank", // Distance Rank = Effect Rank
-      "defaultDuration": "Instant",
-      "resistance": "Dodge (for unwilling passengers, DC 10 + Teleport rank)",
-      "description": "Instantly transport. Rank determines distance (Distance Rank = Effect Rank). Modifiers: Accurate, Change Direction, Change Velocity, Easy, Extended (increases distance), Portal, Turnabout, Increased Mass.",
-      "page_ref": "DHH p.143"
-    },
-    {
-      "id": "eff_transform",
-      "name": "Transform",
-      "costPerRank": 2, // Minimum base, varies by scope (2-5 PP/rank)
-      "type": "Attack", // Or General if self-only (Morph)
-      "defaultAction": "Standard",
-      "defaultRange": "Close",
-      "defaultDuration": "Continuous", // Transformation is lasting until reversed
-      "resistance": "Fortitude or Will (depends on what is being transformed - physical form vs. mental state/identity)",
-      "isTransformContainer": true,
-      "costOptions": [
-        {"choice_id": "transform_narrow_substance", "label": "Narrow Group of one substance into another (e.g., lead to gold)", "costPerRank": 2},
-        {"choice_id": "transform_narrow_forms", "label": "Narrow Group of Forms (e.g., specific type of animal/object)", "costPerRank": 2},
-        {"choice_id": "transform_related_forms", "label": "Related Group of Forms (e.g., any animal, any mineral)", "costPerRank": 3},
-        {"choice_id": "transform_major_forms", "label": "Major Group of Forms (e.g., any living being, any object)", "costPerRank": 4},
-        {"choice_id": "transform_any_form", "label": "Any Form (of similar mass)", "costPerRank": 5}
-      ],
-      "parameter_needed": true,
-      "parameter_prompt": "Describe transformation effect: what transforms into what, scope, and typical forms",
-      "parameter_type": "text_long_transform_details", // UI needs to handle scope selection influencing cost
-      "description": "Change the form of a subject (creature or object). Cost varies by scope of transformation (2-5 PP/rank). Duration typically Continuous. Affects Objects extra needed for objects.",
-      "page_ref": "DHH p.144"
-    },
-    {
-      "id": "eff_variable",
-      "name": "Variable",
-      "costPerRank": 7,
-      "type": "General",
-      "defaultAction": "Standard", // To reconfigure points
-      "defaultRange": "Personal",
-      "defaultDuration": "Sustained", // For the allocated traits; reconfiguring is an action
-      "resistance": "None",
-      "isVariableContainer": true,
-      "description": "Gain a pool of (Effect Rank x 5) Character Points to allocate to other traits fitting specific descriptors. Cost is 7 PP per rank of Variable. Action flaw makes reconfiguring take longer (e.g. Move action -1PP/r, Free action -2PP/r if standard is base. DHH implies base is Standard action to reconfigure).",
-      "page_ref": "DHH p.145"
-    },
-    {
-      "id": "eff_weaken",
-      "name": "Weaken",
-      "costPerRank": 1,
-      "type": "Attack",
-      "defaultAction": "Standard",
-      "defaultRange": "Close",
-      "defaultDuration": "Instant", // But effect of weakened trait lingers
-      "resistance": "Fortitude or Will (depends on trait being weakened)",
-      "parameter_needed": true,
-      "parameter_prompt": "Trait(s) to Weaken (e.g., Toughness, Strength, a specific power, Ability score). Use Broad extra for categories.",
-      "parameter_type": "text_target_descriptor_or_trait",
-      "description": "Reduce a target's trait ranks. Resisted by Fortitude (for physical traits) or Will (for mental/abstract traits). Modifiers: Affects Objects, Broad, Simultaneous, Progressive.",
-      "page_ref": "DHH p.145"
-    }
-  ]
+  {
+    "id": "eff_affliction",
+    "name": "Affliction",
+    "costPerRank": 1,
+    "type": "Attack",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Instant",
+    "resistance": "Fortitude or Will",
+    "description": "Impose one or more limiting conditions on a target. Resistance and specific conditions are defined by the user, often involving degrees of success.",
+    "page_ref": "DHH p.121"
+  },
+  {
+    "id": "eff_communication",
+    "name": "Communication",
+    "costPerRank": 4,
+    "type": "Sensory",
+    "defaultAction": "Free",
+    "defaultRange": "Rank",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "parameter_needed": true,
+    "parameter_prompt": "Type of Communication (e.g., Mental, Radio, Technological, specific Special Sense)",
+    "parameter_type": "select_from_options",
+    "parameter_options": [
+      {"value": "Mental", "label": "Mental (4 PP/rank)"},
+      {"value": "Radio", "label": "Radio (4 PP/rank)"},
+      {"value": "Technological", "label": "Technological (4 PP/rank)"},
+      {"value": "SpecialSense", "label": "Via Special Sense (4 PP/rank)"},
+      {"value": "AnyOfType", "label": "Any of One Sense Type (e.g., any auditory) (5 PP/rank - requires engine to adjust cost based on this choice)"}
+    ],
+    "description": "Transmit information over a distance. Rank determines range. Base cost is 4 points/rank for one specific type (Mental, Radio, etc.). Cost can be 5 PP/rank to affect any of one sense type (e.g. all radio frequencies, all minds). Area, Dimensional, Subtle are common extras.",
+    "page_ref": "DHH p.123",
+    "dev_comment": "Distance Rank = Communication Rank. UI uses parameter_options for selection."
+  },
+  {
+    "id": "eff_comprehend",
+    "name": "Comprehend",
+    "costPerRank": 0,
+    "type": "Sensory",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "isComprehendContainer": true,
+    "description": "Understand things you otherwise could not. Each type of comprehension has a specific flat cost (e.g., Languages 2-6 PP, Animals 2 PP, Machines 2 PP, Spirits 2 PP). The 'rank' is nominal for this container; UI handles selection of sub-types from a separate config or DHH list.",
+    "page_ref": "DHH p.124",
+    "dev_comment": "Cost is sum of specific comprehensions taken (flat costs for each). Action is usually Permanent."
+  },
+  {
+    "id": "eff_concealment",
+    "name": "Concealment",
+    "costPerRank": 2,
+    "type": "Sensory",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "parameter_needed": true,
+    "parameter_prompt": "Sense(s) to conceal from, and degree (e.g., Normal Visual [4PP], All Auditory [10PP], Partial Mental [e.g., 5PP])",
+    "parameter_type": "multiselect_senses_for_concealment",
+    "description": "Become undetectable to one or more sense types. Cost is per sense type rank (Normal Vision is 2 ranks for 4 PP). All of one sense type is 5 ranks (10 PP). All senses is 10 ranks (20 PP). Attack version makes others concealed.",
+    "page_ref": "DHH p.125",
+    "dev_comment": "Base cost: 2 PP/rank per general sense type (Visual is 4 PP for normal sight = 2 ranks of this effect). UI needs special handling for parameter_type."
+  },
+  {
+    "id": "eff_create",
+    "name": "Create",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Sustained",
+    "resistance": "Dodge (to avoid being trapped by object), Toughness (of created object)",
+    "isCreateEffect": true,
+    "description": "Create solid objects. Rank determines Toughness and Volume of created objects. Max Toughness & Volume Rank typically = Create Rank. Movable, Stationary, Continuous, Impervious are key extras.",
+    "page_ref": "DHH p.126",
+    "dev_comment": "DHH p.126 explicitly states default range is Close. Increased Range is common."
+  },
+  {
+    "id": "eff_damage",
+    "name": "Damage",
+    "costPerRank": 1,
+    "type": "Attack",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Instant",
+    "resistance": "Toughness",
+    "description": "Inflict harm on a target, resisted by Toughness. Modifiers determine specific damage type and application (e.g., Ranged, Area, Multiattack).",
+    "page_ref": "DHH p.127"
+  },
+  {
+    "id": "eff_deflect",
+    "name": "Deflect",
+    "costPerRank": 1,
+    "type": "Defense",
+    "defaultAction": "Standard",
+    "defaultRange": "Ranged",
+    "defaultDuration": "Instant",
+    "resistance": "None (uses Deflect rank vs attack check of incoming attack)",
+    "description": "Actively defend against attacks, potentially improving defense or reflecting attacks. Used with the Defend action. Can protect others. Rank cannot exceed PL.",
+    "page_ref": "DHH p.128",
+    "dev_comment": "Default Action is specifically the Defend action. Default Range allows deflecting ranged attacks against self or others nearby. Default Duration is per use of Defend action."
+  },
+  {
+    "id": "eff_duplication",
+    "name": "Duplication",
+    "costPerRank": 3,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "grantsAllyPointsFactor": 15,
+    "isAllyEffect": true,
+    "description": "Create one or more duplicates of yourself. Each duplicate is built on (Effect Rank x 15) Power Points. Modifiers like Heroic (+2/r), Horde (+1/r), Multiple Minions (+X/r), Survival (+1/r) apply to the cost per duplicate.",
+    "page_ref": "DHH p.128",
+    "dev_comment": "Cost is for a single duplicate that's a standard Minion. Duplicates appear near you."
+  },
+  {
+    "id": "eff_enhanced_trait",
+    "name": "Enhanced Trait",
+    "costPerRank": 0,
+    "type": "General",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "isEnhancementEffect": true,
+    "enhancementTargetCategories": ["Ability", "Skill", "Defense", "Advantage", "PowerRank"],
+    "description": "Improve one of your existing traits (Ability, Skill, Advantage, Defense, or ranks in another Power). Cost equals the normal cost of the improved ranks for that trait. Usually Permanent, but can be Sustained.",
+    "page_ref": "DHH p.129",
+    "dev_comment": "Cost is 'As Base Trait' - handled dynamically by engine. Duration can be Continuous if it can be turned off (via Sustained modifier)."
+  },
+  {
+    "id": "eff_environment",
+    "name": "Environment",
+    "costPerRank": 1,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Rank",
+    "defaultDuration": "Sustained",
+    "resistance": "Varies (Dodge for some movement penalties, Fortitude for heat/cold)",
+    "parameter_needed": true,
+    "parameter_prompt": "Environmental Conditions and their intensity (e.g., Cold 2, Impede Movement 1, Visibility -2). Specify 1 or 2 conditions.",
+    "parameter_type": "text_long_environment_conditions",
+    "description": "Alter environmental conditions in an area (e.g., Cold, Heat, Impede Movement, Visibility). 1 PP/rank for one condition, 2 PP/rank for two conditions, or one condition at double intensity (-5 penalty or 2 ranks of effect). Radius of effect is 30 feet at rank 2, doubles per rank thereafter.",
+    "page_ref": "DHH p.130",
+    "dev_comment": "Cost: 1 PP/rank for one condition, 2 PP/rank for two conditions or one extreme condition. Radius Rank = Effect Rank - 2 (30ft at rank 2 of this effect). UI Needs to allow multiple conditions and ranks for parameter."
+  },
+  {
+    "id": "eff_feature",
+    "name": "Feature",
+    "costPerRank": 1,
+    "type": "General",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "parameter_needed": true,
+    "parameter_prompt": "Describe the minor ability or benefit (1 PP per rank/feature)",
+    "parameter_type": "text_long",
+    "description": "A minor, unusual trait or capability costing 1 Power Point per rank (each rank is a distinct feature). Max ranks subject to GM approval.",
+    "page_ref": "DHH p.130",
+    "dev_comment": "Action is usually Permanent."
+  },
+  {
+    "id": "eff_flight",
+    "name": "Flight",
+    "costPerRank": 2,
+    "type": "Movement",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "description": "Fly at a speed rank equal to power rank. Modifiers: Aquatic, Subtle, Wings.",
+    "page_ref": "DHH p.131",
+    "dev_comment": "Action is part of movement."
+  },
+  {
+    "id": "eff_growth",
+    "name": "Growth",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "isGrowthShrinkingPackage": true,
+    "description": "Increase size, gaining +1 STR & STA, +1 Intimidation, +1 Mass rank, -1 Stealth, -1 active defenses (Dodge/Parry) per 4 ranks of Growth. Density increases Strength and Mass but not size. Attack of Opportunity extra exists. Base speed rank can increase. Usually Sustained.",
+    "page_ref": "DHH p.132",
+    "dev_comment": "Cost is for the package of benefits/penalties. Duration is Permanent if innate (via Innate extra or as inherent trait)."
+  },
+  {
+    "id": "eff_healing",
+    "name": "Healing",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Instant",
+    "resistance": "None (but Treatment skill check DC 10 + ranks in Healing may be needed, or it's automatic)",
+    "description": "Repair Damage conditions and aid recovery. Modifiers like Restorative (objects/others), Persistent (counter Incurable), Resurrection, Stabilize, Affects Objects, Energizing.",
+    "page_ref": "DHH p.133",
+    "dev_comment": "Default range is Touch."
+  },
+  {
+    "id": "eff_illusion",
+    "name": "Illusion",
+    "costPerRank": 1,
+    "type": "Sensory",
+    "defaultAction": "Standard",
+    "defaultRange": "Perception",
+    "defaultDuration": "Sustained",
+    "resistance": "Will (DC 10 + Illusion rank to disbelieve)",
+    "costOptions": [
+      {"choice_id": "illusion_one_sense_other", "label": "One Sense Type (Other - e.g. Tactile, Olfactory, Mental)", "costPerRank": 1},
+      {"choice_id": "illusion_auditory", "label": "Auditory Senses", "costPerRank": 1},
+      {"choice_id": "illusion_visual", "label": "Visual Senses", "costPerRank": 2},
+      {"choice_id": "illusion_two_senses", "label": "Two Sense Types (e.g., Auditory & Visual = 3PP/r)", "costPerRank": "Calculated based on choices"},
+      {"choice_id": "illusion_three_senses", "label": "Three Sense Types", "costPerRank": "Calculated based on choices"},
+      {"choice_id": "illusion_four_senses", "label": "Four Sense Types", "costPerRank": "Calculated based on choices"},
+      {"choice_id": "illusion_all_senses", "label": "All Sense Types (Visual 2, Auditory 1, Tactile 1, Olfactory 1, Mental 1 = 6 total types for cost of 5PP/rank as per DHH rule grouping similar things)", "costPerRank": 5}
+    ],
+    "parameter_needed": true,
+    "parameter_prompt": "Senses Affected by Illusion and Scope (e.g., Visual + Auditory; No effect vs. Machines)",
+    "parameter_type": "select_illusion_scope_and_senses",
+    "description": "Create false sensory impressions. Cost varies by number and type of senses affected (Visual 2/rank, Auditory 1/rank, Other 1/rank each; max 5/rank for all). Modifiers: Resistible (by Insight), Damaging, Independent, Selective.",
+    "page_ref": "DHH p.133",
+    "dev_comment": "Base costPerRank is 1 for one non-visual/auditory sense type. Default Range is Perception (resisted by Will). UI uses costOptions to determine actual cost. UI needs specific handler for parameter_type."
+  },
+  {
+    "id": "eff_immortality",
+    "name": "Immortality",
+    "costPerRank": 2,
+    "type": "Defense",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "description": "Return from death after a period determined by rank (Time Rank 19 - Immortality Rank). Rank 1 = 2 weeks, Rank 20 = 1 round. Limited extra if specific conditions required for return.",
+    "page_ref": "DHH p.134",
+    "dev_comment": "Default Action/Duration is Permanent."
+  },
+  {
+    "id": "eff_immunity",
+    "name": "Immunity",
+    "costPerRank": 0,
+    "type": "Defense",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "isImmunityContainer": true,
+    "description": "Become immune to certain effects. Cost is fixed based on type of immunity (e.g., Disease 1 PP, Life Support 10 PP, All Fortitude Effects 30 PP). UI presents list from power_immunities_config.json.",
+    "page_ref": "DHH p.134",
+    "dev_comment": "Cost is fixed sum based on selections. Default Action/Duration is Permanent."
+  },
+  {
+    "id": "eff_insubstantial",
+    "name": "Insubstantial",
+    "costPerRank": 0,
+    "type": "General",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "isFixedCostByRank": true,
+    "fixedCosts": { "1": 5, "2": 10, "3": 15, "4": 20 },
+    "description": "Assume a less solid form. Rank 1 (Fluid, 5PP), Rank 2 (Gaseous, 10PP), Rank 3 (Energy, 15PP), Rank 4 (Incorporeal, 20PP). Modifiers: Affects Corporeal, Attack, Precise, Innate.",
+    "page_ref": "DHH p.135",
+    "dev_comment": "Uses fixedCosts for total cost for ranks 1-4."
+  },
+  {
+    "id": "eff_leaping",
+    "name": "Leaping",
+    "costPerRank": 1,
+    "type": "Movement",
+    "defaultAction": "Move",
+    "defaultRange": "Personal",
+    "defaultDuration": "Instant",
+    "resistance": "None",
+    "description": "Jump great distances. Distance rank equal to power rank. Horizontal distance = (Leaping rank x 5) feet from standing, or (Leaping rank x 10) feet with run. Vertical = (Leaping rank x 2) feet.",
+    "page_ref": "DHH p.137",
+    "dev_comment": "Action is part of movement. Duration is for the leap itself."
+  },
+  {
+    "id": "eff_mind_reading",
+    "name": "Mind Reading",
+    "costPerRank": 2,
+    "type": "Sensory",
+    "defaultAction": "Standard",
+    "defaultRange": "Perception",
+    "defaultDuration": "Sustained",
+    "resistance": "Will (opposed check: Mind Reading vs. target's Will or Deception)",
+    "description": "Discern the surface thoughts of a target. Modifiers: Cumulative, Effortless, Sensory Link, Subtle. Close range is a -1/rank flaw.",
+    "page_ref": "DHH p.137",
+    "dev_comment": "Default Range is Perception (resisted by Will)."
+  },
+  {
+    "id": "eff_morph",
+    "name": "Morph",
+    "costPerRank": 1,
+    "type": "General",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None (but Deception bonus for disguise; Fortitude if Attack to transform others)",
+    "parameter_needed": true,
+    "parameter_prompt": "Describe the forms or group of forms (e.g., 'Humanoids', 'Animals of similar mass', 'One specific person')",
+    "parameter_type": "text_long",
+    "description": "Change physical appearance. Rank determines range of forms (Rank 1 = one other form of same gender/type, Rank 2 = small group, Rank 3 = any of same type, Rank 4 = any of broad group). Metamorph extra allows changing traits (costs 5 PP/rank of Morph).",
+    "page_ref": "DHH p.138",
+    "dev_comment": "Cost is per rank for number of alternate forms of same mass/type. Standard action to change form. Duration Sustained for maintaining the morphed form."
+  },
+  {
+    "id": "eff_move_object",
+    "name": "Move Object",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Ranged",
+    "defaultDuration": "Sustained",
+    "resistance": "Strength or Dodge (to avoid being grabbed/hit by object)",
+    "description": "Telekinetically lift and move objects. Effective Strength equal to rank for lifting/throwing. Modifiers: Damaging, Perception Range, Precise, Subtle.",
+    "page_ref": "DHH p.138"
+  },
+  {
+    "id": "eff_movement",
+    "name": "Movement",
+    "costPerRank": 2,
+    "type": "Movement",
+    "defaultAction": "Move",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "parameter_needed": true,
+    "parameter_prompt": "Specific Movement Type (e.g., Dimensional Travel, Permeate, Slithering, Wall-Crawling, Water-Walking, Sure-Footed, Swinging, Trackless, Special)",
+    "parameter_type": "select_movement_type_with_ranks",
+    "description": "Various modes of movement. Each rank of this effect buys ranks in chosen movement types (e.g., Wall-Crawling 1 costs 1 PP for 1 rank of this effect, Dimensional Travel 1 costs 2 PP for 1 rank of this effect).",
+    "page_ref": "DHH p.138",
+    "dev_comment": "Base cost for most movement types listed under this effect (1 or 2 PP per rank in the type). Action can be Free if part of normal movement. Duration can be Permanent if innate. UI needs a list of specific movement types with their ranks cost per rank of this effect."
+  },
+  {
+    "id": "eff_nullify",
+    "name": "Nullify",
+    "costPerRank": 1,
+    "type": "Attack",
+    "defaultAction": "Standard",
+    "defaultRange": "Ranged",
+    "defaultDuration": "Instant",
+    "resistance": "Opposed Check (Nullify Rank vs. Effect Rank or Will of target if power is Resisted by Will)",
+    "parameter_needed": true,
+    "parameter_prompt": "Descriptor(s) of powers to Nullify (e.g., Fire, Magic, specific power name). Use Broad extra for categories.",
+    "parameter_type": "text_target_descriptor_or_trait",
+    "description": "Counter or dispel another effect. Opposed check using your Nullify rank vs. target effect's rank. Modifiers: Broad, Effortless, Precise, Simultaneous, Sustained (for counter-field).",
+    "page_ref": "DHH p.139",
+    "dev_comment": "Type can also be General if Personal and nullifies effects on self. Base cost for specific descriptor. Broad (+1/r) or Simultaneous (+1/r) extras increase cost."
+  },
+  {
+    "id": "eff_protection",
+    "name": "Protection",
+    "costPerRank": 1,
+    "type": "Defense",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "description": "Grants bonus to Toughness defense. Often Sustained via modifier if a Force Field (effectively +0 cost modifier). Impervious extra common.",
+    "page_ref": "DHH p.140",
+    "dev_comment": "Default Action/Duration is Permanent."
+  },
+  {
+    "id": "eff_quickness",
+    "name": "Quickness",
+    "costPerRank": 0.5,
+    "type": "General",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "description": "Perform routine tasks faster. Time rank for tasks = normal time rank - Quickness rank. E.g., Quickness 5 means a 1-minute task (Time Rank 3) takes 1 round (Time Rank 0) if 3-5 = -2 or less (round to 0). Limited to specific tasks (Mental, Physical) is a flaw.",
+    "page_ref": "DHH p.140",
+    "dev_comment": "Cost is 1 PP for 2 ranks. Action enhances speed of other actions. Duration can be Permanent."
+  },
+  {
+    "id": "eff_regeneration",
+    "name": "Regeneration",
+    "costPerRank": 1,
+    "type": "Defense",
+    "defaultAction": "None",
+    "defaultRange": "Personal",
+    "defaultDuration": "Permanent",
+    "resistance": "None",
+    "description": "Recover from damage faster. Rank determines recovery bonus (e.g., +1 per rank) and rate for conditions (see DHH p.157 table: Regen 1 = recover 1/10 rounds, Regen 10 = recover each round, Regen 20 = recover all damage conditions each round). Persistent extra for regenerating limbs/Incurable effects.",
+    "page_ref": "DHH p.140",
+    "dev_comment": "Default Action/Duration is Permanent."
+  },
+  {
+    "id": "eff_remote_sensing",
+    "name": "Remote Sensing",
+    "costPerRank": 1,
+    "type": "Sensory",
+    "defaultAction": "Standard",
+    "defaultRange": "Rank",
+    "defaultDuration": "Sustained",
+    "resistance": "Insight (DC 10 + rank to detect sensor)",
+    "parameter_needed": true,
+    "parameter_prompt": "Sense Types (Visual counts as 2 PP/rank, Auditory as 1 PP/rank, Others 1 PP/rank). Total cost is sum of chosen sense costs per rank of Remote Sensing effect.",
+    "parameter_type": "multiselect_senses_for_remote_sensing",
+    "description": "Project senses to a distant location. Cost 1 PP/rank for one non-visual/auditory sense type, +1 PP/rank for Auditory, +2 PP/rank for Visual. Simultaneous extra to use multiple chosen senses. Dimensional extra possible. Flaws: Feedback, Medium.",
+    "page_ref": "DHH p.141",
+    "dev_comment": "CostPerRank is per rank for one non-visual/auditory sense type. Visual is 2/rank. Auditory 1/rank. Default Action is to activate/change sensor location. DefaultRange is distance rank for the sensor. UI needs specific handling for parameter_type."
+  },
+  {
+    "id": "eff_shrinking",
+    "name": "Shrinking",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "isGrowthShrinkingPackage": true,
+    "description": "Decrease size, gaining +1 Stealth and +1 active defenses (Dodge/Parry) per 4 ranks of Shrinking. Strength decreases. Attack of Opportunity extra exists. Usually Sustained. Atomic Size is 20 ranks.",
+    "page_ref": "DHH p.142",
+    "dev_comment": "Cost is for the package of benefits/penalties. Duration can be Permanent if innate."
+  },
+  {
+    "id": "eff_speed",
+    "name": "Speed",
+    "costPerRank": 1,
+    "type": "Movement",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "description": "Move at high speed on ground. Ground speed rank = power rank.",
+    "page_ref": "DHH p.143",
+    "dev_comment": "Action is part of movement."
+  },
+  {
+    "id": "eff_summon",
+    "name": "Summon",
+    "costPerRank": 2,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Sustained",
+    "resistance": "None (for summoning act itself)",
+    "grantsAllyPointsFactor": 15,
+    "isAllyEffect": true,
+    "parameter_needed": true,
+    "parameter_prompt": "Describe creature(s) summoned and any special modifiers (Heroic, Horde, Variable Type, etc.)",
+    "parameter_type": "text_long_summon_details",
+    "description": "Call a creature to aid you. Summoned creature is built on (Effect Rank x 15) Power Points. Modifiers: Heroic (+2/r), Horde (+1/r), Multiple Minions (+X/r), Variable Type (+1 or +2 flat), Attitude, Controlled, Mental Link, Sacrifice.",
+    "page_ref": "DHH p.143",
+    "dev_comment": "Base cost for minion-like summon controlled by summoner. Creature appears nearby; Perception range is an Extra."
+  },
+  {
+    "id": "eff_swimming",
+    "name": "Swimming",
+    "costPerRank": 0.5,
+    "type": "Movement",
+    "defaultAction": "Free",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "description": "Swim at high speed. Water speed rank = power rank.",
+    "page_ref": "DHH p.143",
+    "dev_comment": "Cost is 1 PP for 2 ranks. Action is part of movement."
+  },
+  {
+    "id": "eff_teleport",
+    "name": "Teleport",
+    "costPerRank": 2,
+    "type": "Movement",
+    "defaultAction": "Move",
+    "defaultRange": "Rank",
+    "defaultDuration": "Instant",
+    "resistance": "Dodge (for unwilling passengers, DC 10 + Teleport rank)",
+    "description": "Instantly transport. Rank determines distance (Distance Rank = Effect Rank). Modifiers: Accurate, Change Direction, Change Velocity, Easy, Extended (increases distance), Portal, Turnabout, Increased Mass.",
+    "page_ref": "DHH p.143",
+    "dev_comment": "DefaultRange (Distance Rank) = Effect Rank."
+  },
+  {
+    "id": "eff_transform",
+    "name": "Transform",
+    "costPerRank": 2,
+    "type": "Attack",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Continuous",
+    "resistance": "Fortitude or Will (depends on what is being transformed - physical form vs. mental state/identity)",
+    "isTransformContainer": true,
+    "costOptions": [
+      {"choice_id": "transform_narrow_substance", "label": "Narrow Group of one substance into another (e.g., lead to gold)", "costPerRank": 2},
+      {"choice_id": "transform_narrow_forms", "label": "Narrow Group of Forms (e.g., specific type of animal/object)", "costPerRank": 2},
+      {"choice_id": "transform_related_forms", "label": "Related Group of Forms (e.g., any animal, any mineral)", "costPerRank": 3},
+      {"choice_id": "transform_major_forms", "label": "Major Group of Forms (e.g., any living being, any object)", "costPerRank": 4},
+      {"choice_id": "transform_any_form", "label": "Any Form (of similar mass)", "costPerRank": 5}
+    ],
+    "parameter_needed": true,
+    "parameter_prompt": "Describe transformation effect: what transforms into what, scope, and typical forms",
+    "parameter_type": "text_long_transform_details",
+    "description": "Change the form of a subject (creature or object). Cost varies by scope of transformation (2-5 PP/rank). Duration typically Continuous. Affects Objects extra needed for objects.",
+    "page_ref": "DHH p.144",
+    "dev_comment": "Minimum base costPerRank is 2, varies by scope (2-5 PP/rank). Type can be General if self-only (Morph). UI needs to handle scope selection influencing cost for parameter_type."
+  },
+  {
+    "id": "eff_variable",
+    "name": "Variable",
+    "costPerRank": 7,
+    "type": "General",
+    "defaultAction": "Standard",
+    "defaultRange": "Personal",
+    "defaultDuration": "Sustained",
+    "resistance": "None",
+    "isVariableContainer": true,
+    "description": "Gain a pool of (Effect Rank x 5) Character Points to allocate to other traits fitting specific descriptors. Cost is 7 PP per rank of Variable. Action flaw makes reconfiguring take longer (e.g. Move action -1PP/r, Free action -2PP/r if standard is base. DHH implies base is Standard action to reconfigure).",
+    "page_ref": "DHH p.145",
+    "dev_comment": "DefaultAction is to reconfigure points. Duration Sustained for the allocated traits."
+  },
+  {
+    "id": "eff_weaken",
+    "name": "Weaken",
+    "costPerRank": 1,
+    "type": "Attack",
+    "defaultAction": "Standard",
+    "defaultRange": "Close",
+    "defaultDuration": "Instant",
+    "resistance": "Fortitude or Will (depends on trait being weakened)",
+    "parameter_needed": true,
+    "parameter_prompt": "Trait(s) to Weaken (e.g., Toughness, Strength, a specific power, Ability score). Use Broad extra for categories.",
+    "parameter_type": "text_target_descriptor_or_trait",
+    "description": "Reduce a target's trait ranks. Resisted by Fortitude (for physical traits) or Will (for mental/abstract traits). Modifiers: Affects Objects, Broad, Simultaneous, Progressive.",
+    "page_ref": "DHH p.145",
+    "dev_comment": "Duration Instant, but effect of weakened trait lingers."
+  }
+]
